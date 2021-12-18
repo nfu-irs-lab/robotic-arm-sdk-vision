@@ -54,6 +54,21 @@
     <Reference Include="Emgu.CV.Platform.NetStandard, Version=4.5.2.4673, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <HintPath>..\packages\Emgu.CV.4.5.2.4673\lib\netstandard2.0\Emgu.CV.Platform.NetStandard.dll</HintPath>
     </Reference>
+    <Reference Include="RASDK.Arm, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NFUIRSL.RASDK.0.2.0\lib\net472\RASDK.Arm.dll</HintPath>
+    </Reference>
+    <Reference Include="RASDK.Basic, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NFUIRSL.RASDK.0.2.0\lib\net472\RASDK.Basic.dll</HintPath>
+    </Reference>
+    <Reference Include="RASDK.Gripper, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NFUIRSL.RASDK.0.2.0\lib\net472\RASDK.Gripper.dll</HintPath>
+    </Reference>
+    <Reference Include="RASDK.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NFUIRSL.RASDK.0.2.0\lib\net472\RASDK.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="RASDK.Vision, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NFUIRSL.RASDK.0.2.0\lib\net472\RASDK.Vision.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -129,12 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RASDK.Basic\RASDK.Basic.csproj">
-      <Project>{cd68c0c8-e211-4ecc-93ec-ece9054777a3}</Project>
-      <Name>RASDK.Basic</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

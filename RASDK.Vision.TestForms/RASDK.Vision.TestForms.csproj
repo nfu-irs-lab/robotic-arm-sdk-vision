@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-      <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,6 +33,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RASDK.Arm, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NFUIRSL.RASDK.0.2.0\lib\net472\RASDK.Arm.dll</HintPath>
+    </Reference>
+    <Reference Include="RASDK.Basic, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NFUIRSL.RASDK.0.2.0\lib\net472\RASDK.Basic.dll</HintPath>
+    </Reference>
+    <Reference Include="RASDK.Gripper, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NFUIRSL.RASDK.0.2.0\lib\net472\RASDK.Gripper.dll</HintPath>
+    </Reference>
+    <Reference Include="RASDK.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NFUIRSL.RASDK.0.2.0\lib\net472\RASDK.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="RASDK.Vision, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\NFUIRSL.RASDK.0.2.0\lib\net472\RASDK.Vision.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -66,6 +81,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -78,16 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RASDK.Basic\RASDK.Basic.csproj">
-      <Project>{cd68c0c8-e211-4ecc-93ec-ece9054777a3}</Project>
-      <Name>RASDK.Basic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RASDK.Vision\RASDK.Vision.csproj">
-      <Project>{f684f835-3e60-44c1-a3fe-410e95d42657}</Project>
-      <Name>RASDK.Vision</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
