@@ -126,7 +126,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="IDS\SizeControl.Designer.cs" />
-    <Compile Include="Positioning\VisionPositioning.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="IDS\CameraChoose.resx" />
