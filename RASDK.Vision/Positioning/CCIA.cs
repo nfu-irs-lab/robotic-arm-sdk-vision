@@ -10,10 +10,10 @@ using Emgu.CV.Util;
 namespace RASDK.Vision.Positioning
 {
     /// <summary>
-    /// RASDK.Vision positioning by Camera Calibration with Negative Feedback.<br/>
-    /// 負回授相機標定視覺定位法。
+    /// Vision positioning by Camera Calibration with Iterative Approximation.<br/>
+    /// 疊代逼近相機標定視覺定位法。
     /// </summary>
-    public class CCNF : IVisionPositioning
+    public class CCIA : IVisionPositioning
     {
         /// <summary>
         /// 誤差逼近算法。
@@ -44,8 +44,8 @@ namespace RASDK.Vision.Positioning
         }
 
         /// <summary>
-        /// RASDK.Vision positioning by Camera Calibration with Negative Feedback.<br/>
-        /// 負回授相機標定視覺定位法。
+        /// Vision positioning by Camera Calibration with Iterative Approximation.<br/>
+        /// 疊代逼近相機標定視覺定位法。
         /// </summary>
         /// <remarks>
         /// 此方法的運作方式爲先給定一個預測虛擬定位板座標作，將其透過相機標定法來算出對應的預測像素座標。<br/>
@@ -53,7 +53,7 @@ namespace RASDK.Vision.Positioning
         /// 如果預測像素座標與實際像素座標的差距小於等於容許誤差，就視目前的預測虛擬定位板座標爲正確的，再將其透過一組變換來轉換成手臂座標。<br/>
         /// 虛擬定位板座標是一個以相機成像平面投影到實物平面的假想平面座標系。其原點在鏡頭中心，也就是主點的投影位置。
         /// </remarks>
-        public CCNF(CameraParameter cameraParameter,
+        public CCIA(CameraParameter cameraParameter,
                     TransferFunctionOfVirtualCheckBoardToArm tf,
                     Approximation approximation = null)
         {
