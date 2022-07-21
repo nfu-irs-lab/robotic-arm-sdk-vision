@@ -17,6 +17,8 @@ namespace RASDK.Vision.TestForms
             InitializeComponent();
         }
 
+        #region Positioning
+
         private void buttonConvert_Click(object sender, EventArgs e)
         {
             var cp = new CameraParameter((double)numericUpDownCPCx.Value,
@@ -50,6 +52,54 @@ namespace RASDK.Vision.TestForms
         {
             ax = vx + (double)numericUpDownOffsetX.Value;
             ay = vy + (double)numericUpDownOffsetY.Value;
+        }
+
+        #endregion Positioning
+
+        #region IDS Camera
+
+        private Vision.IDS.IDSCamera _idsCamera;
+
+        private void buttonIdsConnection_Click(object sender, EventArgs e)
+        {
+            if (_idsCamera == null)
+            {
+                var messageHandler = new Basic.Message.GeneralMessageHandler(new Basic.EmptyLogHandler());
+                _idsCamera = new IDS.IDSCamera(messageHandler);
+                _idsCamera.Init();
+            }
+            else
+            {
+                if (_idsCamera.Connected)
+                {
+                    if (_idsCamera.Disconnect())
+                    {
+                        buttonIdsConnection.Text = "Connect";
+                        //buttonIdsGetImage.Enabled = false;
+                    }
+                }
+                else
+                {
+                    if (_idsCamera.Connect())
+                    {
+                        buttonIdsConnection.Text = "Disconnect";
+                        //buttonIdsGetImage.Enabled = true;
+                    }
+                }
+            }
+        }
+
+        private void buttonIdsGetImage_Click(object sender, EventArgs e)
+        {
+            _idsCamera.AutoGain = true;
+            var image = _idsCamera.GetImage();
+            pictureBoxIds.Image = image;
+        }
+
+        #endregion IDS Camera
+
+        private void button1_Click(object sender, EventArgs e)
+        {
         }
     }
 }
