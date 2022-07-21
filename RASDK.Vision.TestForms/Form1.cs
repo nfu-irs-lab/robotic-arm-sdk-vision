@@ -37,7 +37,7 @@ namespace RASDK.Vision.TestForms
                                              (double)numericUpDownTV3.Value
                                          });
 
-            var vp = new Vision.Positioning.CCNF(cp, TF) { AllowableError = 10 };
+            var vp = new Vision.Positioning.CCIA(cp, TF) { AllowableError = 10 };
             vp.ImageToArm((int)numericUpDownConvPX.Value,
                           (int)numericUpDownConvPY.Value,
                           out var ax,
