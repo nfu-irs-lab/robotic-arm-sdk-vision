@@ -89,5 +89,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RASDK.Vision\RASDK.Vision.csproj">
+      <Project>{f684f835-3e60-44c1-a3fe-410e95d42657}</Project>
+      <Name>RASDK.Vision</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
