@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,33 +16,13 @@ namespace RASDK.Vision.Positioning
     /// </summary>
     public class CCIA : IVisionPositioning
     {
-        /// <summary>
-        /// 誤差逼近算法。
-        /// </summary>
-        public delegate void Approximation(double errorX,
-                                           double errorY,
-                                           ref double valueX,
-                                           ref double valueY);
-
-        /// <summary>
-        /// 座標轉換算法。
-        /// </summary>
-        public delegate void TransferFunctionOfVirtualCheckBoardToArm(double vX,
-                                                                      double vY,
-                                                                      out double armX,
-                                                                      out double armY);
+        private readonly CameraParameter _cameraParameter;
 
         private Approximation _approximation;
+
         private TransferFunctionOfVirtualCheckBoardToArm _transferFunctionOfVirtualCheckBoardToArm;
 
-        private readonly CameraParameter _cameraParameter;
         private double _allowableError;
-
-        public double AllowableError
-        {
-            get => _allowableError;
-            set => _allowableError = value;
-        }
 
         /// <summary>
         /// Vision positioning by Camera Calibration with Iterative Approximation.<br/>
@@ -62,6 +43,34 @@ namespace RASDK.Vision.Positioning
 
             _transferFunctionOfVirtualCheckBoardToArm = tf ?? BasicTransferFunctionOfVirtualCheckBoardToArm;
             _approximation = approximation ?? BasicApproximation;
+        }
+
+        /// <summary>
+        /// 誤差逼近算法。
+        /// </summary>
+        public delegate void Approximation(double errorX,
+                                           double errorY,
+                                           ref double valueX,
+                                           ref double valueY);
+
+        /// <summary>
+        /// 座標轉換算法。
+        /// </summary>
+        public delegate void TransferFunctionOfVirtualCheckBoardToArm(double vX,
+                                                                      double vY,
+                                                                      out double armX,
+                                                                      out double armY);
+
+        public double AllowableError
+        {
+            get => _allowableError;
+            set => _allowableError = value;
+        }
+
+        public void ImageToArm(Point pixel, out PointF arm)
+        {
+            ImageToArm(pixel.X, pixel.Y, out var armX, out var armY);
+            arm = new PointF((float)armX, (float)armY);
         }
 
         public void ImageToArm(int pixelX, int pixelY, out double armX, out double armY)
