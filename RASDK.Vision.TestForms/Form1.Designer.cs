@@ -69,10 +69,10 @@ namespace RASDK.Vision.TestForms
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.buttonIdsCameraSetting = new System.Windows.Forms.Button();
             this.pictureBoxIds = new System.Windows.Forms.PictureBox();
             this.buttonIdsGetImage = new System.Windows.Forms.Button();
             this.buttonIdsConnection = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTV3)).BeginInit();
@@ -690,7 +690,7 @@ namespace RASDK.Vision.TestForms
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Controls.Add(this.buttonIdsCameraSetting);
             this.tabPage2.Controls.Add(this.pictureBoxIds);
             this.tabPage2.Controls.Add(this.buttonIdsGetImage);
             this.tabPage2.Controls.Add(this.buttonIdsConnection);
@@ -701,6 +701,16 @@ namespace RASDK.Vision.TestForms
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "IDS Camera";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // buttonIdsCameraSetting
+            // 
+            this.buttonIdsCameraSetting.Location = new System.Drawing.Point(8, 90);
+            this.buttonIdsCameraSetting.Name = "buttonIdsCameraSetting";
+            this.buttonIdsCameraSetting.Size = new System.Drawing.Size(88, 36);
+            this.buttonIdsCameraSetting.TabIndex = 3;
+            this.buttonIdsCameraSetting.Text = "Setting";
+            this.buttonIdsCameraSetting.UseVisualStyleBackColor = true;
+            this.buttonIdsCameraSetting.Click += new System.EventHandler(this.buttonIdsCameraSetting_Click);
             // 
             // pictureBoxIds
             // 
@@ -727,19 +737,9 @@ namespace RASDK.Vision.TestForms
             this.buttonIdsConnection.Name = "buttonIdsConnection";
             this.buttonIdsConnection.Size = new System.Drawing.Size(88, 36);
             this.buttonIdsConnection.TabIndex = 0;
-            this.buttonIdsConnection.Text = "Connect";
+            this.buttonIdsConnection.Text = "Connection";
             this.buttonIdsConnection.UseVisualStyleBackColor = true;
             this.buttonIdsConnection.Click += new System.EventHandler(this.buttonIdsConnection_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(25, 107);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
@@ -829,7 +829,7 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.Button buttonIdsConnection;
         private System.Windows.Forms.PictureBox pictureBoxIds;
         private System.Windows.Forms.Button buttonIdsGetImage;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonIdsCameraSetting;
     }
 }
 

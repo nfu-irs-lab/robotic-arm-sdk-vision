@@ -5,16 +5,22 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using RASDK.Basic;
+using RASDK.Basic.Message;
 
 namespace RASDK.Vision.TestForms
 {
     public partial class Form1 : Form
     {
+        private readonly MessageHandler _messageHandler;
+
         public Form1()
         {
             InitializeComponent();
+            _messageHandler = new GeneralMessageHandler(new EmptyLogHandler());
         }
 
         #region Positioning
@@ -64,8 +70,7 @@ namespace RASDK.Vision.TestForms
         {
             if (_idsCamera == null)
             {
-                var messageHandler = new Basic.Message.GeneralMessageHandler(new Basic.EmptyLogHandler());
-                _idsCamera = new IDS.IDSCamera(messageHandler);
+                _idsCamera = new IDS.IDSCamera(_messageHandler);
                 _idsCamera.Init();
             }
             else
@@ -74,7 +79,7 @@ namespace RASDK.Vision.TestForms
                 {
                     if (_idsCamera.Disconnect())
                     {
-                        buttonIdsConnection.Text = "Connect";
+                        //buttonIdsConnection.Text = "Connect";
                         //buttonIdsGetImage.Enabled = false;
                     }
                 }
@@ -82,7 +87,7 @@ namespace RASDK.Vision.TestForms
                 {
                     if (_idsCamera.Connect())
                     {
-                        buttonIdsConnection.Text = "Disconnect";
+                        //buttonIdsConnection.Text = "Disconnect";
                         //buttonIdsGetImage.Enabled = true;
                     }
                 }
@@ -96,10 +101,11 @@ namespace RASDK.Vision.TestForms
             pictureBoxIds.Image = image;
         }
 
-        #endregion IDS Camera
-
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonIdsCameraSetting_Click(object sender, EventArgs e)
         {
+            _idsCamera.ShowSettingForm();
         }
+
+        #endregion IDS Camera
     }
 }
