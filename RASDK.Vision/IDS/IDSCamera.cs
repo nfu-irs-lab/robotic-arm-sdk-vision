@@ -19,12 +19,12 @@ namespace RASDK.Vision.IDS
     public class IDSCamera : IDevice
     {
         private const int _cnNumberOfSeqBuffers = 3;
-        private readonly IMessage _message;
+        private readonly MessageHandler _message;
         private readonly Timer _updateTimer;
         private Camera _camera;
         private PictureBox _pictureBox;
 
-        public IDSCamera(IMessage message)
+        public IDSCamera(MessageHandler message)
         {
             _message = message;
 
@@ -45,7 +45,7 @@ namespace RASDK.Vision.IDS
             }
         }
 
-        public IDSCamera(IMessage message, PictureBox pictureBox)
+        public IDSCamera(MessageHandler message, PictureBox pictureBox)
         {
             _message = message;
 

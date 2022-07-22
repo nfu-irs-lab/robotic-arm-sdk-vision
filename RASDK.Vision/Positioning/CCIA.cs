@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +11,40 @@ using Emgu.CV.Util;
 namespace RASDK.Vision.Positioning
 {
     /// <summary>
-    /// RASDK.Vision positioning by Camera Calibration with Negative Feedback.<br/>
-    /// 負回授相機標定視覺定位法。
+    /// Vision positioning by Camera Calibration with Iterative Approximation.<br/>
+    /// 疊代逼近相機標定視覺定位法。
     /// </summary>
-    public class CCNF : IVisionPositioning
+    public class CCIA : IVisionPositioning
     {
+        private readonly CameraParameter _cameraParameter;
+
+        private Approximation _approximation;
+
+        private TransferFunctionOfVirtualCheckBoardToArm _transferFunctionOfVirtualCheckBoardToArm;
+
+        private double _allowableError;
+
+        /// <summary>
+        /// Vision positioning by Camera Calibration with Iterative Approximation.<br/>
+        /// 疊代逼近相機標定視覺定位法。
+        /// </summary>
+        /// <remarks>
+        /// 此方法的運作方式爲先給定一個預測虛擬定位板座標作，將其透過相機標定法來算出對應的預測像素座標。<br/>
+        /// 如果預測像素座標與實際像素座標的差距大於容許誤差，就調整預測虛擬定位板座標，再重複上述步驟。<br/>
+        /// 如果預測像素座標與實際像素座標的差距小於等於容許誤差，就視目前的預測虛擬定位板座標爲正確的，再將其透過一組變換來轉換成手臂座標。<br/>
+        /// 虛擬定位板座標是一個以相機成像平面投影到實物平面的假想平面座標系。其原點在鏡頭中心，也就是主點的投影位置。
+        /// </remarks>
+        public CCIA(CameraParameter cameraParameter,
+                    TransferFunctionOfVirtualCheckBoardToArm tf,
+                    Approximation approximation = null)
+        {
+            _allowableError = 3;
+            _cameraParameter = cameraParameter;
+
+            _transferFunctionOfVirtualCheckBoardToArm = tf ?? BasicTransferFunctionOfVirtualCheckBoardToArm;
+            _approximation = approximation ?? BasicApproximation;
+        }
+
         /// <summary>
         /// 誤差逼近算法。
         /// </summary>
@@ -31,37 +61,16 @@ namespace RASDK.Vision.Positioning
                                                                       out double armX,
                                                                       out double armY);
 
-        private Approximation _approximation;
-        private TransferFunctionOfVirtualCheckBoardToArm _transferFunctionOfVirtualCheckBoardToArm;
-
-        private readonly CameraParameter _cameraParameter;
-        private double _allowableError;
-
         public double AllowableError
         {
             get => _allowableError;
             set => _allowableError = value;
         }
 
-        /// <summary>
-        /// RASDK.Vision positioning by Camera Calibration with Negative Feedback.<br/>
-        /// 負回授相機標定視覺定位法。
-        /// </summary>
-        /// <remarks>
-        /// 此方法的運作方式爲先給定一個預測虛擬定位板座標作，將其透過相機標定法來算出對應的預測像素座標。<br/>
-        /// 如果預測像素座標與實際像素座標的差距大於容許誤差，就調整預測虛擬定位板座標，再重複上述步驟。<br/>
-        /// 如果預測像素座標與實際像素座標的差距小於等於容許誤差，就視目前的預測虛擬定位板座標爲正確的，再將其透過一組變換來轉換成手臂座標。<br/>
-        /// 虛擬定位板座標是一個以相機成像平面投影到實物平面的假想平面座標系。其原點在鏡頭中心，也就是主點的投影位置。
-        /// </remarks>
-        public CCNF(CameraParameter cameraParameter,
-                    TransferFunctionOfVirtualCheckBoardToArm tf,
-                    Approximation approximation = null)
+        public void ImageToArm(Point pixel, out PointF arm)
         {
-            _allowableError = 3;
-            _cameraParameter = cameraParameter;
-
-            _transferFunctionOfVirtualCheckBoardToArm = tf ?? BasicTransferFunctionOfVirtualCheckBoardToArm;
-            _approximation = approximation ?? BasicApproximation;
+            ImageToArm(pixel.X, pixel.Y, out var armX, out var armY);
+            arm = new PointF((float)armX, (float)armY);
         }
 
         public void ImageToArm(int pixelX, int pixelY, out double armX, out double armY)
