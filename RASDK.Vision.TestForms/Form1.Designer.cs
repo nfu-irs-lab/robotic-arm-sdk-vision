@@ -704,6 +704,7 @@ namespace RASDK.Vision.TestForms
             // 
             // buttonIdsCameraSetting
             // 
+            this.buttonIdsCameraSetting.Enabled = false;
             this.buttonIdsCameraSetting.Location = new System.Drawing.Point(8, 90);
             this.buttonIdsCameraSetting.Name = "buttonIdsCameraSetting";
             this.buttonIdsCameraSetting.Size = new System.Drawing.Size(88, 36);
@@ -723,6 +724,7 @@ namespace RASDK.Vision.TestForms
             // 
             // buttonIdsGetImage
             // 
+            this.buttonIdsGetImage.Enabled = false;
             this.buttonIdsGetImage.Location = new System.Drawing.Point(8, 48);
             this.buttonIdsGetImage.Name = "buttonIdsGetImage";
             this.buttonIdsGetImage.Size = new System.Drawing.Size(88, 36);
@@ -737,7 +739,7 @@ namespace RASDK.Vision.TestForms
             this.buttonIdsConnection.Name = "buttonIdsConnection";
             this.buttonIdsConnection.Size = new System.Drawing.Size(88, 36);
             this.buttonIdsConnection.TabIndex = 0;
-            this.buttonIdsConnection.Text = "Connection";
+            this.buttonIdsConnection.Text = "Connect";
             this.buttonIdsConnection.UseVisualStyleBackColor = true;
             this.buttonIdsConnection.Click += new System.EventHandler(this.buttonIdsConnection_Click);
             // 

@@ -23,6 +23,22 @@ namespace RASDK.Vision.TestForms
             _messageHandler = new GeneralMessageHandler(new EmptyLogHandler());
         }
 
+        ~Form1()
+        {
+            try
+            {
+                if (_idsCamera != null)
+                {
+                    if (_idsCamera.Connected)
+                    {
+                        _idsCamera.Disconnect();
+                    }
+                }
+            }
+            catch
+            { /* Do nothing thing. */}
+        }
+
         #region Positioning
 
         private void buttonConvert_Click(object sender, EventArgs e)
@@ -71,32 +87,32 @@ namespace RASDK.Vision.TestForms
             if (_idsCamera == null)
             {
                 _idsCamera = new IDS.IDSCamera(_messageHandler);
-                _idsCamera.Init();
+            }
+
+            if (_idsCamera.Connected)
+            {
+                if (_idsCamera.Disconnect())
+                {
+                    _messageHandler.Show("Disconnected.");
+                    buttonIdsConnection.Text = "Connect";
+                    buttonIdsGetImage.Enabled = false;
+                    buttonIdsCameraSetting.Enabled = false;
+                }
             }
             else
             {
-                if (_idsCamera.Connected)
+                if (_idsCamera.Connect())
                 {
-                    if (_idsCamera.Disconnect())
-                    {
-                        //buttonIdsConnection.Text = "Connect";
-                        //buttonIdsGetImage.Enabled = false;
-                    }
-                }
-                else
-                {
-                    if (_idsCamera.Connect())
-                    {
-                        //buttonIdsConnection.Text = "Disconnect";
-                        //buttonIdsGetImage.Enabled = true;
-                    }
+                    _messageHandler.Show("Connected.");
+                    buttonIdsConnection.Text = "Disconnect";
+                    buttonIdsGetImage.Enabled = true;
+                    buttonIdsCameraSetting.Enabled = true;
                 }
             }
         }
 
         private void buttonIdsGetImage_Click(object sender, EventArgs e)
         {
-            _idsCamera.AutoGain = true;
             var image = _idsCamera.GetImage();
             pictureBoxIds.Image = image;
         }
