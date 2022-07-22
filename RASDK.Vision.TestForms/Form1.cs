@@ -36,7 +36,7 @@ namespace RASDK.Vision.TestForms
                 }
             }
             catch
-            { /* Do nothing thing. */}
+            { /* Do nothing. */ }
         }
 
         #region Positioning
