@@ -95,6 +95,7 @@ namespace RASDK.Vision.TestForms
             this.buttonCameraCalibrate = new System.Windows.Forms.Button();
             this.textBoxCameraCalibrationError = new System.Windows.Forms.TextBox();
             this.buttonPositioningCopy = new System.Windows.Forms.Button();
+            this.pictureBoxCameraCalibratioin = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTV3)).BeginInit();
@@ -128,6 +129,7 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardSideLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioin)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -775,6 +777,7 @@ namespace RASDK.Vision.TestForms
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.pictureBoxCameraCalibratioin);
             this.tabPage3.Controls.Add(this.tableLayoutPanel2);
             this.tabPage3.Controls.Add(this.label17);
             this.tabPage3.Controls.Add(this.tableLayoutPanel1);
@@ -1034,6 +1037,15 @@ namespace RASDK.Vision.TestForms
             this.buttonPositioningCopy.UseVisualStyleBackColor = true;
             this.buttonPositioningCopy.Click += new System.EventHandler(this.buttonPositioningCopy_Click);
             // 
+            // pictureBoxCameraCalibratioin
+            // 
+            this.pictureBoxCameraCalibratioin.Location = new System.Drawing.Point(368, 28);
+            this.pictureBoxCameraCalibratioin.Name = "pictureBoxCameraCalibratioin";
+            this.pictureBoxCameraCalibratioin.Size = new System.Drawing.Size(527, 394);
+            this.pictureBoxCameraCalibratioin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxCameraCalibratioin.TabIndex = 6;
+            this.pictureBoxCameraCalibratioin.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -1082,6 +1094,7 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardSideLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioin)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1154,6 +1167,7 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.TextBox textBoxCameraCalibrationError;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button buttonPositioningCopy;
+        private System.Windows.Forms.PictureBox pictureBoxCameraCalibratioin;
     }
 }
 
