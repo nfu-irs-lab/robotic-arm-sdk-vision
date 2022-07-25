@@ -117,7 +117,7 @@ namespace RASDK.Vision
         {
             get
             {
-                var img = _sourceImageRepresentative;
+                var img = _sourceImageRepresentative.Clone();
                 CvInvoke.DrawChessboardCorners(img, _patternSize, _allCorners[0], true);
                 return img;
             }
