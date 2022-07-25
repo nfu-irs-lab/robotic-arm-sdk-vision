@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using RASDK.Basic;
 using RASDK.Basic.Message;
+using Emgu.CV;
+using Emgu.CV.Util;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Structure;
 
 namespace RASDK.Vision.TestForms
 {
@@ -123,5 +127,29 @@ namespace RASDK.Vision.TestForms
         }
 
         #endregion IDS Camera
+
+        #region Camera Calibration
+
+        private void buttonCameraCalibrate_Click(object sender, EventArgs e)
+        {
+            var checkBoardSize = new Size((int)numericUpDownCheckBoardX.Value, (int)numericUpDownCheckBoardY.Value);
+            var cc = new Vision.CameraCalibration(checkBoardSize, (float)numericUpDownCheckBoardSideLength.Value);
+
+            var error = cc.Run(out var cameraMatrix, out var distCoeffs, out var rvecs, out var tvecs);
+
+            textBoxCameraCalibrationError.Text = error.ToString();
+
+            textBoxCameraMatrix00.Text = cameraMatrix.Data[0, 0].ToString();
+            textBoxCameraMatrix01.Text = cameraMatrix.Data[0, 1].ToString();
+            textBoxCameraMatrix02.Text = cameraMatrix.Data[0, 2].ToString();
+            textBoxCameraMatrix10.Text = cameraMatrix.Data[1, 0].ToString();
+            textBoxCameraMatrix11.Text = cameraMatrix.Data[1, 1].ToString();
+            textBoxCameraMatrix12.Text = cameraMatrix.Data[1, 2].ToString();
+            textBoxCameraMatrix20.Text = cameraMatrix.Data[2, 0].ToString();
+            textBoxCameraMatrix21.Text = cameraMatrix.Data[2, 1].ToString();
+            textBoxCameraMatrix22.Text = cameraMatrix.Data[2, 2].ToString();
+        }
+
+        #endregion Camera Calibration
     }
 }
