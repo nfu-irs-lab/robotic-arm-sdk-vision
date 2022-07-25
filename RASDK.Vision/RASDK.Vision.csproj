@@ -51,8 +51,8 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Emgu.CV.Platform.NetStandard, Version=4.5.2.4673, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
-      <HintPath>..\packages\Emgu.CV.4.5.2.4673\lib\netstandard2.0\Emgu.CV.Platform.NetStandard.dll</HintPath>
+    <Reference Include="Emgu.CV.Platform.NetStandard, Version=4.5.5.4823, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <HintPath>..\packages\Emgu.CV.4.5.5.4823\lib\netstandard2.0\Emgu.CV.Platform.NetStandard.dll</HintPath>
     </Reference>
     <Reference Include="RASDK.Arm, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\NFUIRSL.RASDK.0.3.2\lib\net472\RASDK.Arm.dll</HintPath>
