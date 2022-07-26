@@ -18,9 +18,9 @@ namespace RASDK.Vision.Positioning
     {
         private readonly CameraParameter _cameraParameter;
 
-        private Approximation _approximation;
+        private readonly Approximation _approximation;
 
-        private TransferFunctionOfVirtualCheckBoardToWorld _transferFunctionOfVirtualCheckBoardToWorld;
+        private readonly TransferFunctionOfVirtualCheckBoardToWorld _transferFunctionOfVirtualCheckBoardToWorld;
 
         private double _allowablePixelError;
 
@@ -35,12 +35,12 @@ namespace RASDK.Vision.Positioning
         /// 虛擬定位板座標是一個以相機成像平面投影到實物平面的假想平面座標系。其原點在鏡頭中心，也就是主點的投影位置。
         /// </remarks>
         public CCIA(CameraParameter cameraParameter,
-                    TransferFunctionOfVirtualCheckBoardToWorld tf,
+                    double allowablePixelError = 5,
+                    TransferFunctionOfVirtualCheckBoardToWorld tf = null,
                     Approximation approximation = null)
         {
-            _allowablePixelError = 3;
             _cameraParameter = cameraParameter;
-
+            _allowablePixelError = allowablePixelError;
             _transferFunctionOfVirtualCheckBoardToWorld = tf ?? BasicTransferFunctionOfVirtualCheckBoardToWorld;
             _approximation = approximation ?? BasicApproximation;
         }
@@ -67,10 +67,10 @@ namespace RASDK.Vision.Positioning
             set => _allowablePixelError = value;
         }
 
-        public void ImageToAWorld(Point pixel, out PointF world)
+        public PointF ImageToWorld(Point pixel)
         {
             ImageToWorld(pixel.X, pixel.Y, out var worldX, out var worldY);
-            world = new PointF((float)worldX, (float)worldY);
+            return new PointF((float)worldX, (float)worldY);
         }
 
         public void ImageToWorld(int pixelX, int pixelY, out double worldX, out double worldY)
@@ -113,7 +113,10 @@ namespace RASDK.Vision.Positioning
                                                         out worldY);
         }
 
-        private void BasicTransferFunctionOfVirtualCheckBoardToWorld(double vX, double vY, out double worldX, out double worldY)
+        private void BasicTransferFunctionOfVirtualCheckBoardToWorld(double vX,
+                                                                     double vY,
+                                                                     out double worldX,
+                                                                     out double worldY)
         {
             worldX = vX;
             worldY = vY;
