@@ -142,6 +142,26 @@ namespace RASDK.Vision.TestForms
             _idsCamera.ShowSettingForm();
         }
 
+        private void buttonLoadParameterFromFile_Click(object sender, EventArgs e)
+        {
+            _idsCamera.LoadParameterFromFile();
+        }
+
+        private void buttonLoadFromEEPROM_Click(object sender, EventArgs e)
+        {
+            _idsCamera.LoadParameterFromEEPROM();
+        }
+
+        private void buttonSaveToFile_Click(object sender, EventArgs e)
+        {
+            _idsCamera.SaveParameterToFile();
+        }
+
+        private void buttonSaveToEEPROM_Click(object sender, EventArgs e)
+        {
+            _idsCamera.SaveParameterToEEPROM();
+        }
+
         #endregion IDS Camera
 
         #region Camera Calibration
