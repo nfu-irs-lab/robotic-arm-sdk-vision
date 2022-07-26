@@ -20,7 +20,7 @@ namespace RASDK.Vision.Positioning
 
         private Approximation _approximation;
 
-        private TransferFunctionOfVirtualCheckBoardToArm _transferFunctionOfVirtualCheckBoardToArm;
+        private TransferFunctionOfVirtualCheckBoardToWorld _transferFunctionOfVirtualCheckBoardToWorld;
 
         private double _allowablePixelError;
 
@@ -31,17 +31,17 @@ namespace RASDK.Vision.Positioning
         /// <remarks>
         /// 此方法的運作方式爲先給定一個預測虛擬定位板座標作，將其透過相機標定法來算出對應的預測像素座標。<br/>
         /// 如果預測像素座標與實際像素座標的差距大於容許誤差，就調整預測虛擬定位板座標，再重複上述步驟。<br/>
-        /// 如果預測像素座標與實際像素座標的差距小於等於容許誤差，就視目前的預測虛擬定位板座標爲正確的，再將其透過一組變換來轉換成手臂座標。<br/>
+        /// 如果預測像素座標與實際像素座標的差距小於等於容許誤差，就視目前的預測虛擬定位板座標爲正確的，再將其透過一組變換來轉換成世界座標。<br/>
         /// 虛擬定位板座標是一個以相機成像平面投影到實物平面的假想平面座標系。其原點在鏡頭中心，也就是主點的投影位置。
         /// </remarks>
         public CCIA(CameraParameter cameraParameter,
-                    TransferFunctionOfVirtualCheckBoardToArm tf,
+                    TransferFunctionOfVirtualCheckBoardToWorld tf,
                     Approximation approximation = null)
         {
             _allowablePixelError = 3;
             _cameraParameter = cameraParameter;
 
-            _transferFunctionOfVirtualCheckBoardToArm = tf ?? BasicTransferFunctionOfVirtualCheckBoardToArm;
+            _transferFunctionOfVirtualCheckBoardToWorld = tf ?? BasicTransferFunctionOfVirtualCheckBoardToWorld;
             _approximation = approximation ?? BasicApproximation;
         }
 
@@ -56,10 +56,10 @@ namespace RASDK.Vision.Positioning
         /// <summary>
         /// 座標轉換算法。
         /// </summary>
-        public delegate void TransferFunctionOfVirtualCheckBoardToArm(double vX,
-                                                                      double vY,
-                                                                      out double armX,
-                                                                      out double armY);
+        public delegate void TransferFunctionOfVirtualCheckBoardToWorld(double vX,
+                                                                        double vY,
+                                                                        out double armX,
+                                                                        out double armY);
 
         public double AllowableError
         {
@@ -67,13 +67,13 @@ namespace RASDK.Vision.Positioning
             set => _allowablePixelError = value;
         }
 
-        public void ImageToArm(Point pixel, out PointF arm)
+        public void ImageToAWorld(Point pixel, out PointF world)
         {
-            ImageToArm(pixel.X, pixel.Y, out var armX, out var armY);
-            arm = new PointF((float)armX, (float)armY);
+            ImageToWorld(pixel.X, pixel.Y, out var worldX, out var worldY);
+            world = new PointF((float)worldX, (float)worldY);
         }
 
-        public void ImageToArm(int pixelX, int pixelY, out double armX, out double armY)
+        public void ImageToWorld(int pixelX, int pixelY, out double worldX, out double worldY)
         {
             // 給定一個預測虛擬定位板座標。
             double virtualCheckBoardX = 0;
@@ -106,17 +106,17 @@ namespace RASDK.Vision.Positioning
                 }
             }
 
-            // 將虛擬定位板座標轉換成手臂座標。
-            _transferFunctionOfVirtualCheckBoardToArm(virtualCheckBoardX,
-                                                      virtualCheckBoardY,
-                                                      out armX,
-                                                      out armY);
+            // 將虛擬定位板座標轉換成世界座標。
+            _transferFunctionOfVirtualCheckBoardToWorld(virtualCheckBoardX,
+                                                        virtualCheckBoardY,
+                                                        out worldX,
+                                                        out worldY);
         }
 
-        private void BasicTransferFunctionOfVirtualCheckBoardToArm(double vX, double vY, out double armX, out double armY)
+        private void BasicTransferFunctionOfVirtualCheckBoardToWorld(double vX, double vY, out double worldX, out double worldY)
         {
-            armX = vX;
-            armY = vY;
+            worldX = vX;
+            worldY = vY;
         }
 
         private void BasicApproximation(double errorX, double errorY, ref double vX, ref double vY)

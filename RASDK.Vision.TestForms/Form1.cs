@@ -64,7 +64,7 @@ namespace RASDK.Vision.TestForms
                                          tv);
 
             var vp = new Vision.Positioning.CCIA(cp, TF) { AllowableError = 10 };
-            vp.ImageToArm((int)numericUpDownConvPX.Value,
+            vp.ImageToWorld((int)numericUpDownConvPX.Value,
                           (int)numericUpDownConvPY.Value,
                           out var ax,
                           out var ay);
