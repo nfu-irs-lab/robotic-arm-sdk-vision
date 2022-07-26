@@ -236,6 +236,69 @@ namespace RASDK.Vision.IDS
             _camera.Size.AOI.Set(x, y, width, height);
         }
 
+        public void SaveParameterToEEPROM()
+        {
+            SaveParameter(null);
+        }
+
+        public void SaveParameterToFile(string filename = "")
+        {
+            SaveParameter(filename);
+        }
+
+        public void LoadParameterFromEEPROM()
+        {
+            LoadParameter(null);
+        }
+
+        public void LoadParameterFromFile(string filename = "")
+        {
+            LoadParameter(filename);
+        }
+
+        private void SaveParameter(string filename = null)
+        {
+            if (filename == null)
+            {
+                _camera.Parameter.Save();
+            }
+            else
+            {
+                _camera.Parameter.Save(filename);
+            }
+        }
+
+        private void LoadParameter(string filename = null)
+        {
+            if (IsLive)
+            {
+                _camera.Acquisition.Stop();
+            }
+
+            MemoryHelper.ClearSequence(_camera);
+            MemoryHelper.FreeImageMems(_camera);
+
+            if (filename == null)
+            {
+                _camera.Parameter.Load();
+            }
+            else
+            {
+                _camera.Parameter.Load(filename);
+            }
+
+            _camera.PixelFormat.Get(out _);
+
+            // Allocate new standard memory.
+            MemoryHelper.AllocImageMems(_camera, _cnNumberOfSeqBuffers);
+            MemoryHelper.InitSequence(_camera);
+
+            if (IsLive)
+            {
+                _camera.Acquisition.Capture();
+            }
+        }
+
         #endregion - General Feature -
 
         #region - Auto Features -

@@ -96,6 +96,11 @@ namespace RASDK.Vision.TestForms
             this.buttonCameraCalibrate = new System.Windows.Forms.Button();
             this.textBoxCameraCalibrationError = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.buttonLoadParameterFromFile = new System.Windows.Forms.Button();
+            this.buttonLoadFromEEPROM = new System.Windows.Forms.Button();
+            this.buttonSaveToEEPROM = new System.Windows.Forms.Button();
+            this.buttonSaveToFile = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTV3)).BeginInit();
@@ -130,6 +135,7 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardSideLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardY)).BeginInit();
             this.tabPage1.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -719,6 +725,7 @@ namespace RASDK.Vision.TestForms
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox7);
             this.tabPage2.Controls.Add(this.buttonIdsCameraSetting);
             this.tabPage2.Controls.Add(this.pictureBoxIds);
             this.tabPage2.Controls.Add(this.buttonIdsGetImage);
@@ -744,7 +751,7 @@ namespace RASDK.Vision.TestForms
             // 
             // pictureBoxIds
             // 
-            this.pictureBoxIds.Location = new System.Drawing.Point(205, 33);
+            this.pictureBoxIds.Location = new System.Drawing.Point(259, 21);
             this.pictureBoxIds.Name = "pictureBoxIds";
             this.pictureBoxIds.Size = new System.Drawing.Size(628, 379);
             this.pictureBoxIds.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1046,6 +1053,59 @@ namespace RASDK.Vision.TestForms
             this.tabPage1.Text = "Positioning";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // buttonLoadParameterFromFile
+            // 
+            this.buttonLoadParameterFromFile.Location = new System.Drawing.Point(6, 24);
+            this.buttonLoadParameterFromFile.Name = "buttonLoadParameterFromFile";
+            this.buttonLoadParameterFromFile.Size = new System.Drawing.Size(142, 37);
+            this.buttonLoadParameterFromFile.TabIndex = 4;
+            this.buttonLoadParameterFromFile.Text = "Load from File";
+            this.buttonLoadParameterFromFile.UseVisualStyleBackColor = true;
+            this.buttonLoadParameterFromFile.Click += new System.EventHandler(this.buttonLoadParameterFromFile_Click);
+            // 
+            // buttonLoadFromEEPROM
+            // 
+            this.buttonLoadFromEEPROM.Location = new System.Drawing.Point(6, 67);
+            this.buttonLoadFromEEPROM.Name = "buttonLoadFromEEPROM";
+            this.buttonLoadFromEEPROM.Size = new System.Drawing.Size(142, 37);
+            this.buttonLoadFromEEPROM.TabIndex = 4;
+            this.buttonLoadFromEEPROM.Text = "Load from EEPROM";
+            this.buttonLoadFromEEPROM.UseVisualStyleBackColor = true;
+            this.buttonLoadFromEEPROM.Click += new System.EventHandler(this.buttonLoadFromEEPROM_Click);
+            // 
+            // buttonSaveToEEPROM
+            // 
+            this.buttonSaveToEEPROM.Location = new System.Drawing.Point(6, 173);
+            this.buttonSaveToEEPROM.Name = "buttonSaveToEEPROM";
+            this.buttonSaveToEEPROM.Size = new System.Drawing.Size(142, 37);
+            this.buttonSaveToEEPROM.TabIndex = 4;
+            this.buttonSaveToEEPROM.Text = "Save to EEPROM";
+            this.buttonSaveToEEPROM.UseVisualStyleBackColor = true;
+            this.buttonSaveToEEPROM.Click += new System.EventHandler(this.buttonSaveToEEPROM_Click);
+            // 
+            // buttonSaveToFile
+            // 
+            this.buttonSaveToFile.Location = new System.Drawing.Point(6, 130);
+            this.buttonSaveToFile.Name = "buttonSaveToFile";
+            this.buttonSaveToFile.Size = new System.Drawing.Size(142, 37);
+            this.buttonSaveToFile.TabIndex = 4;
+            this.buttonSaveToFile.Text = "Save to File";
+            this.buttonSaveToFile.UseVisualStyleBackColor = true;
+            this.buttonSaveToFile.Click += new System.EventHandler(this.buttonSaveToFile_Click);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.buttonLoadFromEEPROM);
+            this.groupBox7.Controls.Add(this.buttonSaveToFile);
+            this.groupBox7.Controls.Add(this.buttonSaveToEEPROM);
+            this.groupBox7.Controls.Add(this.buttonLoadParameterFromFile);
+            this.groupBox7.Location = new System.Drawing.Point(8, 147);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(157, 220);
+            this.groupBox7.TabIndex = 5;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Parameter";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -1095,6 +1155,7 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardSideLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardY)).EndInit();
             this.tabPage1.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1168,6 +1229,11 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button buttonPositioningCopy;
         private System.Windows.Forms.PictureBox pictureBoxCameraCalibratioin;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Button buttonLoadFromEEPROM;
+        private System.Windows.Forms.Button buttonSaveToFile;
+        private System.Windows.Forms.Button buttonSaveToEEPROM;
+        private System.Windows.Forms.Button buttonLoadParameterFromFile;
     }
 }
 
