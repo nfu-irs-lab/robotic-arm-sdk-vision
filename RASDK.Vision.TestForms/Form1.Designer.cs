@@ -30,6 +30,7 @@ namespace RASDK.Vision.TestForms
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonPositioningCopy = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.numericUpDownTV3 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownTV2 = new System.Windows.Forms.NumericUpDown();
@@ -67,13 +68,13 @@ namespace RASDK.Vision.TestForms
             this.label12 = new System.Windows.Forms.Label();
             this.numericUpDownOffsetX = new System.Windows.Forms.NumericUpDown();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.buttonIdsCameraSetting = new System.Windows.Forms.Button();
             this.pictureBoxIds = new System.Windows.Forms.PictureBox();
             this.buttonIdsGetImage = new System.Windows.Forms.Button();
             this.buttonIdsConnection = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.pictureBoxCameraCalibratioin = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxCameraMatrix00 = new System.Windows.Forms.TextBox();
             this.textBoxCameraMatrix01 = new System.Windows.Forms.TextBox();
@@ -94,8 +95,7 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownCheckBoardY = new System.Windows.Forms.NumericUpDown();
             this.buttonCameraCalibrate = new System.Windows.Forms.Button();
             this.textBoxCameraCalibrationError = new System.Windows.Forms.TextBox();
-            this.buttonPositioningCopy = new System.Windows.Forms.Button();
-            this.pictureBoxCameraCalibratioin = new System.Windows.Forms.PictureBox();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTV3)).BeginInit();
@@ -120,16 +120,16 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOffsetY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOffsetX)).BeginInit();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIds)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioin)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardSideLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioin)).BeginInit();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -146,6 +146,16 @@ namespace RASDK.Vision.TestForms
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Camera Parameter";
+            // 
+            // buttonPositioningCopy
+            // 
+            this.buttonPositioningCopy.Location = new System.Drawing.Point(223, 45);
+            this.buttonPositioningCopy.Name = "buttonPositioningCopy";
+            this.buttonPositioningCopy.Size = new System.Drawing.Size(86, 30);
+            this.buttonPositioningCopy.TabIndex = 5;
+            this.buttonPositioningCopy.Text = "Copy";
+            this.buttonPositioningCopy.UseVisualStyleBackColor = true;
+            this.buttonPositioningCopy.Click += new System.EventHandler(this.buttonPositioningCopy_Click);
             // 
             // groupBox4
             // 
@@ -707,19 +717,6 @@ namespace RASDK.Vision.TestForms
             this.tabControl1.Size = new System.Drawing.Size(950, 555);
             this.tabControl1.TabIndex = 2;
             // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Controls.Add(this.groupBox5);
-            this.tabPage1.Controls.Add(this.groupBox6);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(942, 526);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Positioning";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.buttonIdsCameraSetting);
@@ -789,6 +786,15 @@ namespace RASDK.Vision.TestForms
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Camera Calibration";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // pictureBoxCameraCalibratioin
+            // 
+            this.pictureBoxCameraCalibratioin.Location = new System.Drawing.Point(368, 28);
+            this.pictureBoxCameraCalibratioin.Name = "pictureBoxCameraCalibratioin";
+            this.pictureBoxCameraCalibratioin.Size = new System.Drawing.Size(527, 394);
+            this.pictureBoxCameraCalibratioin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxCameraCalibratioin.TabIndex = 6;
+            this.pictureBoxCameraCalibratioin.TabStop = false;
             // 
             // tableLayoutPanel2
             // 
@@ -976,7 +982,7 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownCheckBoardSideLength.Size = new System.Drawing.Size(79, 25);
             this.numericUpDownCheckBoardSideLength.TabIndex = 1;
             this.numericUpDownCheckBoardSideLength.Value = new decimal(new int[] {
-            20,
+            15,
             0,
             0,
             0});
@@ -1027,24 +1033,18 @@ namespace RASDK.Vision.TestForms
             this.textBoxCameraCalibrationError.TabIndex = 5;
             this.textBoxCameraCalibrationError.Text = "--";
             // 
-            // buttonPositioningCopy
+            // tabPage1
             // 
-            this.buttonPositioningCopy.Location = new System.Drawing.Point(223, 45);
-            this.buttonPositioningCopy.Name = "buttonPositioningCopy";
-            this.buttonPositioningCopy.Size = new System.Drawing.Size(75, 23);
-            this.buttonPositioningCopy.TabIndex = 5;
-            this.buttonPositioningCopy.Text = "Copy";
-            this.buttonPositioningCopy.UseVisualStyleBackColor = true;
-            this.buttonPositioningCopy.Click += new System.EventHandler(this.buttonPositioningCopy_Click);
-            // 
-            // pictureBoxCameraCalibratioin
-            // 
-            this.pictureBoxCameraCalibratioin.Location = new System.Drawing.Point(368, 28);
-            this.pictureBoxCameraCalibratioin.Name = "pictureBoxCameraCalibratioin";
-            this.pictureBoxCameraCalibratioin.Size = new System.Drawing.Size(527, 394);
-            this.pictureBoxCameraCalibratioin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxCameraCalibratioin.TabIndex = 6;
-            this.pictureBoxCameraCalibratioin.TabStop = false;
+            this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Controls.Add(this.groupBox5);
+            this.tabPage1.Controls.Add(this.groupBox6);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(942, 526);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Positioning";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1082,11 +1082,11 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOffsetY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOffsetX)).EndInit();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIds)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioin)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -1094,7 +1094,7 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardSideLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioin)).EndInit();
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

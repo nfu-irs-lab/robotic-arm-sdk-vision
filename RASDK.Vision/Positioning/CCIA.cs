@@ -22,7 +22,7 @@ namespace RASDK.Vision.Positioning
 
         private TransferFunctionOfVirtualCheckBoardToArm _transferFunctionOfVirtualCheckBoardToArm;
 
-        private double _allowableError;
+        private double _allowablePixelError;
 
         /// <summary>
         /// Vision positioning by Camera Calibration with Iterative Approximation.<br/>
@@ -38,7 +38,7 @@ namespace RASDK.Vision.Positioning
                     TransferFunctionOfVirtualCheckBoardToArm tf,
                     Approximation approximation = null)
         {
-            _allowableError = 3;
+            _allowablePixelError = 3;
             _cameraParameter = cameraParameter;
 
             _transferFunctionOfVirtualCheckBoardToArm = tf ?? BasicTransferFunctionOfVirtualCheckBoardToArm;
@@ -63,8 +63,8 @@ namespace RASDK.Vision.Positioning
 
         public double AllowableError
         {
-            get => _allowableError;
-            set => _allowableError = value;
+            get => _allowablePixelError;
+            set => _allowablePixelError = value;
         }
 
         public void ImageToArm(Point pixel, out PointF arm)
@@ -94,7 +94,7 @@ namespace RASDK.Vision.Positioning
                 double errorY = pixelY - forecastPixel[0].Y;
 
                 // 判定差距是否大於容許誤差。
-                if (Math.Abs(errorX) > _allowableError || Math.Abs(errorY) > _allowableError)
+                if (Math.Abs(errorX) > _allowablePixelError || Math.Abs(errorY) > _allowablePixelError)
                 {
                     // 差距大於容許誤差，調整預測虛擬定位板座標。
                     _approximation(errorX, errorY, ref virtualCheckBoardX, ref virtualCheckBoardY);

@@ -55,17 +55,17 @@ namespace RASDK.Vision
         /// <summary>
         /// 相機畸變參數。
         /// </summary>
-        private Matrix<double> _distortionCoeffs = new Matrix<double>(8, 1);
+        private Matrix<double> _distortionCoeffs = new Matrix<double>(4, 1);
 
         /// <summary>
         /// 所有影像的旋轉向量。
         /// </summary>
-        private Mat[] _rotationVectors;
+        private VectorOfDouble[] _rotationVectors;
 
         /// <summary>
         /// 所有影像的平移向量。
         /// </summary>
-        private Mat[] _translationVectors;
+        private VectorOfDouble[] _translationVectors;
 
         /// <summary>
         /// 相機標定。
@@ -93,12 +93,12 @@ namespace RASDK.Vision
         /// <summary>
         /// 所有影像的旋轉向量。
         /// </summary>
-        public Mat[] RotationVectors => _rotationVectors;
+        public VectorOfDouble[] RotationVectors => _rotationVectors;
 
         /// <summary>
         /// 所有影像的平移向量。
         /// </summary>
-        public Mat[] TranslationVectors => _translationVectors;
+        public VectorOfDouble[] TranslationVectors => _translationVectors;
 
         /// <summary>
         /// 影像數量。
@@ -130,11 +130,12 @@ namespace RASDK.Vision
         /// <param name="distortionCoeffs">相機畸變參數。</param>
         /// <param name="rotationVectors">所有影像的旋轉向量。</param>
         /// <param name="translationVectors">所有影像的平移向量。</param>
-        /// <returns>誤差</returns>
+        /// <returns>重投影誤差</returns>
         public double Run(out Matrix<double> cameraMatrix,
                           out Matrix<double> distortionCoeffs,
-                          out Mat[] rotationVectors,
-                          out Mat[] translationVectors)
+                          out VectorOfDouble[] rotationVectors,
+                          out VectorOfDouble[] translationVectors,
+                          bool reverseImagePoints = false)
         {
             var selectedImagePaths = SelectImagePaths();
             _imageCount = selectedImagePaths.Length;
@@ -153,7 +154,7 @@ namespace RASDK.Vision
                 }
             }
 
-            var error = Calibrate();
+            var error = Calibrate(reverseImagePoints);
             cameraMatrix = _cameraMatrix;
             distortionCoeffs = _distortionCoeffs;
             rotationVectors = _rotationVectors;
@@ -198,8 +199,8 @@ namespace RASDK.Vision
         /// <summary>
         /// 進行標定。
         /// </summary>
-        /// <returns>誤差</returns>
-        private double Calibrate()
+        /// <returns>重投影誤差</returns>
+        private double Calibrate(bool reverseImagePoints = false)
         {
             var cornersCount = _patternSize.Width * _patternSize.Height;
             var objPoints = MakeObjectPoints();
@@ -209,6 +210,10 @@ namespace RASDK.Vision
             {
                 imagePoints[i] = new PointF[cornersCount];
                 imagePoints[i] = _allCorners[i].ToArray();
+                if (reverseImagePoints)
+                {
+                    Array.Reverse(imagePoints[i]);
+                }
             }
 
             var error = CvInvoke.CalibrateCamera(objPoints,
@@ -218,8 +223,22 @@ namespace RASDK.Vision
                                                  _distortionCoeffs,
                                                  CalibType.RationalModel,
                                                  new MCvTermCriteria(30, 0.1),
-                                                 out _rotationVectors,
-                                                 out _translationVectors);
+                                                 out var rvs,
+                                                 out var tvs);
+
+            _rotationVectors = new VectorOfDouble[rvs.Length];
+            for (int i = 0; i < rvs.Length; i++)
+            {
+                _rotationVectors[i] = new VectorOfDouble();
+                rvs[i].ConvertTo(_rotationVectors[i], DepthType.Cv64F);
+            }
+
+            _translationVectors = new VectorOfDouble[tvs.Length];
+            for (int i = 0; i < tvs.Length; i++)
+            {
+                _translationVectors[i] = new VectorOfDouble();
+                tvs[i].ConvertTo(_translationVectors[i], DepthType.Cv64F);
+            }
 
             return error;
         }

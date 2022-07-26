@@ -47,14 +47,21 @@ namespace RASDK.Vision.TestForms
 
         private void buttonConvert_Click(object sender, EventArgs e)
         {
+            var rv = new VectorOfDouble(new double[] {(double)numericUpDownRV1.Value,
+                                                      (double)numericUpDownRV2.Value,
+                                                      (double)numericUpDownRV3.Value});
+            var tv = new VectorOfDouble(new double[] {(double)numericUpDownTV1.Value,
+                                                      (double)numericUpDownTV2.Value,
+                                                      (double)numericUpDownTV3.Value});
+
             var cp = new CameraParameter((double)numericUpDownCPCx.Value,
                                          (double)numericUpDownCPCY.Value,
                                          (double)numericUpDownCPFX.Value,
                                          (double)numericUpDownCPFY.Value,
                                          (double)numericUpDownCPSkew.Value,
                                          _distCoeffs,
-                                         _rvecs[0],
-                                         _tvecs[0]);
+                                         rv,
+                                         tv);
 
             var vp = new Vision.Positioning.CCIA(cp, TF) { AllowableError = 10 };
             vp.ImageToArm((int)numericUpDownConvPX.Value,
@@ -74,10 +81,19 @@ namespace RASDK.Vision.TestForms
         private void buttonPositioningCopy_Click(object sender, EventArgs e)
         {
             numericUpDownCPCx.Value = Decimal.Parse(textBoxCameraMatrix02.Text);
-            numericUpDownCPCY.Value = Decimal.Parse(textBoxCameraMatrix02.Text);
+            numericUpDownCPCY.Value = Decimal.Parse(textBoxCameraMatrix12.Text);
             numericUpDownCPFX.Value = Decimal.Parse(textBoxCameraMatrix00.Text);
             numericUpDownCPFY.Value = Decimal.Parse(textBoxCameraMatrix11.Text);
             numericUpDownCPSkew.Value = Decimal.Parse(textBoxCameraMatrix01.Text);
+
+            var rv = _rvec.ToArray();
+            numericUpDownRV1.Value = Convert.ToDecimal(rv[0]);
+            numericUpDownRV2.Value = Convert.ToDecimal(rv[1]);
+
+            var tv = _tvec.ToArray();
+            numericUpDownTV1.Value = Convert.ToDecimal(tv[0]);
+            numericUpDownTV2.Value = Convert.ToDecimal(tv[1]);
+            numericUpDownTV3.Value = Convert.ToDecimal(tv[2]);
         }
 
         #endregion Positioning
@@ -130,8 +146,9 @@ namespace RASDK.Vision.TestForms
 
         #region Camera Calibration
 
-        private Mat[] _rvecs;
-        private Mat[] _tvecs;
+        private VectorOfDouble _rvec = new VectorOfDouble();
+        private VectorOfDouble _tvec = new VectorOfDouble();
+
         private Matrix<double> _cameraMatrix;
         private Matrix<double> _distCoeffs;
 
@@ -140,7 +157,10 @@ namespace RASDK.Vision.TestForms
             var checkBoardSize = new Size((int)numericUpDownCheckBoardX.Value, (int)numericUpDownCheckBoardY.Value);
             var cc = new Vision.CameraCalibration(checkBoardSize, (float)numericUpDownCheckBoardSideLength.Value);
 
-            var error = cc.Run(out _cameraMatrix, out _distCoeffs, out _rvecs, out _tvecs);
+            var error = cc.Run(out _cameraMatrix, out _distCoeffs, out var rvs, out var tvs);
+
+            _rvec = rvs[0];
+            _tvec = tvs[0];
 
             textBoxCameraCalibrationError.Text = error.ToString();
 
