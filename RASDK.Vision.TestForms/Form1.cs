@@ -111,16 +111,20 @@ namespace RASDK.Vision.TestForms
 
             if (_idsCamera.Connected)
             {
+                // 進行斷線。
                 if (_idsCamera.Disconnect())
                 {
                     _messageHandler.Show("Disconnected.");
                     buttonIdsConnection.Text = "Connect";
                     buttonIdsGetImage.Enabled = false;
                     buttonIdsCameraSetting.Enabled = false;
+
+                    _idsCamera = null;
                 }
             }
             else
             {
+                // 進行連線。
                 if (_idsCamera.Connect())
                 {
                     _messageHandler.Show("Connected.");
