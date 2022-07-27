@@ -113,14 +113,36 @@ namespace RASDK.Vision
         /// <summary>
         /// 畫上角點標記的影像。
         /// </summary>
-        public Image<Bgr, byte> DrawedImage
+        public Image<Bgr, byte> DrawCheckBoardImage(bool undistort = false)
         {
-            get
+            var img = _sourceImageRepresentative.Clone();
+            CvInvoke.DrawChessboardCorners(img, _patternSize, _allCorners[0], true);
+
+            if (undistort)
             {
-                var img = _sourceImageRepresentative.Clone();
-                CvInvoke.DrawChessboardCorners(img, _patternSize, _allCorners[0], true);
-                return img;
+                img = UndistortImage(img);
             }
+
+            return img;
+        }
+
+        /// <summary>
+        /// 畸變矯正。
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distCoeffs"></param>
+        /// <returns></returns>
+        public Image<Bgr, byte> UndistortImage(Image<Bgr, byte> image,
+                                               Matrix<double> cameraMatrix = null,
+                                               Matrix<double> distCoeffs = null)
+        {
+            var outImg = image.Clone();
+            CvInvoke.Undistort(image,
+                               outImg,
+                               cameraMatrix ?? _cameraMatrix,
+                               distCoeffs ?? _distortionCoeffs);
+            return outImg;
         }
 
         /// <summary>

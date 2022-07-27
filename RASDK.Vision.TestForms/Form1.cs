@@ -63,19 +63,19 @@ namespace RASDK.Vision.TestForms
                                          rv,
                                          tv);
 
-            var vp = new Vision.Positioning.CCIA(cp, 10, TF);
+            var vp = new Vision.Positioning.CCIA(cp, 10)
+            {
+                InvertedX = false,
+                InvertedY = true,
+                WorldOffset = new PointF((float)numericUpDownOffsetX.Value,
+                                         (float)-numericUpDownOffsetY.Value)
+            };
             vp.ImageToWorld((int)numericUpDownConvPX.Value,
-                          (int)numericUpDownConvPY.Value,
-                          out var ax,
-                          out var ay);
+                            (int)numericUpDownConvPY.Value,
+                            out var ax,
+                            out var ay);
             numericUpDownConvAX.Value = (decimal)ax;
             numericUpDownConvAY.Value = (decimal)ay;
-        }
-
-        private void TF(double vx, double vy, out double ax, out double ay)
-        {
-            ax = vx + (double)numericUpDownOffsetX.Value;
-            ay = vy + (double)numericUpDownOffsetY.Value;
         }
 
         private void buttonPositioningCopy_Click(object sender, EventArgs e)
@@ -176,6 +176,76 @@ namespace RASDK.Vision.TestForms
         private Matrix<double> _cameraMatrix;
         private Matrix<double> _distCoeffs;
 
+        private void pictureBoxCameraCalibratioin_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (pictureBoxCameraCalibratioin.Image == null)
+            {
+                return;
+            }
+
+            var mousePosition = e.Location;
+            var imageSize = pictureBoxCameraCalibratioin.Image.Size;
+            var boxSize = pictureBoxCameraCalibratioin.Size;
+            var pixelPoint = new PointF(mousePosition.X, mousePosition.Y);
+
+            if (imageSize.Width / imageSize.Height <= boxSize.Width / boxSize.Height)
+            {
+                // The image is limited by the width.
+
+                var scale = (float)boxSize.Width / (float)imageSize.Width;
+                var blankPart = (boxSize.Height - scale * imageSize.Height) / 2.0;
+
+                pixelPoint.Y -= (float)blankPart;
+
+                pixelPoint.X /= scale;
+                pixelPoint.Y /= scale;
+            }
+            else
+            {
+                // The image is limited by the hight.
+
+                var scale = (float)boxSize.Height / (float)imageSize.Height;
+                var blankPart = (boxSize.Width - (imageSize.Width * scale)) / 2.0;
+
+                pixelPoint.X -= (float)blankPart;
+
+                pixelPoint.X /= scale;
+                pixelPoint.Y /= scale;
+            }
+
+            textBoxMousePosition.Text = $"X: {pixelPoint.X}, Y: {pixelPoint.Y}";
+
+            //var scaledImg = new Bitmap(pictureBoxCameraCalibratioin.Image);
+            //var cent = new Point(0, 0);
+            //if (pixelPoint.X - 25 <= 0)
+            //{
+            //    cent.X = (int)pixelPoint.X;
+            //}
+            //else if (pixelPoint.X + 25 >= imageSize.Width)
+            //{
+            //    cent.X = (int)pixelPoint.X - 50;
+            //}
+            //else
+            //{
+            //    cent.X = (int)pixelPoint.X - 25;
+            //}
+
+            //if (pixelPoint.Y - 25 <= 0)
+            //{
+            //    cent.Y = (int)pixelPoint.Y + 50;
+            //}
+            //else if (pixelPoint.Y + 25 >= imageSize.Height)
+            //{
+            //    cent.Y = (int)pixelPoint.Y + 50;
+            //}
+            //else
+            //{
+            //    cent.Y = (int)pixelPoint.Y - 25;
+            //}
+            //scaledImg = scaledImg.Clone(new Rectangle(cent, new Size(50, 50)), scaledImg.PixelFormat);
+            //pictureBoxCameraCalibratioinScale.Image = scaledImg;
+        }
+
         private void buttonCameraCalibrate_Click(object sender, EventArgs e)
         {
             var checkBoardSize = new Size((int)numericUpDownCheckBoardX.Value, (int)numericUpDownCheckBoardY.Value);
@@ -198,7 +268,7 @@ namespace RASDK.Vision.TestForms
             textBoxCameraMatrix21.Text = _cameraMatrix.Data[2, 1].ToString();
             textBoxCameraMatrix22.Text = _cameraMatrix.Data[2, 2].ToString();
 
-            pictureBoxCameraCalibratioin.Image = cc.DrawedImage.ToBitmap();
+            pictureBoxCameraCalibratioin.Image = cc.DrawCheckBoardImage(checkBoxDistort.Checked).ToBitmap();
         }
 
         #endregion Camera Calibration

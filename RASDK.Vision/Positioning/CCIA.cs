@@ -21,6 +21,19 @@ namespace RASDK.Vision.Positioning
         /// </summary>
         public PointF WorldOffset = new PointF(0, 0);
 
+        /// <summary>
+        /// 反轉X軸。
+        /// </summary>
+        public bool InvertedX = false;
+
+        /// <summary>
+        /// 反轉Y軸。
+        /// </summary>
+        /// <remarks>
+        /// 圖片和手臂座標系的Y軸通常是相反的，因此預設爲true。
+        /// </remarks>
+        public bool InvertedY = true;
+
         private readonly CameraParameter _cameraParameter;
 
         private readonly Approximation _approximation;
@@ -124,6 +137,16 @@ namespace RASDK.Vision.Positioning
             }
             worldX += WorldOffset.X;
             worldY += WorldOffset.Y;
+
+            if (InvertedX)
+            {
+                worldX = -worldX;
+            }
+
+            if (InvertedY)
+            {
+                worldY = -worldY;
+            }
         }
 
         private void BasicTransferFunctionOfVirtualCheckBoardToWorld(double vX,
