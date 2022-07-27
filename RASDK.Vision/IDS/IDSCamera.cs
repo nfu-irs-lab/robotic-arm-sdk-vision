@@ -16,6 +16,9 @@ using DisplayMode = uEye.Defines.DisplayMode;
 
 namespace RASDK.Vision.IDS
 {
+    /// <summary>
+    /// iDS工業攝影機。
+    /// </summary>
     public class IDSCamera : IDevice
     {
         private const int _cnNumberOfSeqBuffers = 3;
@@ -24,9 +27,13 @@ namespace RASDK.Vision.IDS
         private Camera _camera;
         private PictureBox _pictureBox;
 
-        public IDSCamera(MessageHandler message)
+        /// <summary>
+        /// iDS工業攝影機。
+        /// </summary>
+        /// <param name="message"></param>
+        public IDSCamera(MessageHandler message = null)
         {
-            _message = message;
+            _message = message ?? new GeneralMessageHandler(new EmptyLogHandler());
 
             if (CheckRuntimeVersion())
             {
@@ -45,6 +52,11 @@ namespace RASDK.Vision.IDS
             }
         }
 
+        /// <summary>
+        /// iDS工業攝影機。
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="pictureBox"></param>
         public IDSCamera(MessageHandler message, PictureBox pictureBox)
         {
             _message = message;
@@ -71,7 +83,12 @@ namespace RASDK.Vision.IDS
 
         ~IDSCamera()
         {
-            Disconnect();
+            try
+            {
+                Disconnect();
+            }
+            catch
+            { /* Do nothing. */ }
         }
 
         public int CameraId { get; private set; }
@@ -89,10 +106,12 @@ namespace RASDK.Vision.IDS
         {
             get
             {
-                if (_camera == null)
-                    return false;
-                else
+                if (_camera != null)
+                {
                     return _camera.IsOpened;
+                }
+
+                return false;
             }
         }
 
@@ -136,6 +155,10 @@ namespace RASDK.Vision.IDS
             return !_camera.IsOpened;
         }
 
+        /// <summary>
+        /// 相機初始化。
+        /// </summary>
+        /// <returns></returns>
         public bool Init()
         {
             if (_camera == null)
@@ -178,6 +201,12 @@ namespace RASDK.Vision.IDS
 
         #region - General Feature -
 
+        /// <summary>
+        /// 改變相機截取模式。
+        /// </summary>
+        /// <param name="captureMode"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public bool ChangeCaptureMode(CaptureMode captureMode)
         {
             Func<Status> func;
@@ -201,13 +230,13 @@ namespace RASDK.Vision.IDS
                     break;
 
                 default:
-                    return false;
+                    throw new ArgumentException("錯誤的 iDS CaptureMode。");
             }
 
             var status = func();
             if (status != Status.SUCCESS)
             {
-                _message.Show("Starting live video failed", LoggingLevel.Error);
+                _message.Show($"Change iDS camera capture mode failed.\r\n{status}", LoggingLevel.Error);
                 return false;
             }
             else
@@ -218,6 +247,10 @@ namespace RASDK.Vision.IDS
             return true;
         }
 
+        /// <summary>
+        /// 讀取影像。
+        /// </summary>
+        /// <returns>Image.</returns>
         public Bitmap GetImage()
         {
             Bitmap img = null;
@@ -231,26 +264,47 @@ namespace RASDK.Vision.IDS
             return img;
         }
 
+        /// <summary>
+        /// 設定感興趣區域。
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void SetAoiSize(int width, int height, int x = 0, int y = 0)
         {
             _camera.Size.AOI.Set(x, y, width, height);
         }
 
+        /// <summary>
+        /// 儲存參數到EEPROM。
+        /// </summary>
         public void SaveParameterToEEPROM()
         {
             SaveParameter(null);
         }
 
+        /// <summary>
+        /// 儲存參數爲檔案。
+        /// </summary>
+        /// <param name="filename"></param>
         public void SaveParameterToFile(string filename = "")
         {
             SaveParameter(filename);
         }
 
+        /// <summary>
+        /// 從EEPROM載入參數。
+        /// </summary>
         public void LoadParameterFromEEPROM()
         {
             LoadParameter(null);
         }
 
+        /// <summary>
+        /// 從檔案載入參數。
+        /// </summary>
+        /// <param name="filename"></param>
         public void LoadParameterFromFile(string filename = "")
         {
             LoadParameter(filename);
@@ -305,18 +359,27 @@ namespace RASDK.Vision.IDS
 
         private delegate Status GetFunc(out bool enable);
 
+        /// <summary>
+        /// 自動設定增益。
+        /// </summary>
         public bool AutoGain
         {
             get => GetAutoFeatures(_camera.AutoFeatures.Software.Gain.GetEnable);
             set => _camera.AutoFeatures.Software.Gain.SetEnable(value);
         }
 
+        /// <summary>
+        /// 自動設定快門。
+        /// </summary>
         public bool AutoShutter
         {
             get => GetAutoFeatures(_camera.AutoFeatures.Software.Shutter.GetEnable);
             set => _camera.AutoFeatures.Software.Shutter.SetEnable(value);
         }
 
+        /// <summary>
+        /// 自動設定白平衡。
+        /// </summary>
         public bool AutoWhiteBalance
         {
             get => GetAutoFeatures(_camera.AutoFeatures.Software.WhiteBalance.GetEnable);
@@ -333,6 +396,9 @@ namespace RASDK.Vision.IDS
 
         #region - Form -
 
+        /// <summary>
+        /// 顯示選擇相機視窗。
+        /// </summary>
         public void ChooseCamera()
         {
             var chooseForm = new CameraChoose();
@@ -343,6 +409,9 @@ namespace RASDK.Vision.IDS
             }
         }
 
+        /// <summary>
+        /// 顯示相機參數設定視窗。
+        /// </summary>
         public void ShowSettingForm()
         {
             if (_camera != null)
