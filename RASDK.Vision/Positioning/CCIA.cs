@@ -16,6 +16,11 @@ namespace RASDK.Vision.Positioning
     /// </summary>
     public class CCIA : IVisionPositioning
     {
+        /// <summary>
+        /// 世界座標偏移。
+        /// </summary>
+        public PointF WorldOffset = new PointF(0, 0);
+
         private readonly CameraParameter _cameraParameter;
 
         private readonly Approximation _approximation;
@@ -111,6 +116,14 @@ namespace RASDK.Vision.Positioning
                                                         virtualCheckBoardY,
                                                         out worldX,
                                                         out worldY);
+
+            // 座標偏移。
+            if (WorldOffset == null)
+            {
+                WorldOffset = new PointF(0, 0);
+            }
+            worldX += WorldOffset.X;
+            worldY += WorldOffset.Y;
         }
 
         private void BasicTransferFunctionOfVirtualCheckBoardToWorld(double vX,
