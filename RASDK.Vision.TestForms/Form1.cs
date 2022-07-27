@@ -268,7 +268,7 @@ namespace RASDK.Vision.TestForms
             textBoxCameraMatrix21.Text = _cameraMatrix.Data[2, 1].ToString();
             textBoxCameraMatrix22.Text = _cameraMatrix.Data[2, 2].ToString();
 
-            pictureBoxCameraCalibratioin.Image = cc.DrawedImage.ToBitmap();
+            pictureBoxCameraCalibratioin.Image = cc.DrawCheckBoardImage(checkBoxDistort.Checked).ToBitmap();
         }
 
         #endregion Camera Calibration

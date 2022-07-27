@@ -103,6 +103,7 @@ namespace RASDK.Vision.TestForms
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.textBoxMousePosition = new System.Windows.Forms.TextBox();
             this.pictureBoxCameraCalibratioinScale = new System.Windows.Forms.PictureBox();
+            this.checkBoxDistort = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTV3)).BeginInit();
@@ -837,6 +838,7 @@ namespace RASDK.Vision.TestForms
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.checkBoxDistort);
             this.tabPage3.Controls.Add(this.pictureBoxCameraCalibratioinScale);
             this.tabPage3.Controls.Add(this.pictureBoxCameraCalibratioin);
             this.tabPage3.Controls.Add(this.tableLayoutPanel2);
@@ -1131,6 +1133,16 @@ namespace RASDK.Vision.TestForms
             this.pictureBoxCameraCalibratioinScale.TabIndex = 7;
             this.pictureBoxCameraCalibratioinScale.TabStop = false;
             // 
+            // checkBoxDistort
+            // 
+            this.checkBoxDistort.AutoSize = true;
+            this.checkBoxDistort.Location = new System.Drawing.Point(190, 380);
+            this.checkBoxDistort.Name = "checkBoxDistort";
+            this.checkBoxDistort.Size = new System.Drawing.Size(68, 19);
+            this.checkBoxDistort.TabIndex = 8;
+            this.checkBoxDistort.Text = "Distort";
+            this.checkBoxDistort.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -1262,6 +1274,7 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.Button buttonLoadParameterFromFile;
         private System.Windows.Forms.TextBox textBoxMousePosition;
         private System.Windows.Forms.PictureBox pictureBoxCameraCalibratioinScale;
+        private System.Windows.Forms.CheckBox checkBoxDistort;
     }
 }
 
