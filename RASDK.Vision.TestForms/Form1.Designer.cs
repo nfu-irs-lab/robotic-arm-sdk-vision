@@ -179,7 +179,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownTV3
             // 
-            this.numericUpDownTV3.DecimalPlaces = 2;
+            this.numericUpDownTV3.DecimalPlaces = 5;
             this.numericUpDownTV3.Location = new System.Drawing.Point(213, 18);
             this.numericUpDownTV3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownTV3.Maximum = new decimal(new int[] {
@@ -198,7 +198,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownTV2
             // 
-            this.numericUpDownTV2.DecimalPlaces = 2;
+            this.numericUpDownTV2.DecimalPlaces = 5;
             this.numericUpDownTV2.Location = new System.Drawing.Point(108, 18);
             this.numericUpDownTV2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownTV2.Maximum = new decimal(new int[] {
@@ -217,7 +217,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownTV1
             // 
-            this.numericUpDownTV1.DecimalPlaces = 2;
+            this.numericUpDownTV1.DecimalPlaces = 5;
             this.numericUpDownTV1.Location = new System.Drawing.Point(3, 18);
             this.numericUpDownTV1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownTV1.Maximum = new decimal(new int[] {
@@ -250,7 +250,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownRV3
             // 
-            this.numericUpDownRV3.DecimalPlaces = 2;
+            this.numericUpDownRV3.DecimalPlaces = 5;
             this.numericUpDownRV3.Location = new System.Drawing.Point(213, 18);
             this.numericUpDownRV3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownRV3.Maximum = new decimal(new int[] {
@@ -269,7 +269,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownRV2
             // 
-            this.numericUpDownRV2.DecimalPlaces = 2;
+            this.numericUpDownRV2.DecimalPlaces = 5;
             this.numericUpDownRV2.Location = new System.Drawing.Point(108, 18);
             this.numericUpDownRV2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownRV2.Maximum = new decimal(new int[] {
@@ -288,7 +288,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownRV1
             // 
-            this.numericUpDownRV1.DecimalPlaces = 2;
+            this.numericUpDownRV1.DecimalPlaces = 5;
             this.numericUpDownRV1.Location = new System.Drawing.Point(3, 18);
             this.numericUpDownRV1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownRV1.Maximum = new decimal(new int[] {
@@ -329,7 +329,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownCPCY
             // 
-            this.numericUpDownCPCY.DecimalPlaces = 2;
+            this.numericUpDownCPCY.DecimalPlaces = 5;
             this.numericUpDownCPCY.Location = new System.Drawing.Point(60, 49);
             this.numericUpDownCPCY.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownCPCY.Maximum = new decimal(new int[] {
@@ -368,7 +368,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownCPCx
             // 
-            this.numericUpDownCPCx.DecimalPlaces = 2;
+            this.numericUpDownCPCx.DecimalPlaces = 5;
             this.numericUpDownCPCx.Location = new System.Drawing.Point(60, 24);
             this.numericUpDownCPCx.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownCPCx.Maximum = new decimal(new int[] {
@@ -407,7 +407,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownCPSkew
             // 
-            this.numericUpDownCPSkew.DecimalPlaces = 2;
+            this.numericUpDownCPSkew.DecimalPlaces = 5;
             this.numericUpDownCPSkew.Location = new System.Drawing.Point(60, 125);
             this.numericUpDownCPSkew.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownCPSkew.Maximum = new decimal(new int[] {
@@ -426,7 +426,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownCPFX
             // 
-            this.numericUpDownCPFX.DecimalPlaces = 2;
+            this.numericUpDownCPFX.DecimalPlaces = 5;
             this.numericUpDownCPFX.Location = new System.Drawing.Point(60, 75);
             this.numericUpDownCPFX.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownCPFX.Maximum = new decimal(new int[] {
@@ -465,7 +465,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownCPFY
             // 
-            this.numericUpDownCPFY.DecimalPlaces = 2;
+            this.numericUpDownCPFY.DecimalPlaces = 5;
             this.numericUpDownCPFY.Location = new System.Drawing.Point(60, 100);
             this.numericUpDownCPFY.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownCPFY.Maximum = new decimal(new int[] {
@@ -497,7 +497,7 @@ namespace RASDK.Vision.TestForms
             this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.groupBox5.Size = new System.Drawing.Size(266, 160);
+            this.groupBox5.Size = new System.Drawing.Size(321, 160);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Convert";
@@ -526,7 +526,7 @@ namespace RASDK.Vision.TestForms
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(191, 26);
+            this.label11.Location = new System.Drawing.Point(215, 26);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(17, 15);
@@ -555,8 +555,8 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownConvAY
             // 
-            this.numericUpDownConvAY.DecimalPlaces = 2;
-            this.numericUpDownConvAY.Location = new System.Drawing.Point(170, 90);
+            this.numericUpDownConvAY.DecimalPlaces = 5;
+            this.numericUpDownConvAY.Location = new System.Drawing.Point(194, 90);
             this.numericUpDownConvAY.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownConvAY.Maximum = new decimal(new int[] {
             99999,
@@ -569,12 +569,12 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownConvAY.Name = "numericUpDownConvAY";
-            this.numericUpDownConvAY.Size = new System.Drawing.Size(75, 25);
+            this.numericUpDownConvAY.Size = new System.Drawing.Size(102, 25);
             this.numericUpDownConvAY.TabIndex = 0;
             // 
             // numericUpDownConvPY
             // 
-            this.numericUpDownConvPY.Location = new System.Drawing.Point(170, 49);
+            this.numericUpDownConvPY.Location = new System.Drawing.Point(194, 49);
             this.numericUpDownConvPY.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownConvPY.Maximum = new decimal(new int[] {
             99999,
@@ -587,12 +587,12 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownConvPY.Name = "numericUpDownConvPY";
-            this.numericUpDownConvPY.Size = new System.Drawing.Size(75, 25);
+            this.numericUpDownConvPY.Size = new System.Drawing.Size(102, 25);
             this.numericUpDownConvPY.TabIndex = 0;
             // 
             // numericUpDownConvAX
             // 
-            this.numericUpDownConvAX.DecimalPlaces = 2;
+            this.numericUpDownConvAX.DecimalPlaces = 5;
             this.numericUpDownConvAX.Location = new System.Drawing.Point(84, 90);
             this.numericUpDownConvAX.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownConvAX.Maximum = new decimal(new int[] {
@@ -606,7 +606,7 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownConvAX.Name = "numericUpDownConvAX";
-            this.numericUpDownConvAX.Size = new System.Drawing.Size(75, 25);
+            this.numericUpDownConvAX.Size = new System.Drawing.Size(106, 25);
             this.numericUpDownConvAX.TabIndex = 0;
             // 
             // numericUpDownConvPX
@@ -624,7 +624,7 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownConvPX.Name = "numericUpDownConvPX";
-            this.numericUpDownConvPX.Size = new System.Drawing.Size(75, 25);
+            this.numericUpDownConvPX.Size = new System.Drawing.Size(106, 25);
             this.numericUpDownConvPX.TabIndex = 0;
             // 
             // groupBox6
@@ -638,7 +638,7 @@ namespace RASDK.Vision.TestForms
             this.groupBox6.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.groupBox6.Size = new System.Drawing.Size(266, 142);
+            this.groupBox6.Size = new System.Drawing.Size(321, 142);
             this.groupBox6.TabIndex = 1;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Offset";
@@ -655,8 +655,8 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownOffsetY
             // 
-            this.numericUpDownOffsetY.DecimalPlaces = 2;
-            this.numericUpDownOffsetY.Location = new System.Drawing.Point(170, 37);
+            this.numericUpDownOffsetY.DecimalPlaces = 5;
+            this.numericUpDownOffsetY.Location = new System.Drawing.Point(194, 36);
             this.numericUpDownOffsetY.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownOffsetY.Maximum = new decimal(new int[] {
             99999,
@@ -669,13 +669,13 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownOffsetY.Name = "numericUpDownOffsetY";
-            this.numericUpDownOffsetY.Size = new System.Drawing.Size(75, 25);
+            this.numericUpDownOffsetY.Size = new System.Drawing.Size(102, 25);
             this.numericUpDownOffsetY.TabIndex = 0;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(191, 20);
+            this.label13.Location = new System.Drawing.Point(215, 19);
             this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(17, 15);
@@ -694,7 +694,7 @@ namespace RASDK.Vision.TestForms
             // 
             // numericUpDownOffsetX
             // 
-            this.numericUpDownOffsetX.DecimalPlaces = 2;
+            this.numericUpDownOffsetX.DecimalPlaces = 5;
             this.numericUpDownOffsetX.Location = new System.Drawing.Point(84, 37);
             this.numericUpDownOffsetX.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownOffsetX.Maximum = new decimal(new int[] {
@@ -708,7 +708,7 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownOffsetX.Name = "numericUpDownOffsetX";
-            this.numericUpDownOffsetX.Size = new System.Drawing.Size(75, 25);
+            this.numericUpDownOffsetX.Size = new System.Drawing.Size(106, 25);
             this.numericUpDownOffsetX.TabIndex = 0;
             // 
             // tabControl1

@@ -63,19 +63,19 @@ namespace RASDK.Vision.TestForms
                                          rv,
                                          tv);
 
-            var vp = new Vision.Positioning.CCIA(cp, 10, TF);
+            var vp = new Vision.Positioning.CCIA(cp, 10)
+            {
+                InvertedX = false,
+                InvertedY = true,
+                WorldOffset = new PointF((float)numericUpDownOffsetX.Value,
+                                         (float)-numericUpDownOffsetY.Value)
+            };
             vp.ImageToWorld((int)numericUpDownConvPX.Value,
-                          (int)numericUpDownConvPY.Value,
-                          out var ax,
-                          out var ay);
+                            (int)numericUpDownConvPY.Value,
+                            out var ax,
+                            out var ay);
             numericUpDownConvAX.Value = (decimal)ax;
             numericUpDownConvAY.Value = (decimal)ay;
-        }
-
-        private void TF(double vx, double vy, out double ax, out double ay)
-        {
-            ax = vx + (double)numericUpDownOffsetX.Value;
-            ay = vy + (double)numericUpDownOffsetY.Value;
         }
 
         private void buttonPositioningCopy_Click(object sender, EventArgs e)
