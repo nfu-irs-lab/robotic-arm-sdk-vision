@@ -79,6 +79,8 @@ namespace RASDK.Vision.TestForms
             this.buttonIdsGetImage = new System.Windows.Forms.Button();
             this.buttonIdsConnection = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.checkBoxDistort = new System.Windows.Forms.CheckBox();
+            this.pictureBoxCameraCalibratioinScale = new System.Windows.Forms.PictureBox();
             this.pictureBoxCameraCalibratioin = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxCameraMatrix00 = new System.Windows.Forms.TextBox();
@@ -99,11 +101,10 @@ namespace RASDK.Vision.TestForms
             this.label14 = new System.Windows.Forms.Label();
             this.numericUpDownCheckBoardY = new System.Windows.Forms.NumericUpDown();
             this.buttonCameraCalibrate = new System.Windows.Forms.Button();
+            this.textBoxMousePosition = new System.Windows.Forms.TextBox();
             this.textBoxCameraCalibrationError = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.textBoxMousePosition = new System.Windows.Forms.TextBox();
-            this.pictureBoxCameraCalibratioinScale = new System.Windows.Forms.PictureBox();
-            this.checkBoxDistort = new System.Windows.Forms.CheckBox();
+            this.textBoxCorners = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTV3)).BeginInit();
@@ -132,6 +133,7 @@ namespace RASDK.Vision.TestForms
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIds)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioinScale)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioin)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -139,7 +141,6 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardSideLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardY)).BeginInit();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioinScale)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -845,6 +846,7 @@ namespace RASDK.Vision.TestForms
             this.tabPage3.Controls.Add(this.label17);
             this.tabPage3.Controls.Add(this.tableLayoutPanel1);
             this.tabPage3.Controls.Add(this.buttonCameraCalibrate);
+            this.tabPage3.Controls.Add(this.textBoxCorners);
             this.tabPage3.Controls.Add(this.textBoxMousePosition);
             this.tabPage3.Controls.Add(this.textBoxCameraCalibrationError);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
@@ -853,6 +855,25 @@ namespace RASDK.Vision.TestForms
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Camera Calibration";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxDistort
+            // 
+            this.checkBoxDistort.AutoSize = true;
+            this.checkBoxDistort.Location = new System.Drawing.Point(190, 380);
+            this.checkBoxDistort.Name = "checkBoxDistort";
+            this.checkBoxDistort.Size = new System.Drawing.Size(68, 19);
+            this.checkBoxDistort.TabIndex = 8;
+            this.checkBoxDistort.Text = "Distort";
+            this.checkBoxDistort.UseVisualStyleBackColor = true;
+            // 
+            // pictureBoxCameraCalibratioinScale
+            // 
+            this.pictureBoxCameraCalibratioinScale.Location = new System.Drawing.Point(772, 408);
+            this.pictureBoxCameraCalibratioinScale.Name = "pictureBoxCameraCalibratioinScale";
+            this.pictureBoxCameraCalibratioinScale.Size = new System.Drawing.Size(100, 100);
+            this.pictureBoxCameraCalibratioinScale.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxCameraCalibratioinScale.TabIndex = 7;
+            this.pictureBoxCameraCalibratioinScale.TabStop = false;
             // 
             // pictureBoxCameraCalibratioin
             // 
@@ -1091,6 +1112,16 @@ namespace RASDK.Vision.TestForms
             this.buttonCameraCalibrate.UseVisualStyleBackColor = true;
             this.buttonCameraCalibrate.Click += new System.EventHandler(this.buttonCameraCalibrate_Click);
             // 
+            // textBoxMousePosition
+            // 
+            this.textBoxMousePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxMousePosition.Location = new System.Drawing.Point(345, 408);
+            this.textBoxMousePosition.Name = "textBoxMousePosition";
+            this.textBoxMousePosition.ReadOnly = true;
+            this.textBoxMousePosition.Size = new System.Drawing.Size(258, 25);
+            this.textBoxMousePosition.TabIndex = 5;
+            this.textBoxMousePosition.Text = "--";
+            // 
             // textBoxCameraCalibrationError
             // 
             this.textBoxCameraCalibrationError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -1114,34 +1145,16 @@ namespace RASDK.Vision.TestForms
             this.tabPage1.Text = "Positioning";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // textBoxMousePosition
+            // textBoxCorners
             // 
-            this.textBoxMousePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxMousePosition.Location = new System.Drawing.Point(345, 408);
-            this.textBoxMousePosition.Name = "textBoxMousePosition";
-            this.textBoxMousePosition.ReadOnly = true;
-            this.textBoxMousePosition.Size = new System.Drawing.Size(258, 25);
-            this.textBoxMousePosition.TabIndex = 5;
-            this.textBoxMousePosition.Text = "--";
-            // 
-            // pictureBoxCameraCalibratioinScale
-            // 
-            this.pictureBoxCameraCalibratioinScale.Location = new System.Drawing.Point(772, 408);
-            this.pictureBoxCameraCalibratioinScale.Name = "pictureBoxCameraCalibratioinScale";
-            this.pictureBoxCameraCalibratioinScale.Size = new System.Drawing.Size(100, 100);
-            this.pictureBoxCameraCalibratioinScale.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxCameraCalibratioinScale.TabIndex = 7;
-            this.pictureBoxCameraCalibratioinScale.TabStop = false;
-            // 
-            // checkBoxDistort
-            // 
-            this.checkBoxDistort.AutoSize = true;
-            this.checkBoxDistort.Location = new System.Drawing.Point(190, 380);
-            this.checkBoxDistort.Name = "checkBoxDistort";
-            this.checkBoxDistort.Size = new System.Drawing.Size(68, 19);
-            this.checkBoxDistort.TabIndex = 8;
-            this.checkBoxDistort.Text = "Distort";
-            this.checkBoxDistort.UseVisualStyleBackColor = true;
+            this.textBoxCorners.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxCorners.Location = new System.Drawing.Point(8, 408);
+            this.textBoxCorners.Multiline = true;
+            this.textBoxCorners.Name = "textBoxCorners";
+            this.textBoxCorners.ReadOnly = true;
+            this.textBoxCorners.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxCorners.Size = new System.Drawing.Size(295, 100);
+            this.textBoxCorners.TabIndex = 5;
             // 
             // Form1
             // 
@@ -1184,6 +1197,7 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIds)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioinScale)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioin)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -1193,7 +1207,6 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardSideLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardY)).EndInit();
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioinScale)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1275,6 +1288,7 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.TextBox textBoxMousePosition;
         private System.Windows.Forms.PictureBox pictureBoxCameraCalibratioinScale;
         private System.Windows.Forms.CheckBox checkBoxDistort;
+        private System.Windows.Forms.TextBox textBoxCorners;
     }
 }
 

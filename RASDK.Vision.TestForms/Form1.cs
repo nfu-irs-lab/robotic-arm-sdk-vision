@@ -63,7 +63,7 @@ namespace RASDK.Vision.TestForms
                                          rv,
                                          tv);
 
-            var vp = new Vision.Positioning.CCIA(cp, 10)
+            var vp = new Vision.Positioning.CCIA(cp, 3)
             {
                 InvertedX = false,
                 InvertedY = true,
@@ -267,6 +267,19 @@ namespace RASDK.Vision.TestForms
             textBoxCameraMatrix20.Text = _cameraMatrix.Data[2, 0].ToString();
             textBoxCameraMatrix21.Text = _cameraMatrix.Data[2, 1].ToString();
             textBoxCameraMatrix22.Text = _cameraMatrix.Data[2, 2].ToString();
+
+            var cornersText = "";
+            for (int row = 0; row < checkBoardSize.Height - 1; row++)
+            {
+                for (int col = 0; col < checkBoardSize.Width - 1; col++)
+                {
+                    var index = row * (checkBoardSize.Width - 1) + col;
+                    var corner = cc.AllCorners[0].ToArray()[index];
+                    cornersText += $"[{row}-{col}] X:{Math.Round(corner.X)}, Y:{Math.Round(corner.Y)}\r\n";
+                }
+                cornersText += "\r\n";
+            }
+            textBoxCorners.Text = cornersText;
 
             pictureBoxCameraCalibratioin.Image = cc.DrawCheckBoardImage(checkBoxDistort.Checked).ToBitmap();
         }
