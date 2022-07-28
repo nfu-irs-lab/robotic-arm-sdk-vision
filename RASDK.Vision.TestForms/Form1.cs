@@ -63,7 +63,7 @@ namespace RASDK.Vision.TestForms
                                          rv,
                                          tv);
 
-            var vp = new Vision.Positioning.CCIA(cp, 3)
+            var vp = new Vision.Positioning.CCIA(cp, 10)
             {
                 InvertedX = false,
                 InvertedY = true,

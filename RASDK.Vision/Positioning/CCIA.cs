@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
@@ -40,7 +41,13 @@ namespace RASDK.Vision.Positioning
 
         private readonly TransferFunctionOfVirtualCheckBoardToWorld _transferFunctionOfVirtualCheckBoardToWorld;
 
+        private readonly Timer _interativeTimer;
+
+        private readonly double _interativeTimeout;
+
         private double _allowablePixelError;
+
+        private double _interativeTimerCount = 0;
 
         /// <summary>
         /// Vision positioning by Camera Calibration with Iterative Approximation.<br/>
@@ -55,12 +62,18 @@ namespace RASDK.Vision.Positioning
         public CCIA(CameraParameter cameraParameter,
                     double allowablePixelError = 5,
                     TransferFunctionOfVirtualCheckBoardToWorld tf = null,
-                    Approximation approximation = null)
+                    Approximation approximation = null,
+                    double interativeTimeout = 1.5)
         {
             _cameraParameter = cameraParameter;
             _allowablePixelError = allowablePixelError;
             _transferFunctionOfVirtualCheckBoardToWorld = tf ?? BasicTransferFunctionOfVirtualCheckBoardToWorld;
             _approximation = approximation ?? BasicApproximation;
+
+            _interativeTimer = new Timer(100);
+            _interativeTimer.Elapsed += (s, e) => { _interativeTimerCount += 0.1; };
+            _interativeTimer.Stop();
+            _interativeTimeout = interativeTimeout;
         }
 
         /// <summary>
@@ -97,31 +110,45 @@ namespace RASDK.Vision.Positioning
             double virtualCheckBoardX = 0;
             double virtualCheckBoardY = 0;
 
-            while (true)
+            var acceptable = false; // 結果可接受。
+            var accuracy = false; // 結果可以更精確。
+            var allowableError = _allowablePixelError;
+            var error = new PointF();
+
+            _interativeTimerCount = 0;
+            _interativeTimer.Start();
+            while (_interativeTimerCount < _interativeTimeout)
             {
-                // 將預測虛擬定位板座標透過相機標定法來算出對應的預測像素座標。
-                var forecastPixel = CvInvoke.ProjectPoints(
-                    new[] { new MCvPoint3D32f((float)virtualCheckBoardX, (float)virtualCheckBoardY, 0) },
-                    _cameraParameter.RotationVectors,
-                    _cameraParameter.TranslationVectors,
-                    _cameraParameter.IntrinsicMatrix,
-                    _cameraParameter.DistortionCoefficients);
+                acceptable = ImageToWorldInterative(_cameraParameter,
+                                                    pixelX,
+                                                    pixelY,
+                                                    virtualCheckBoardX,
+                                                    virtualCheckBoardY,
+                                                    allowableError,
+                                                    _approximation,
+                                                    out var resultX,
+                                                    out var resultY,
+                                                    out error);
 
-                // 計算預測像素座標與實際像素座標的差距。
-                double errorX = pixelX - forecastPixel[0].X;
-                double errorY = pixelY - forecastPixel[0].Y;
+                virtualCheckBoardX = resultX;
+                virtualCheckBoardY = resultY;
 
-                // 判定差距是否大於容許誤差。
-                if (Math.Abs(errorX) > _allowablePixelError || Math.Abs(errorY) > _allowablePixelError)
+                if (acceptable)
                 {
-                    // 差距大於容許誤差，調整預測虛擬定位板座標。
-                    _approximation(errorX, errorY, ref virtualCheckBoardX, ref virtualCheckBoardY);
+                    // 時間未到但結果已可接受，進一步降低容許誤差以更精確地求值。
+                    accuracy = true;
+                    allowableError -= 0.5;
+                    if (allowableError <= 0)
+                    {
+                        break;
+                    }
                 }
-                else
-                {
-                    // 差距小於等於容許誤差，跳出無限迴圈。
-                    break;
-                }
+            }
+            _interativeTimer.Stop();
+
+            if (!acceptable && !accuracy)
+            {
+                throw new TimeoutException($"CCIA image to world timeout, final error X:{error.X}, Y:{error.Y} .");
             }
 
             // 將虛擬定位板座標轉換成世界座標。
@@ -147,6 +174,56 @@ namespace RASDK.Vision.Positioning
             {
                 worldY = -worldY;
             }
+        }
+
+        private bool ImageToWorldInterative(CameraParameter cameraParameter,
+                                            double pixelX,
+                                            double pixelY,
+                                            double initWorldX,
+                                            double initWorldY,
+                                            double allowableError,
+                                            Approximation approximation,
+                                            out double resultWorldX,
+                                            out double resultworldY,
+                                            out PointF error)
+        {
+            if (allowableError <= 0)
+            {
+                throw new ArgumentException($"‘allowableError’必須大於0，實際值爲{allowableError}。");
+            }
+
+            var acceptable = false;
+            var objPoint = new MCvPoint3D32f((float)initWorldX, (float)initWorldY, 0);
+
+            // 將預測虛擬定位板座標透過相機標定法來算出對應的預測像素座標。
+            var forecastPixel = CvInvoke.ProjectPoints(new[] { objPoint },
+                                                       cameraParameter.RotationVectors,
+                                                       cameraParameter.TranslationVectors,
+                                                       cameraParameter.IntrinsicMatrix,
+                                                       cameraParameter.DistortionCoefficients);
+
+            // 計算預測像素座標與實際像素座標的差距。
+            error = new PointF(0, 0)
+            {
+                X = (float)pixelX - forecastPixel[0].X,
+                Y = (float)pixelY - forecastPixel[0].Y
+            };
+
+            // 判定差距是否大於容許誤差。
+            if (error.X > allowableError || error.Y > allowableError)
+            {
+                // 差距大於容許誤差，調整預測虛擬定位板座標。
+                approximation(error.X, error.Y, ref initWorldX, ref initWorldY);
+                acceptable = false;
+            }
+            else
+            {
+                acceptable = true;
+            }
+
+            resultWorldX = initWorldX;
+            resultworldY = initWorldY;
+            return acceptable;
         }
 
         private void BasicTransferFunctionOfVirtualCheckBoardToWorld(double vX,
