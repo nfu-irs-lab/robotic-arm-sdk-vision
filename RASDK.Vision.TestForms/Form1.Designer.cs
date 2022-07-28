@@ -188,12 +188,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownTV3.Location = new System.Drawing.Point(213, 18);
             this.numericUpDownTV3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownTV3.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownTV3.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
@@ -207,12 +207,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownTV2.Location = new System.Drawing.Point(108, 18);
             this.numericUpDownTV2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownTV2.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownTV2.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
@@ -226,12 +226,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownTV1.Location = new System.Drawing.Point(3, 18);
             this.numericUpDownTV1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownTV1.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownTV1.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
@@ -259,12 +259,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownRV3.Location = new System.Drawing.Point(213, 18);
             this.numericUpDownRV3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownRV3.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownRV3.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
@@ -278,12 +278,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownRV2.Location = new System.Drawing.Point(108, 18);
             this.numericUpDownRV2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownRV2.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownRV2.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
@@ -297,12 +297,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownRV1.Location = new System.Drawing.Point(3, 18);
             this.numericUpDownRV1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownRV1.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownRV1.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
@@ -338,12 +338,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownCPCY.Location = new System.Drawing.Point(60, 49);
             this.numericUpDownCPCY.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownCPCY.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownCPCY.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
@@ -377,12 +377,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownCPCx.Location = new System.Drawing.Point(60, 24);
             this.numericUpDownCPCx.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownCPCx.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownCPCx.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
@@ -416,12 +416,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownCPSkew.Location = new System.Drawing.Point(60, 125);
             this.numericUpDownCPSkew.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownCPSkew.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownCPSkew.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
@@ -435,12 +435,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownCPFX.Location = new System.Drawing.Point(60, 75);
             this.numericUpDownCPFX.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownCPFX.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownCPFX.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
@@ -474,12 +474,12 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownCPFY.Location = new System.Drawing.Point(60, 100);
             this.numericUpDownCPFY.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.numericUpDownCPFY.Maximum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             0});
             this.numericUpDownCPFY.Minimum = new decimal(new int[] {
-            99999,
+            999999,
             0,
             0,
             -2147483648});
