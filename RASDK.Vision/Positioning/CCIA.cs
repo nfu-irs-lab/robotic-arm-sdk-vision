@@ -45,8 +45,8 @@ namespace RASDK.Vision.Positioning
 
         private readonly double _interativeTimeout;
 
+        private readonly double _breakPixelError = 0.25;
         private double _allowablePixelError;
-
         private double _interativeTimerCount = 0;
 
         /// <summary>
@@ -137,9 +137,11 @@ namespace RASDK.Vision.Positioning
                 {
                     // 時間未到但結果已可接受，進一步降低容許誤差以更精確地求值。
                     accuracy = true;
-                    allowableError -= 0.5;
-                    if (allowableError <= 0)
+                    allowableError = Math.Max(Math.Abs(error.X), Math.Abs(error.Y)) - 0.1;
+
+                    if (allowableError <= _breakPixelError)
                     {
+                        // 誤差已經足夠小，強行離開。
                         break;
                     }
                 }
@@ -210,7 +212,7 @@ namespace RASDK.Vision.Positioning
             };
 
             // 判定差距是否大於容許誤差。
-            if (error.X > allowableError || error.Y > allowableError)
+            if (Math.Abs(error.X) > allowableError || Math.Abs(error.Y) > allowableError)
             {
                 // 差距大於容許誤差，調整預測虛擬定位板座標。
                 approximation(error.X, error.Y, ref initWorldX, ref initWorldY);
@@ -237,15 +239,9 @@ namespace RASDK.Vision.Positioning
 
         private void BasicApproximation(double errorX, double errorY, ref double vX, ref double vY)
         {
-            if (errorX > 0)
-                vX++;
-            else if (errorX < 0)
-                vX--;
-
-            if (errorY > 0)
-                vY++;
-            else if (errorY < 0)
-                vY--;
+            var kp = 0.3;
+            vX += errorX * kp;
+            vY += errorY * kp;
         }
     }
 }
