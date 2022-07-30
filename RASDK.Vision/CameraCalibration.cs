@@ -110,6 +110,8 @@ namespace RASDK.Vision
         /// </summary>
         public Image<Bgr, byte> SourceImageRepresentative => _sourceImageRepresentative;
 
+        public List<VectorOfPointF> AllCorners => _allCorners;
+
         /// <summary>
         /// 畫上角點標記的影像。
         /// </summary>
