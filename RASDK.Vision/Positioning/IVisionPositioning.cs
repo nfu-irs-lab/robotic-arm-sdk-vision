@@ -18,6 +18,6 @@ namespace RASDK.Vision.Positioning
         /// <param name="pixelY"></param>
         /// <param name="armX"></param>
         /// <param name="armY"></param>
-        void ImageToWorld(int pixelX, int pixelY, out double armX, out double armY);
+        void ImageToWorld(int pixelX, int pixelY, out double armX, out double armY, double timeout);
     }
 }
