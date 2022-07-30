@@ -147,27 +147,17 @@ namespace RASDK.Vision
             return outImg;
         }
 
-        /// <summary>
-        /// 讀取影像並執行相機標定。
-        /// </summary>
-        /// <param name="cameraMatrix">相機內參數矩陣。</param>
-        /// <param name="distortionCoeffs">相機畸變參數。</param>
-        /// <param name="rotationVectors">所有影像的旋轉向量。</param>
-        /// <param name="translationVectors">所有影像的平移向量。</param>
-        /// <returns>重投影誤差</returns>
-        public double Run(out Matrix<double> cameraMatrix,
+        public double Run(List<Image<Bgr, byte>> images,
+                          out Matrix<double> cameraMatrix,
                           out Matrix<double> distortionCoeffs,
                           out VectorOfDouble[] rotationVectors,
                           out VectorOfDouble[] translationVectors,
                           bool reverseImagePoints = false)
         {
-            var selectedImagePaths = SelectImagePaths();
-            _imageCount = selectedImagePaths.Length;
-
             _allCorners.Clear();
-            for (int i = 0; i < _imageCount; i++)
+            for (int i = 0; i < images.Count; i++)
             {
-                var sourceImage = ReadImage(selectedImagePaths[i]);
+                var sourceImage = images[i].Clone();
                 var grayImage = sourceImage.Convert<Gray, byte>();
                 var corners = FindCorners(grayImage, _patternSize);
                 _allCorners.Add(corners);
@@ -184,6 +174,37 @@ namespace RASDK.Vision
             rotationVectors = _rotationVectors;
             translationVectors = _translationVectors;
 
+            return error;
+        }
+
+        /// <summary>
+        /// 讀取影像並執行相機標定。
+        /// </summary>
+        /// <param name="cameraMatrix">相機內參數矩陣。</param>
+        /// <param name="distortionCoeffs">相機畸變參數。</param>
+        /// <param name="rotationVectors">所有影像的旋轉向量。</param>
+        /// <param name="translationVectors">所有影像的平移向量。</param>
+        /// <returns>重投影誤差</returns>
+        public double Run(out Matrix<double> cameraMatrix,
+                          out Matrix<double> distortionCoeffs,
+                          out VectorOfDouble[] rotationVectors,
+                          out VectorOfDouble[] translationVectors,
+                          bool reverseImagePoints = false)
+        {
+            var selectedImagePaths = SelectImagePaths();
+
+            var images = new List<Image<Bgr, byte>>();
+            foreach (var path in selectedImagePaths)
+            {
+                images.Add(new Image<Bgr, byte>(path));
+            }
+
+            var error = Run(images,
+                            out cameraMatrix,
+                            out distortionCoeffs,
+                            out rotationVectors,
+                            out translationVectors,
+                            reverseImagePoints);
             return error;
         }
 
