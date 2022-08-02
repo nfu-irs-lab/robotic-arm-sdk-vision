@@ -81,6 +81,11 @@ namespace RASDK.Vision
         }
 
         /// <summary>
+        /// 定位板內角點數量尺寸。
+        /// </summary>
+        public Size PatternSize => _patternSize;
+
+        /// <summary>
         /// 相機內參數矩陣。
         /// </summary>
         public Matrix<double> CameraMatrix => _cameraMatrix;
@@ -147,6 +152,16 @@ namespace RASDK.Vision
             return outImg;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="images"></param>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distortionCoeffs"></param>
+        /// <param name="rotationVectors"></param>
+        /// <param name="translationVectors"></param>
+        /// <param name="reverseImagePoints"></param>
+        /// <returns>重投影誤差。</returns>
         public double Run(List<Image<Bgr, byte>> images,
                           out Matrix<double> cameraMatrix,
                           out Matrix<double> distortionCoeffs,
@@ -185,7 +200,7 @@ namespace RASDK.Vision
         /// <param name="distortionCoeffs">相機畸變參數。</param>
         /// <param name="rotationVectors">所有影像的旋轉向量。</param>
         /// <param name="translationVectors">所有影像的平移向量。</param>
-        /// <returns>重投影誤差</returns>
+        /// <returns>重投影誤差。</returns>
         public double Run(out Matrix<double> cameraMatrix,
                           out Matrix<double> distortionCoeffs,
                           out VectorOfDouble[] rotationVectors,
@@ -215,7 +230,7 @@ namespace RASDK.Vision
         /// <param name="image"></param>
         /// <param name="patternSize"></param>
         /// <returns>角點</returns>
-        private VectorOfPointF FindCorners(Image<Gray, byte> image, Size patternSize)
+        public VectorOfPointF FindCorners(Image<Gray, byte> image, Size patternSize)
         {
             var corners = new VectorOfPointF();
 

@@ -125,6 +125,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="IDS\PictureControl.Designer.cs" />
+    <Compile Include="Positioning\AdvancedHomography.cs" />
     <Compile Include="Positioning\CCIA.cs" />
     <Compile Include="Positioning\Homography.cs" />
     <Compile Include="Positioning\IVisionPositioning.cs" />
