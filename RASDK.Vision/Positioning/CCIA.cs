@@ -18,11 +18,6 @@ namespace RASDK.Vision.Positioning
     public class CCIA : IVisionPositioning
     {
         /// <summary>
-        /// 世界座標偏移。
-        /// </summary>
-        public PointF WorldOffset = new PointF(0, 0);
-
-        /// <summary>
         /// 反轉X軸。
         /// </summary>
         public bool InvertedX = false;
@@ -35,6 +30,8 @@ namespace RASDK.Vision.Positioning
         /// </remarks>
         public bool InvertedY = true;
 
+        public double InterativeTimeout = 1.5;
+
         public double BreakPixelError = 0.25;
 
         private readonly CameraParameter _cameraParameter;
@@ -44,7 +41,9 @@ namespace RASDK.Vision.Positioning
         private readonly TransferFunctionOfVirtualCheckBoardToWorld _transferFunctionOfVirtualCheckBoardToWorld;
 
         private readonly Timer _interativeTimer;
+
         private double _allowablePixelError;
+
         private double _interativeTimerCount = 0;
 
         /// <summary>
@@ -70,6 +69,8 @@ namespace RASDK.Vision.Positioning
             _interativeTimer = new Timer(100);
             _interativeTimer.Elapsed += (s, e) => { _interativeTimerCount += 0.1; };
             _interativeTimer.Stop();
+
+            WorldOffset = new PointF(0, 0);
         }
 
         /// <summary>
@@ -88,19 +89,24 @@ namespace RASDK.Vision.Positioning
                                                                         out double armX,
                                                                         out double armY);
 
+        /// <summary>
+        /// 世界座標偏移。
+        /// </summary>
+        public PointF WorldOffset { get; set; }
+
         public double AllowableError
         {
             get => _allowablePixelError;
             set => _allowablePixelError = value;
         }
 
-        public PointF ImageToWorld(Point pixel, double timeout = 1.5)
+        public PointF ImageToWorld(PointF pixel)
         {
-            ImageToWorld(pixel.X, pixel.Y, out var worldX, out var worldY, timeout);
+            ImageToWorld((double)pixel.X, (double)pixel.Y, out var worldX, out var worldY);
             return new PointF((float)worldX, (float)worldY);
         }
 
-        public void ImageToWorld(int pixelX, int pixelY, out double worldX, out double worldY, double timeout = 1.5)
+        public void ImageToWorld(double pixelX, double pixelY, out double worldX, out double worldY)
         {
             // 給定一個預測虛擬定位板座標。
             double virtualCheckBoardX = 0;
@@ -113,7 +119,7 @@ namespace RASDK.Vision.Positioning
 
             _interativeTimerCount = 0;
             _interativeTimer.Start();
-            while (_interativeTimerCount < timeout)
+            while (_interativeTimerCount < InterativeTimeout)
             {
                 acceptable = ImageToWorldInterative(_cameraParameter,
                                                     pixelX,
