@@ -155,7 +155,8 @@ namespace RASDK.Vision
                           bool reverseImagePoints = false)
         {
             _allCorners.Clear();
-            for (int i = 0; i < images.Count; i++)
+            _imageCount = images.Count;
+            for (int i = 0; i < _imageCount; i++)
             {
                 var sourceImage = images[i].Clone();
                 var grayImage = sourceImage.Convert<Gray, byte>();
