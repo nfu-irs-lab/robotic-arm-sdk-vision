@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aruco.cs" />
     <Compile Include="CameraCalibration.cs" />
     <Compile Include="IDS\CameraChoose.cs">
       <SubType>Form</SubType>
