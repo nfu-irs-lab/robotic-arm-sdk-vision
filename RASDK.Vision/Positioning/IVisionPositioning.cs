@@ -3,21 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace RASDK.Vision.Positioning
 {
     /// <summary>
-    /// RASDK.Vision positioning interface.
+    /// Vision positioning interface.
     /// </summary>
     public interface IVisionPositioning
     {
         /// <summary>
-        /// Get point of arm by pixel of image.
+        /// 世界座標偏移。
+        /// </summary>
+        PointF WorldOffset { get; set; }
+
+        /// <summary>
+        /// Get point of world by pixel of image.
         /// </summary>
         /// <param name="pixelX"></param>
         /// <param name="pixelY"></param>
-        /// <param name="armX"></param>
-        /// <param name="armY"></param>
-        void ImageToWorld(int pixelX, int pixelY, out double armX, out double armY);
+        /// <param name="worldX"></param>
+        /// <param name="worldY"></param>
+        void ImageToWorld(double pixelX, double pixelY, out double worldX, out double worldY);
+
+        /// <summary>
+        /// Get point of world by pixel of image.
+        /// </summary>
+        /// <param name="pixel"></param>
+        /// <returns>The point of world.</returns>
+        PointF ImageToWorld(PointF pixel);
     }
 }

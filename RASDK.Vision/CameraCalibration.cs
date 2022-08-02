@@ -81,6 +81,11 @@ namespace RASDK.Vision
         }
 
         /// <summary>
+        /// 定位板內角點數量尺寸。
+        /// </summary>
+        public Size PatternSize => _patternSize;
+
+        /// <summary>
         /// 相機內參數矩陣。
         /// </summary>
         public Matrix<double> CameraMatrix => _cameraMatrix;
@@ -148,26 +153,27 @@ namespace RASDK.Vision
         }
 
         /// <summary>
-        /// 讀取影像並執行相機標定。
+        ///
         /// </summary>
-        /// <param name="cameraMatrix">相機內參數矩陣。</param>
-        /// <param name="distortionCoeffs">相機畸變參數。</param>
-        /// <param name="rotationVectors">所有影像的旋轉向量。</param>
-        /// <param name="translationVectors">所有影像的平移向量。</param>
-        /// <returns>重投影誤差</returns>
-        public double Run(out Matrix<double> cameraMatrix,
+        /// <param name="images"></param>
+        /// <param name="cameraMatrix"></param>
+        /// <param name="distortionCoeffs"></param>
+        /// <param name="rotationVectors"></param>
+        /// <param name="translationVectors"></param>
+        /// <param name="reverseImagePoints"></param>
+        /// <returns>重投影誤差。</returns>
+        public double Run(List<Image<Bgr, byte>> images,
+                          out Matrix<double> cameraMatrix,
                           out Matrix<double> distortionCoeffs,
                           out VectorOfDouble[] rotationVectors,
                           out VectorOfDouble[] translationVectors,
                           bool reverseImagePoints = false)
         {
-            var selectedImagePaths = SelectImagePaths();
-            _imageCount = selectedImagePaths.Length;
-
             _allCorners.Clear();
+            _imageCount = images.Count;
             for (int i = 0; i < _imageCount; i++)
             {
-                var sourceImage = ReadImage(selectedImagePaths[i]);
+                var sourceImage = images[i].Clone();
                 var grayImage = sourceImage.Convert<Gray, byte>();
                 var corners = FindCorners(grayImage, _patternSize);
                 _allCorners.Add(corners);
@@ -188,12 +194,43 @@ namespace RASDK.Vision
         }
 
         /// <summary>
+        /// 讀取影像並執行相機標定。
+        /// </summary>
+        /// <param name="cameraMatrix">相機內參數矩陣。</param>
+        /// <param name="distortionCoeffs">相機畸變參數。</param>
+        /// <param name="rotationVectors">所有影像的旋轉向量。</param>
+        /// <param name="translationVectors">所有影像的平移向量。</param>
+        /// <returns>重投影誤差。</returns>
+        public double Run(out Matrix<double> cameraMatrix,
+                          out Matrix<double> distortionCoeffs,
+                          out VectorOfDouble[] rotationVectors,
+                          out VectorOfDouble[] translationVectors,
+                          bool reverseImagePoints = false)
+        {
+            var selectedImagePaths = SelectImagePaths();
+
+            var images = new List<Image<Bgr, byte>>();
+            foreach (var path in selectedImagePaths)
+            {
+                images.Add(new Image<Bgr, byte>(path));
+            }
+
+            var error = Run(images,
+                            out cameraMatrix,
+                            out distortionCoeffs,
+                            out rotationVectors,
+                            out translationVectors,
+                            reverseImagePoints);
+            return error;
+        }
+
+        /// <summary>
         /// 找定位板內角點。
         /// </summary>
         /// <param name="image"></param>
         /// <param name="patternSize"></param>
         /// <returns>角點</returns>
-        private VectorOfPointF FindCorners(Image<Gray, byte> image, Size patternSize)
+        public VectorOfPointF FindCorners(Image<Gray, byte> image, Size patternSize)
         {
             var corners = new VectorOfPointF();
 
