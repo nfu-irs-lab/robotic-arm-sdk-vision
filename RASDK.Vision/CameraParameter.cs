@@ -26,8 +26,8 @@ namespace RASDK.Vision
                                double fY,
                                double skew,
                                Matrix<double> distrotionCoeffs,
-                               VectorOfDouble rotationVectors,
-                               VectorOfDouble translationVectors)
+                               VectorOfDouble rotationVector,
+                               VectorOfDouble translationVector)
         {
             _intrinsicMatrix = new Matrix<double>(3, 3);
             _intrinsicMatrix.Data[0, 0] = fX;
@@ -43,19 +43,19 @@ namespace RASDK.Vision
             _intrinsicMatrix.Data[2, 2] = 1;
 
             _distortionCoefficients = distrotionCoeffs;
-            RotationVector = rotationVectors;
-            TranslationVector = translationVectors;
+            RotationVector = rotationVector;
+            TranslationVector = translationVector;
         }
 
         public CameraParameter(Matrix<double> intrinsicMatrix,
                                Matrix<double> distrotionCoeffs,
-                               VectorOfDouble rotationVectors,
-                               VectorOfDouble translationVectors)
+                               VectorOfDouble rotationVector,
+                               VectorOfDouble translationVector)
         {
             _intrinsicMatrix = intrinsicMatrix;
             _distortionCoefficients = distrotionCoeffs;
-            RotationVector = rotationVectors;
-            TranslationVector = translationVectors;
+            RotationVector = rotationVector;
+            TranslationVector = translationVector;
         }
 
         /// <summary>
