@@ -160,7 +160,7 @@ namespace RASDK.Vision.Positioning
             cornersArray[((patternSize.Height - 1) * patternSize.Width) + patternSize.Width - 1]
             };
 
-            return ImagePoints;
+            return imagePoints;
         }
     }
 }

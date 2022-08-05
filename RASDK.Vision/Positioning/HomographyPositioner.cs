@@ -119,6 +119,11 @@ namespace RASDK.Vision.Positioning
 
         public void SaveToCsv(string filename = "homography_matrix.csv")
         {
+            if (System.IO.File.Exists(filename))
+            {
+                System.IO.File.Delete(filename);
+            }
+
             var csvData = new List<List<string>>();
             for (int r = 0; r < _homographyMatrix.Rows; r++)
             {

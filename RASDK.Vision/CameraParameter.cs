@@ -141,6 +141,11 @@ namespace RASDK.Vision
 
         public void SaveToCsv(string filename = "camera_parameter.csv")
         {
+            if (System.IO.File.Exists(filename))
+            {
+                System.IO.File.Delete(filename);
+            }
+
             var dc = new List<string>() { "DistCoeffs" };
             for (int r = 0; r < _distortionCoefficients.Rows; r++)
             {
