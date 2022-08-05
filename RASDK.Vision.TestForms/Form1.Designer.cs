@@ -75,13 +75,10 @@ namespace RASDK.Vision.TestForms
             this.buttonSaveToEEPROM = new System.Windows.Forms.Button();
             this.buttonLoadParameterFromFile = new System.Windows.Forms.Button();
             this.buttonIdsCameraSetting = new System.Windows.Forms.Button();
-            this.pictureBoxIds = new System.Windows.Forms.PictureBox();
-            this.buttonIdsGetImage = new System.Windows.Forms.Button();
+            this.buttonIdsCapture = new System.Windows.Forms.Button();
             this.buttonIdsConnection = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.checkBoxDistort = new System.Windows.Forms.CheckBox();
-            this.pictureBoxCameraCalibratioinScale = new System.Windows.Forms.PictureBox();
-            this.pictureBoxCameraCalibratioin = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxCameraMatrix00 = new System.Windows.Forms.TextBox();
             this.textBoxCameraMatrix01 = new System.Windows.Forms.TextBox();
@@ -102,28 +99,33 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownCheckBoardY = new System.Windows.Forms.NumericUpDown();
             this.buttonCameraCalibrate = new System.Windows.Forms.Button();
             this.textBoxCorners = new System.Windows.Forms.TextBox();
-            this.textBoxMousePosition = new System.Windows.Forms.TextBox();
             this.textBoxCameraCalibrationError = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.radioButtonCCIA = new System.Windows.Forms.RadioButton();
-            this.radioButtonAdvHomography = new System.Windows.Forms.RadioButton();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.numericUpDownHWTLX = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownHWTLY = new System.Windows.Forms.NumericUpDown();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
+            this.numericUpDownHWBRY = new System.Windows.Forms.NumericUpDown();
             this.label21 = new System.Windows.Forms.Label();
-            this.numericUpDownHWTRX = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownHWBRX = new System.Windows.Forms.NumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
+            this.numericUpDownHWBLY = new System.Windows.Forms.NumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
+            this.numericUpDownHWBLX = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
             this.numericUpDownHWTRY = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
-            this.numericUpDownHWBLX = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownHWBLY = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownHWTRX = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownHWTLX = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownHWTLY = new System.Windows.Forms.NumericUpDown();
             this.label23 = new System.Windows.Forms.Label();
-            this.numericUpDownHWBRX = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownHWBRY = new System.Windows.Forms.NumericUpDown();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.radioButtonAdvHomography = new System.Windows.Forms.RadioButton();
+            this.radioButtonCCIA = new System.Windows.Forms.RadioButton();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.textBoxPixelPosition = new System.Windows.Forms.TextBox();
+            this.pictureBoxMain = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBoxSub = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTV3)).BeginInit();
@@ -150,26 +152,28 @@ namespace RASDK.Vision.TestForms
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIds)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioinScale)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioin)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardSideLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardY)).BeginInit();
             this.tabPage1.SuspendLayout();
-            this.groupBox8.SuspendLayout();
             this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBRY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBRX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBLY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBLX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTRY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTRX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTLX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTLY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTRX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTRY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBLX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBLY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBRX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBRY)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMain)).BeginInit();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSub)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -752,25 +756,24 @@ namespace RASDK.Vision.TestForms
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1123, 692);
+            this.tabControl1.Size = new System.Drawing.Size(834, 783);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.groupBox7);
             this.tabPage2.Controls.Add(this.buttonIdsCameraSetting);
-            this.tabPage2.Controls.Add(this.pictureBoxIds);
-            this.tabPage2.Controls.Add(this.buttonIdsGetImage);
+            this.tabPage2.Controls.Add(this.buttonIdsCapture);
             this.tabPage2.Controls.Add(this.buttonIdsConnection);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1115, 663);
+            this.tabPage2.Size = new System.Drawing.Size(826, 754);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "IDS Camera";
+            this.tabPage2.Text = "iDS Camera";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox7
@@ -837,25 +840,16 @@ namespace RASDK.Vision.TestForms
             this.buttonIdsCameraSetting.UseVisualStyleBackColor = true;
             this.buttonIdsCameraSetting.Click += new System.EventHandler(this.buttonIdsCameraSetting_Click);
             // 
-            // pictureBoxIds
+            // buttonIdsCapture
             // 
-            this.pictureBoxIds.Location = new System.Drawing.Point(259, 21);
-            this.pictureBoxIds.Name = "pictureBoxIds";
-            this.pictureBoxIds.Size = new System.Drawing.Size(628, 379);
-            this.pictureBoxIds.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxIds.TabIndex = 2;
-            this.pictureBoxIds.TabStop = false;
-            // 
-            // buttonIdsGetImage
-            // 
-            this.buttonIdsGetImage.Enabled = false;
-            this.buttonIdsGetImage.Location = new System.Drawing.Point(8, 48);
-            this.buttonIdsGetImage.Name = "buttonIdsGetImage";
-            this.buttonIdsGetImage.Size = new System.Drawing.Size(88, 36);
-            this.buttonIdsGetImage.TabIndex = 1;
-            this.buttonIdsGetImage.Text = "Get Image";
-            this.buttonIdsGetImage.UseVisualStyleBackColor = true;
-            this.buttonIdsGetImage.Click += new System.EventHandler(this.buttonIdsGetImage_Click);
+            this.buttonIdsCapture.Enabled = false;
+            this.buttonIdsCapture.Location = new System.Drawing.Point(8, 48);
+            this.buttonIdsCapture.Name = "buttonIdsCapture";
+            this.buttonIdsCapture.Size = new System.Drawing.Size(88, 36);
+            this.buttonIdsCapture.TabIndex = 1;
+            this.buttonIdsCapture.Text = "Capture";
+            this.buttonIdsCapture.UseVisualStyleBackColor = true;
+            this.buttonIdsCapture.Click += new System.EventHandler(this.buttonIdsGetImage_Click);
             // 
             // buttonIdsConnection
             // 
@@ -870,18 +864,15 @@ namespace RASDK.Vision.TestForms
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.checkBoxDistort);
-            this.tabPage3.Controls.Add(this.pictureBoxCameraCalibratioinScale);
-            this.tabPage3.Controls.Add(this.pictureBoxCameraCalibratioin);
             this.tabPage3.Controls.Add(this.tableLayoutPanel2);
             this.tabPage3.Controls.Add(this.label17);
             this.tabPage3.Controls.Add(this.tableLayoutPanel1);
             this.tabPage3.Controls.Add(this.buttonCameraCalibrate);
             this.tabPage3.Controls.Add(this.textBoxCorners);
-            this.tabPage3.Controls.Add(this.textBoxMousePosition);
             this.tabPage3.Controls.Add(this.textBoxCameraCalibrationError);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1115, 663);
+            this.tabPage3.Size = new System.Drawing.Size(826, 754);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Camera Calibration";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -896,25 +887,6 @@ namespace RASDK.Vision.TestForms
             this.checkBoxDistort.Text = "Distort";
             this.checkBoxDistort.UseVisualStyleBackColor = true;
             this.checkBoxDistort.CheckedChanged += new System.EventHandler(this.checkBoxDistort_CheckedChanged);
-            // 
-            // pictureBoxCameraCalibratioinScale
-            // 
-            this.pictureBoxCameraCalibratioinScale.Location = new System.Drawing.Point(867, 408);
-            this.pictureBoxCameraCalibratioinScale.Name = "pictureBoxCameraCalibratioinScale";
-            this.pictureBoxCameraCalibratioinScale.Size = new System.Drawing.Size(100, 100);
-            this.pictureBoxCameraCalibratioinScale.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxCameraCalibratioinScale.TabIndex = 7;
-            this.pictureBoxCameraCalibratioinScale.TabStop = false;
-            // 
-            // pictureBoxCameraCalibratioin
-            // 
-            this.pictureBoxCameraCalibratioin.Location = new System.Drawing.Point(440, 8);
-            this.pictureBoxCameraCalibratioin.Name = "pictureBoxCameraCalibratioin";
-            this.pictureBoxCameraCalibratioin.Size = new System.Drawing.Size(527, 394);
-            this.pictureBoxCameraCalibratioin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxCameraCalibratioin.TabIndex = 6;
-            this.pictureBoxCameraCalibratioin.TabStop = false;
-            this.pictureBoxCameraCalibratioin.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxCameraCalibratioin_MouseMove);
             // 
             // tableLayoutPanel2
             // 
@@ -931,19 +903,19 @@ namespace RASDK.Vision.TestForms
             this.tableLayoutPanel2.Controls.Add(this.textBoxCameraMatrix20, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.textBoxCameraMatrix21, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.textBoxCameraMatrix22, 2, 2);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(8, 175);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(65, 593);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 3;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(290, 190);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(290, 147);
             this.tableLayoutPanel2.TabIndex = 4;
             // 
             // textBoxCameraMatrix00
             // 
             this.textBoxCameraMatrix00.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraMatrix00.Location = new System.Drawing.Point(3, 19);
+            this.textBoxCameraMatrix00.Location = new System.Drawing.Point(3, 11);
             this.textBoxCameraMatrix00.Name = "textBoxCameraMatrix00";
             this.textBoxCameraMatrix00.ReadOnly = true;
             this.textBoxCameraMatrix00.Size = new System.Drawing.Size(90, 25);
@@ -952,7 +924,7 @@ namespace RASDK.Vision.TestForms
             // textBoxCameraMatrix01
             // 
             this.textBoxCameraMatrix01.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraMatrix01.Location = new System.Drawing.Point(99, 19);
+            this.textBoxCameraMatrix01.Location = new System.Drawing.Point(99, 11);
             this.textBoxCameraMatrix01.Name = "textBoxCameraMatrix01";
             this.textBoxCameraMatrix01.ReadOnly = true;
             this.textBoxCameraMatrix01.Size = new System.Drawing.Size(90, 25);
@@ -961,7 +933,7 @@ namespace RASDK.Vision.TestForms
             // textBoxCameraMatrix02
             // 
             this.textBoxCameraMatrix02.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraMatrix02.Location = new System.Drawing.Point(195, 19);
+            this.textBoxCameraMatrix02.Location = new System.Drawing.Point(195, 11);
             this.textBoxCameraMatrix02.Name = "textBoxCameraMatrix02";
             this.textBoxCameraMatrix02.ReadOnly = true;
             this.textBoxCameraMatrix02.Size = new System.Drawing.Size(92, 25);
@@ -970,7 +942,7 @@ namespace RASDK.Vision.TestForms
             // textBoxCameraMatrix10
             // 
             this.textBoxCameraMatrix10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraMatrix10.Location = new System.Drawing.Point(3, 82);
+            this.textBoxCameraMatrix10.Location = new System.Drawing.Point(3, 59);
             this.textBoxCameraMatrix10.Name = "textBoxCameraMatrix10";
             this.textBoxCameraMatrix10.ReadOnly = true;
             this.textBoxCameraMatrix10.Size = new System.Drawing.Size(90, 25);
@@ -979,7 +951,7 @@ namespace RASDK.Vision.TestForms
             // textBoxCameraMatrix11
             // 
             this.textBoxCameraMatrix11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraMatrix11.Location = new System.Drawing.Point(99, 82);
+            this.textBoxCameraMatrix11.Location = new System.Drawing.Point(99, 59);
             this.textBoxCameraMatrix11.Name = "textBoxCameraMatrix11";
             this.textBoxCameraMatrix11.ReadOnly = true;
             this.textBoxCameraMatrix11.Size = new System.Drawing.Size(90, 25);
@@ -988,7 +960,7 @@ namespace RASDK.Vision.TestForms
             // textBoxCameraMatrix12
             // 
             this.textBoxCameraMatrix12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraMatrix12.Location = new System.Drawing.Point(195, 82);
+            this.textBoxCameraMatrix12.Location = new System.Drawing.Point(195, 59);
             this.textBoxCameraMatrix12.Name = "textBoxCameraMatrix12";
             this.textBoxCameraMatrix12.ReadOnly = true;
             this.textBoxCameraMatrix12.Size = new System.Drawing.Size(92, 25);
@@ -997,7 +969,7 @@ namespace RASDK.Vision.TestForms
             // textBoxCameraMatrix20
             // 
             this.textBoxCameraMatrix20.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraMatrix20.Location = new System.Drawing.Point(3, 145);
+            this.textBoxCameraMatrix20.Location = new System.Drawing.Point(3, 109);
             this.textBoxCameraMatrix20.Name = "textBoxCameraMatrix20";
             this.textBoxCameraMatrix20.ReadOnly = true;
             this.textBoxCameraMatrix20.Size = new System.Drawing.Size(90, 25);
@@ -1006,7 +978,7 @@ namespace RASDK.Vision.TestForms
             // textBoxCameraMatrix21
             // 
             this.textBoxCameraMatrix21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraMatrix21.Location = new System.Drawing.Point(99, 145);
+            this.textBoxCameraMatrix21.Location = new System.Drawing.Point(99, 109);
             this.textBoxCameraMatrix21.Name = "textBoxCameraMatrix21";
             this.textBoxCameraMatrix21.ReadOnly = true;
             this.textBoxCameraMatrix21.Size = new System.Drawing.Size(90, 25);
@@ -1015,7 +987,7 @@ namespace RASDK.Vision.TestForms
             // textBoxCameraMatrix22
             // 
             this.textBoxCameraMatrix22.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraMatrix22.Location = new System.Drawing.Point(195, 145);
+            this.textBoxCameraMatrix22.Location = new System.Drawing.Point(195, 109);
             this.textBoxCameraMatrix22.Name = "textBoxCameraMatrix22";
             this.textBoxCameraMatrix22.ReadOnly = true;
             this.textBoxCameraMatrix22.Size = new System.Drawing.Size(92, 25);
@@ -1024,7 +996,7 @@ namespace RASDK.Vision.TestForms
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(11, 380);
+            this.label17.Location = new System.Drawing.Point(120, 440);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(38, 15);
             this.label17.TabIndex = 2;
@@ -1146,31 +1118,21 @@ namespace RASDK.Vision.TestForms
             // textBoxCorners
             // 
             this.textBoxCorners.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCorners.Location = new System.Drawing.Point(8, 426);
+            this.textBoxCorners.Location = new System.Drawing.Point(459, 6);
             this.textBoxCorners.Multiline = true;
             this.textBoxCorners.Name = "textBoxCorners";
             this.textBoxCorners.ReadOnly = true;
             this.textBoxCorners.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxCorners.Size = new System.Drawing.Size(413, 229);
+            this.textBoxCorners.Size = new System.Drawing.Size(364, 743);
             this.textBoxCorners.TabIndex = 5;
-            // 
-            // textBoxMousePosition
-            // 
-            this.textBoxMousePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxMousePosition.Location = new System.Drawing.Point(600, 408);
-            this.textBoxMousePosition.Name = "textBoxMousePosition";
-            this.textBoxMousePosition.ReadOnly = true;
-            this.textBoxMousePosition.Size = new System.Drawing.Size(261, 25);
-            this.textBoxMousePosition.TabIndex = 5;
-            this.textBoxMousePosition.Text = "--";
             // 
             // textBoxCameraCalibrationError
             // 
             this.textBoxCameraCalibrationError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraCalibrationError.Location = new System.Drawing.Point(55, 380);
+            this.textBoxCameraCalibrationError.Location = new System.Drawing.Point(164, 437);
             this.textBoxCameraCalibrationError.Name = "textBoxCameraCalibrationError";
             this.textBoxCameraCalibrationError.ReadOnly = true;
-            this.textBoxCameraCalibrationError.Size = new System.Drawing.Size(118, 25);
+            this.textBoxCameraCalibrationError.Size = new System.Drawing.Size(95, 25);
             this.textBoxCameraCalibrationError.TabIndex = 5;
             this.textBoxCameraCalibrationError.Text = "--";
             // 
@@ -1184,53 +1146,10 @@ namespace RASDK.Vision.TestForms
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1115, 663);
+            this.tabPage1.Size = new System.Drawing.Size(826, 754);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Positioning";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(942, 526);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Homography";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.radioButtonAdvHomography);
-            this.groupBox8.Controls.Add(this.radioButtonCCIA);
-            this.groupBox8.Location = new System.Drawing.Point(684, 6);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(200, 308);
-            this.groupBox8.TabIndex = 2;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Method";
-            // 
-            // radioButtonCCIA
-            // 
-            this.radioButtonCCIA.AutoSize = true;
-            this.radioButtonCCIA.Location = new System.Drawing.Point(21, 25);
-            this.radioButtonCCIA.Name = "radioButtonCCIA";
-            this.radioButtonCCIA.Size = new System.Drawing.Size(61, 19);
-            this.radioButtonCCIA.TabIndex = 0;
-            this.radioButtonCCIA.Text = "CCIA";
-            this.radioButtonCCIA.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonAdvHomography
-            // 
-            this.radioButtonAdvHomography.AutoSize = true;
-            this.radioButtonAdvHomography.Checked = true;
-            this.radioButtonAdvHomography.Location = new System.Drawing.Point(21, 50);
-            this.radioButtonAdvHomography.Name = "radioButtonAdvHomography";
-            this.radioButtonAdvHomography.Size = new System.Drawing.Size(131, 19);
-            this.radioButtonAdvHomography.TabIndex = 0;
-            this.radioButtonAdvHomography.TabStop = true;
-            this.radioButtonAdvHomography.Text = "Adv-Homography";
-            this.radioButtonAdvHomography.UseVisualStyleBackColor = true;
             // 
             // groupBox9
             // 
@@ -1254,6 +1173,164 @@ namespace RASDK.Vision.TestForms
             this.groupBox9.TabIndex = 3;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Homography World Points";
+            // 
+            // numericUpDownHWBRY
+            // 
+            this.numericUpDownHWBRY.DecimalPlaces = 5;
+            this.numericUpDownHWBRY.Location = new System.Drawing.Point(231, 152);
+            this.numericUpDownHWBRY.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownHWBRY.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownHWBRY.Name = "numericUpDownHWBRY";
+            this.numericUpDownHWBRY.Size = new System.Drawing.Size(112, 25);
+            this.numericUpDownHWBRY.TabIndex = 0;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(20, 92);
+            this.label21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(65, 15);
+            this.label21.TabIndex = 1;
+            this.label21.Text = "Top Right";
+            // 
+            // numericUpDownHWBRX
+            // 
+            this.numericUpDownHWBRX.DecimalPlaces = 5;
+            this.numericUpDownHWBRX.Location = new System.Drawing.Point(105, 152);
+            this.numericUpDownHWBRX.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownHWBRX.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownHWBRX.Name = "numericUpDownHWBRX";
+            this.numericUpDownHWBRX.Size = new System.Drawing.Size(112, 25);
+            this.numericUpDownHWBRX.TabIndex = 0;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(144, 41);
+            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(17, 15);
+            this.label18.TabIndex = 1;
+            this.label18.Text = "X";
+            // 
+            // numericUpDownHWBLY
+            // 
+            this.numericUpDownHWBLY.DecimalPlaces = 5;
+            this.numericUpDownHWBLY.Location = new System.Drawing.Point(231, 121);
+            this.numericUpDownHWBLY.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownHWBLY.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownHWBLY.Name = "numericUpDownHWBLY";
+            this.numericUpDownHWBLY.Size = new System.Drawing.Size(112, 25);
+            this.numericUpDownHWBLY.TabIndex = 0;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(20, 61);
+            this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(58, 15);
+            this.label20.TabIndex = 1;
+            this.label20.Text = "Top Left";
+            // 
+            // numericUpDownHWBLX
+            // 
+            this.numericUpDownHWBLX.DecimalPlaces = 5;
+            this.numericUpDownHWBLX.Location = new System.Drawing.Point(105, 121);
+            this.numericUpDownHWBLX.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownHWBLX.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownHWBLX.Name = "numericUpDownHWBLX";
+            this.numericUpDownHWBLX.Size = new System.Drawing.Size(112, 25);
+            this.numericUpDownHWBLX.TabIndex = 0;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(273, 41);
+            this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(17, 15);
+            this.label19.TabIndex = 1;
+            this.label19.Text = "Y";
+            // 
+            // numericUpDownHWTRY
+            // 
+            this.numericUpDownHWTRY.DecimalPlaces = 5;
+            this.numericUpDownHWTRY.Location = new System.Drawing.Point(231, 90);
+            this.numericUpDownHWTRY.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownHWTRY.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownHWTRY.Name = "numericUpDownHWTRY";
+            this.numericUpDownHWTRY.Size = new System.Drawing.Size(112, 25);
+            this.numericUpDownHWTRY.TabIndex = 0;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(20, 123);
+            this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(77, 15);
+            this.label22.TabIndex = 1;
+            this.label22.Text = "Bottom Left";
+            // 
+            // numericUpDownHWTRX
+            // 
+            this.numericUpDownHWTRX.DecimalPlaces = 5;
+            this.numericUpDownHWTRX.Location = new System.Drawing.Point(105, 90);
+            this.numericUpDownHWTRX.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownHWTRX.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDownHWTRX.Name = "numericUpDownHWTRX";
+            this.numericUpDownHWTRX.Size = new System.Drawing.Size(112, 25);
+            this.numericUpDownHWTRX.TabIndex = 0;
             // 
             // numericUpDownHWTLX
             // 
@@ -1291,128 +1368,6 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownHWTLY.Size = new System.Drawing.Size(112, 25);
             this.numericUpDownHWTLY.TabIndex = 0;
             // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(144, 41);
-            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(17, 15);
-            this.label18.TabIndex = 1;
-            this.label18.Text = "X";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(273, 41);
-            this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(17, 15);
-            this.label19.TabIndex = 1;
-            this.label19.Text = "Y";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(20, 61);
-            this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(58, 15);
-            this.label20.TabIndex = 1;
-            this.label20.Text = "Top Left";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(20, 92);
-            this.label21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(65, 15);
-            this.label21.TabIndex = 1;
-            this.label21.Text = "Top Right";
-            // 
-            // numericUpDownHWTRX
-            // 
-            this.numericUpDownHWTRX.DecimalPlaces = 5;
-            this.numericUpDownHWTRX.Location = new System.Drawing.Point(105, 90);
-            this.numericUpDownHWTRX.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDownHWTRX.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownHWTRX.Name = "numericUpDownHWTRX";
-            this.numericUpDownHWTRX.Size = new System.Drawing.Size(112, 25);
-            this.numericUpDownHWTRX.TabIndex = 0;
-            // 
-            // numericUpDownHWTRY
-            // 
-            this.numericUpDownHWTRY.DecimalPlaces = 5;
-            this.numericUpDownHWTRY.Location = new System.Drawing.Point(231, 90);
-            this.numericUpDownHWTRY.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDownHWTRY.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownHWTRY.Name = "numericUpDownHWTRY";
-            this.numericUpDownHWTRY.Size = new System.Drawing.Size(112, 25);
-            this.numericUpDownHWTRY.TabIndex = 0;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(20, 123);
-            this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(77, 15);
-            this.label22.TabIndex = 1;
-            this.label22.Text = "Bottom Left";
-            // 
-            // numericUpDownHWBLX
-            // 
-            this.numericUpDownHWBLX.DecimalPlaces = 5;
-            this.numericUpDownHWBLX.Location = new System.Drawing.Point(105, 121);
-            this.numericUpDownHWBLX.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDownHWBLX.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownHWBLX.Name = "numericUpDownHWBLX";
-            this.numericUpDownHWBLX.Size = new System.Drawing.Size(112, 25);
-            this.numericUpDownHWBLX.TabIndex = 0;
-            // 
-            // numericUpDownHWBLY
-            // 
-            this.numericUpDownHWBLY.DecimalPlaces = 5;
-            this.numericUpDownHWBLY.Location = new System.Drawing.Point(231, 121);
-            this.numericUpDownHWBLY.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDownHWBLY.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownHWBLY.Name = "numericUpDownHWBLY";
-            this.numericUpDownHWBLY.Size = new System.Drawing.Size(112, 25);
-            this.numericUpDownHWBLY.TabIndex = 0;
-            // 
             // label23
             // 
             this.label23.AutoSize = true;
@@ -1423,48 +1378,125 @@ namespace RASDK.Vision.TestForms
             this.label23.TabIndex = 1;
             this.label23.Text = "Bottom Right";
             // 
-            // numericUpDownHWBRX
+            // groupBox8
             // 
-            this.numericUpDownHWBRX.DecimalPlaces = 5;
-            this.numericUpDownHWBRX.Location = new System.Drawing.Point(105, 152);
-            this.numericUpDownHWBRX.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDownHWBRX.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownHWBRX.Name = "numericUpDownHWBRX";
-            this.numericUpDownHWBRX.Size = new System.Drawing.Size(112, 25);
-            this.numericUpDownHWBRX.TabIndex = 0;
+            this.groupBox8.Controls.Add(this.radioButtonAdvHomography);
+            this.groupBox8.Controls.Add(this.radioButtonCCIA);
+            this.groupBox8.Location = new System.Drawing.Point(360, 318);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(200, 254);
+            this.groupBox8.TabIndex = 2;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Method";
             // 
-            // numericUpDownHWBRY
+            // radioButtonAdvHomography
             // 
-            this.numericUpDownHWBRY.DecimalPlaces = 5;
-            this.numericUpDownHWBRY.Location = new System.Drawing.Point(231, 152);
-            this.numericUpDownHWBRY.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDownHWBRY.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDownHWBRY.Name = "numericUpDownHWBRY";
-            this.numericUpDownHWBRY.Size = new System.Drawing.Size(112, 25);
-            this.numericUpDownHWBRY.TabIndex = 0;
+            this.radioButtonAdvHomography.AutoSize = true;
+            this.radioButtonAdvHomography.Checked = true;
+            this.radioButtonAdvHomography.Location = new System.Drawing.Point(21, 50);
+            this.radioButtonAdvHomography.Name = "radioButtonAdvHomography";
+            this.radioButtonAdvHomography.Size = new System.Drawing.Size(131, 19);
+            this.radioButtonAdvHomography.TabIndex = 0;
+            this.radioButtonAdvHomography.TabStop = true;
+            this.radioButtonAdvHomography.Text = "Adv-Homography";
+            this.radioButtonAdvHomography.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonCCIA
+            // 
+            this.radioButtonCCIA.AutoSize = true;
+            this.radioButtonCCIA.Location = new System.Drawing.Point(21, 25);
+            this.radioButtonCCIA.Name = "radioButtonCCIA";
+            this.radioButtonCCIA.Size = new System.Drawing.Size(61, 19);
+            this.radioButtonCCIA.TabIndex = 0;
+            this.radioButtonCCIA.Text = "CCIA";
+            this.radioButtonCCIA.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(826, 754);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Homography";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // textBoxPixelPosition
+            // 
+            this.textBoxPixelPosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxPixelPosition.Location = new System.Drawing.Point(421, 256);
+            this.textBoxPixelPosition.Name = "textBoxPixelPosition";
+            this.textBoxPixelPosition.ReadOnly = true;
+            this.textBoxPixelPosition.Size = new System.Drawing.Size(250, 25);
+            this.textBoxPixelPosition.TabIndex = 5;
+            // 
+            // pictureBoxMain
+            // 
+            this.pictureBoxMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxMain.Location = new System.Drawing.Point(3, 3);
+            this.pictureBoxMain.Name = "pictureBoxMain";
+            this.pictureBoxMain.Size = new System.Drawing.Size(677, 385);
+            this.pictureBoxMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxMain.TabIndex = 2;
+            this.pictureBoxMain.TabStop = false;
+            this.pictureBoxMain.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxMain_MouseMove);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.tableLayoutPanel3.Controls.Add(this.tabControl1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1529, 789);
+            this.tableLayoutPanel3.TabIndex = 3;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.Controls.Add(this.pictureBoxMain, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 1);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(843, 3);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(683, 783);
+            this.tableLayoutPanel4.TabIndex = 9;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.pictureBoxSub);
+            this.panel1.Controls.Add(this.textBoxPixelPosition);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 394);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(677, 386);
+            this.panel1.TabIndex = 3;
+            // 
+            // pictureBoxSub
+            // 
+            this.pictureBoxSub.Location = new System.Drawing.Point(421, 0);
+            this.pictureBoxSub.Name = "pictureBoxSub";
+            this.pictureBoxSub.Size = new System.Drawing.Size(250, 250);
+            this.pictureBoxSub.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxSub.TabIndex = 0;
+            this.pictureBoxSub.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1123, 692);
-            this.Controls.Add(this.tabControl1);
+            this.ClientSize = new System.Drawing.Size(1529, 789);
+            this.Controls.Add(this.tableLayoutPanel3);
             this.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.Name = "Form1";
             this.Text = "RASDK.Vision.TestForm";
@@ -1497,11 +1529,8 @@ namespace RASDK.Vision.TestForms
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIds)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioinScale)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCameraCalibratioin)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -1510,18 +1539,24 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardSideLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownCheckBoardY)).EndInit();
             this.tabPage1.ResumeLayout(false);
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBRY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBRX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBLY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBLX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTRY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTRX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTLX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTLY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTRX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTRY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBLX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBLY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBRX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWBRY)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMain)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSub)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1569,8 +1604,8 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button buttonIdsConnection;
-        private System.Windows.Forms.PictureBox pictureBoxIds;
-        private System.Windows.Forms.Button buttonIdsGetImage;
+        private System.Windows.Forms.PictureBox pictureBoxMain;
+        private System.Windows.Forms.Button buttonIdsCapture;
         private System.Windows.Forms.Button buttonIdsCameraSetting;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button buttonCameraCalibrate;
@@ -1594,14 +1629,12 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.TextBox textBoxCameraCalibrationError;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button buttonPositioningCopy;
-        private System.Windows.Forms.PictureBox pictureBoxCameraCalibratioin;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Button buttonLoadFromEEPROM;
         private System.Windows.Forms.Button buttonSaveToFile;
         private System.Windows.Forms.Button buttonSaveToEEPROM;
         private System.Windows.Forms.Button buttonLoadParameterFromFile;
-        private System.Windows.Forms.TextBox textBoxMousePosition;
-        private System.Windows.Forms.PictureBox pictureBoxCameraCalibratioinScale;
+        private System.Windows.Forms.TextBox textBoxPixelPosition;
         private System.Windows.Forms.CheckBox checkBoxDistort;
         private System.Windows.Forms.TextBox textBoxCorners;
         private System.Windows.Forms.TabPage tabPage4;
@@ -1623,6 +1656,10 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.NumericUpDown numericUpDownHWTLX;
         private System.Windows.Forms.NumericUpDown numericUpDownHWTLY;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox pictureBoxSub;
     }
 }
 
