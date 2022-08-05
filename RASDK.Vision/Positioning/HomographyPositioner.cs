@@ -74,6 +74,21 @@ namespace RASDK.Vision.Positioning
 
         public PointF WorldOffset { get; set; }
 
+        public static HomographyPositioner LoadFromCsv(string filename = "homography_matrix.csv")
+        {
+            var csvData = RASDK.Basic.Csv.Read(filename);
+
+            var homographyMatrix = new Matrix<double>(3, 3);
+            for (int r = 0; r < homographyMatrix.Rows; r++)
+            {
+                homographyMatrix[r, 0] = double.Parse(csvData[r][0]);
+                homographyMatrix[r, 1] = double.Parse(csvData[r][1]);
+                homographyMatrix[r, 2] = double.Parse(csvData[r][2]);
+            }
+
+            return new HomographyPositioner(homographyMatrix);
+        }
+
         public void ImageToWorld(double pixelX, double pixelY, out double worldX, out double worldY)
         {
             var world = ImageToWorld(new PointF((float)pixelX, (float)pixelY));
@@ -100,6 +115,22 @@ namespace RASDK.Vision.Positioning
             worldPoints[0].Y += WorldOffset.Y;
 
             return worldPoints[0];
+        }
+
+        public void SaveToCsv(string filename = "homography_matrix.csv")
+        {
+            var csvData = new List<List<string>>();
+            for (int r = 0; r < _homographyMatrix.Rows; r++)
+            {
+                var row = new List<string>()
+                {
+                    _homographyMatrix[r,0].ToString(),
+                    _homographyMatrix[r,1].ToString(),
+                    _homographyMatrix[r,2].ToString(),
+                };
+                csvData.Add(row);
+            }
+            RASDK.Basic.Csv.Write(filename, csvData);
         }
 
         private void UpdateHomographyMatrix(PointF[] imagePoints, PointF[] worldPoints)
