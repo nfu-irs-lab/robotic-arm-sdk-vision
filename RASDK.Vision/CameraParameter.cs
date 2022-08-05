@@ -107,5 +107,71 @@ namespace RASDK.Vision
                 CvInvoke.Rodrigues(value, RotationVector);
             }
         }
+
+        public static CameraParameter LoadFromCsv(string filename = "camera_parameter.csv")
+        {
+            var csvData = Basic.Csv.Read(filename);
+
+            var cx = double.Parse(csvData[0][1]);
+            var cy = double.Parse(csvData[1][1]);
+            var fx = double.Parse(csvData[2][1]);
+            var fy = double.Parse(csvData[3][1]);
+            var skew = double.Parse(csvData[4][1]);
+
+            var dc = new Matrix<double>(8, 1);
+            for (int i = 0; i < csvData[5].Count; i++)
+            {
+                dc.Data[i, 0] = double.Parse(csvData[5][i]);
+            }
+
+            var rv = new double[csvData[6].Count];
+            for (int i = 0; i < csvData[6].Count; i++)
+            {
+                rv[i] = double.Parse(csvData[6][i]);
+            }
+
+            var tv = new double[csvData[7].Count];
+            for (int i = 0; i < csvData[7].Count; i++)
+            {
+                tv[i] = double.Parse(csvData[7][i]);
+            }
+
+            return new CameraParameter(cx, cy, fx, fy, skew, dc, new VectorOfDouble(rv), new VectorOfDouble(tv));
+        }
+
+        public void SaveToCsv(string filename = "camera_parameter.csv")
+        {
+            var dc = new List<string>() { "DistCoeffs" };
+            for (int r = 0; r < _distortionCoefficients.Rows; r++)
+            {
+                dc.Add(_distortionCoefficients[r, 0].ToString() ?? "");
+            }
+
+            var rv = new List<string>() { "RotationVector" };
+            foreach (var v in RotationVector.ToArray())
+            {
+                rv.Add(v.ToString() ?? "");
+            }
+
+            var tv = new List<string>() { "TranslationVector" };
+            foreach (var v in TranslationVector.ToArray())
+            {
+                tv.Add(v.ToString() ?? "");
+            }
+
+            var csvData = new List<List<string>>()
+            {
+                new List<string>(){"cx",Cx.ToString()},
+                new List<string>(){"cy",Cy.ToString()},
+                new List<string>(){"fx",Fx.ToString()},
+                new List<string>(){"fy",Fy.ToString()},
+                new List<string>(){"skew",Skew.ToString()},
+                dc,
+                rv,
+                tv
+            };
+
+            Basic.Csv.Write(filename, csvData);
+        }
     }
 }
