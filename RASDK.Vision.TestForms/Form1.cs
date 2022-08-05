@@ -63,13 +63,38 @@ namespace RASDK.Vision.TestForms
                                          rv,
                                          tv);
 
-            var vp = new Vision.Positioning.CCIA(cp, 10)
+            RASDK.Vision.Positioning.IVisionPositioning vp;
+            if (radioButtonCCIA.Checked)
             {
-                InvertedX = false,
-                InvertedY = true,
-                WorldOffset = new PointF((float)numericUpDownOffsetX.Value,
-                                         (float)-numericUpDownOffsetY.Value)
-            };
+                vp = new Vision.Positioning.CCIA(cp, 10)
+                {
+                    InvertedX = false,
+                    InvertedY = true,
+                    WorldOffset = new PointF((float)numericUpDownOffsetX.Value,
+                                             (float)-numericUpDownOffsetY.Value)
+                };
+            }
+            else if (radioButtonAdvHomography.Checked)
+            {
+                //var cc = new CameraCalibration(new Size((int)numericUpDownCheckBoardX.Value, (int)numericUpDownCheckBoardY.Value), (float)numericUpDownCheckBoardSideLength.Value);
+                //    cc.Run(out _, out _, out _, out _);
+                var worldPoints = new PointF[]
+                {
+                    new PointF((float)numericUpDownHWTLX.Value, (float)numericUpDownHWTLY.Value),
+                    new PointF((float)numericUpDownHWTRX.Value, (float)numericUpDownHWTRY.Value),
+                    new PointF((float)numericUpDownHWBLX.Value, (float)numericUpDownHWBLY.Value),
+                    new PointF((float)numericUpDownHWBRX.Value, (float)numericUpDownHWBRY.Value)
+                };
+                vp = new Vision.Positioning.AdvancedHomographyPositioner(worldPoints,
+                                                                         _cameraCalibration);
+
+                var undistImg = _cameraCalibration.UndistortImage(_cameraCalibration.SourceImageRepresentative);
+                undistImg.Save("AdvancedHomography_undistort.jpg");
+            }
+            else
+            {
+                throw new Exception();
+            }
             vp.ImageToWorld((int)numericUpDownConvPX.Value,
                             (int)numericUpDownConvPY.Value,
                             out var ax,
@@ -176,6 +201,8 @@ namespace RASDK.Vision.TestForms
         private Matrix<double> _cameraMatrix;
         private Matrix<double> _distCoeffs;
 
+        private CameraCalibration _cameraCalibration;
+
         private void pictureBoxCameraCalibratioin_MouseMove(object sender, MouseEventArgs e)
         {
             if (pictureBoxCameraCalibratioin.Image == null)
@@ -249,9 +276,16 @@ namespace RASDK.Vision.TestForms
         private void buttonCameraCalibrate_Click(object sender, EventArgs e)
         {
             var checkBoardSize = new Size((int)numericUpDownCheckBoardX.Value, (int)numericUpDownCheckBoardY.Value);
-            var cc = new Vision.CameraCalibration(checkBoardSize, (float)numericUpDownCheckBoardSideLength.Value);
+            _cameraCalibration = new Vision.CameraCalibration(checkBoardSize, (float)numericUpDownCheckBoardSideLength.Value);
 
-            var error = cc.Run(out _cameraMatrix, out _distCoeffs, out var rvs, out var tvs);
+            var paths = SelectImagePaths();
+            var images = new List<Image<Bgr, byte>>();
+            foreach (var p in paths)
+            {
+                images.Add(new Image<Bgr, byte>(p));
+            }
+
+            var cp = _cameraCalibration.CalCameraParameter(images, out _cameraMatrix, out _distCoeffs, out var rvs, out var tvs, out var error);
 
             _rvec = rvs[0];
             _tvec = tvs[0];
@@ -274,16 +308,31 @@ namespace RASDK.Vision.TestForms
                 for (int col = 0; col < checkBoardSize.Width - 1; col++)
                 {
                     var index = row * (checkBoardSize.Width - 1) + col;
-                    var corner = cc.AllCorners[0].ToArray()[index];
+                    var corner = _cameraCalibration.AllCorners[0].ToArray()[index];
                     cornersText += $"[{row}-{col}] X:{Math.Round(corner.X)}, Y:{Math.Round(corner.Y)}\r\n";
                 }
                 cornersText += "\r\n";
             }
             textBoxCorners.Text = cornersText;
 
-            pictureBoxCameraCalibratioin.Image = cc.DrawCheckBoardImage(checkBoxDistort.Checked).ToBitmap();
+            pictureBoxCameraCalibratioin.Image = _cameraCalibration.DrawCheckBoardImage(checkBoxDistort.Checked).ToBitmap();
         }
 
         #endregion Camera Calibration
+
+        private string[] SelectImagePaths()
+        {
+            var dialog = new OpenFileDialog
+            {
+                Multiselect = true
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                return dialog.FileNames;
+            }
+
+            throw new Exception();
+        }
     }
 }

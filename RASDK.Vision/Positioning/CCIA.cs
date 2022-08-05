@@ -201,8 +201,8 @@ namespace RASDK.Vision.Positioning
 
             // 將預測虛擬定位板座標透過相機標定法來算出對應的預測像素座標。
             var forecastPixel = CvInvoke.ProjectPoints(new[] { objPoint },
-                                                       cameraParameter.RotationVectors,
-                                                       cameraParameter.TranslationVectors,
+                                                       cameraParameter.RotationVector,
+                                                       cameraParameter.TranslationVector,
                                                        cameraParameter.IntrinsicMatrix,
                                                        cameraParameter.DistortionCoefficients);
 
@@ -241,7 +241,7 @@ namespace RASDK.Vision.Positioning
 
         private void BasicApproximation(double errorX, double errorY, ref double vX, ref double vY)
         {
-            var kp = 0.3;
+            var kp = 0.03;
             vX += errorX * kp;
             vY += errorY * kp;
         }
