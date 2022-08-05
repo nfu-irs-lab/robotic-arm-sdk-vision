@@ -24,6 +24,7 @@ namespace RASDK.Vision.TestForms
         public Form1()
         {
             InitializeComponent();
+            //Application.Idle += UpdatePixelTracking;
             _messageHandler = new GeneralMessageHandler(new EmptyLogHandler());
         }
 
@@ -241,7 +242,10 @@ namespace RASDK.Vision.TestForms
             }
 
             textBoxMousePosition.Text = $"X: {pixelPoint.X}, Y: {pixelPoint.Y}";
+        }
 
+        private void UpdatePixelTracking(object sender, EventArgs args)
+        {
             //var scaledImg = new Bitmap(pictureBoxCameraCalibratioin.Image);
             //var cent = new Point(0, 0);
             //if (pixelPoint.X - 25 <= 0)
@@ -315,7 +319,17 @@ namespace RASDK.Vision.TestForms
             }
             textBoxCorners.Text = cornersText;
 
+            UpdatePictureBox();
+        }
+
+        private void UpdatePictureBox()
+        {
             pictureBoxCameraCalibratioin.Image = _cameraCalibration.DrawCheckBoardImage(checkBoxDistort.Checked).ToBitmap();
+        }
+
+        private void checkBoxDistort_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdatePictureBox();
         }
 
         #endregion Camera Calibration

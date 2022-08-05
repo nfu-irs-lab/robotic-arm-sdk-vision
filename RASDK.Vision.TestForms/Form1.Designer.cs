@@ -755,7 +755,7 @@ namespace RASDK.Vision.TestForms
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1006, 634);
+            this.tabControl1.Size = new System.Drawing.Size(1123, 692);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage2
@@ -768,7 +768,7 @@ namespace RASDK.Vision.TestForms
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(942, 526);
+            this.tabPage2.Size = new System.Drawing.Size(1115, 663);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "IDS Camera";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -881,7 +881,7 @@ namespace RASDK.Vision.TestForms
             this.tabPage3.Controls.Add(this.textBoxCameraCalibrationError);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(942, 526);
+            this.tabPage3.Size = new System.Drawing.Size(1115, 663);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Camera Calibration";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -889,16 +889,17 @@ namespace RASDK.Vision.TestForms
             // checkBoxDistort
             // 
             this.checkBoxDistort.AutoSize = true;
-            this.checkBoxDistort.Location = new System.Drawing.Point(190, 380);
+            this.checkBoxDistort.Location = new System.Drawing.Point(105, 149);
             this.checkBoxDistort.Name = "checkBoxDistort";
             this.checkBoxDistort.Size = new System.Drawing.Size(68, 19);
             this.checkBoxDistort.TabIndex = 8;
             this.checkBoxDistort.Text = "Distort";
             this.checkBoxDistort.UseVisualStyleBackColor = true;
+            this.checkBoxDistort.CheckedChanged += new System.EventHandler(this.checkBoxDistort_CheckedChanged);
             // 
             // pictureBoxCameraCalibratioinScale
             // 
-            this.pictureBoxCameraCalibratioinScale.Location = new System.Drawing.Point(772, 408);
+            this.pictureBoxCameraCalibratioinScale.Location = new System.Drawing.Point(867, 408);
             this.pictureBoxCameraCalibratioinScale.Name = "pictureBoxCameraCalibratioinScale";
             this.pictureBoxCameraCalibratioinScale.Size = new System.Drawing.Size(100, 100);
             this.pictureBoxCameraCalibratioinScale.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -907,7 +908,7 @@ namespace RASDK.Vision.TestForms
             // 
             // pictureBoxCameraCalibratioin
             // 
-            this.pictureBoxCameraCalibratioin.Location = new System.Drawing.Point(345, 8);
+            this.pictureBoxCameraCalibratioin.Location = new System.Drawing.Point(440, 8);
             this.pictureBoxCameraCalibratioin.Name = "pictureBoxCameraCalibratioin";
             this.pictureBoxCameraCalibratioin.Size = new System.Drawing.Size(527, 394);
             this.pictureBoxCameraCalibratioin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1145,31 +1146,31 @@ namespace RASDK.Vision.TestForms
             // textBoxCorners
             // 
             this.textBoxCorners.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCorners.Location = new System.Drawing.Point(8, 408);
+            this.textBoxCorners.Location = new System.Drawing.Point(8, 426);
             this.textBoxCorners.Multiline = true;
             this.textBoxCorners.Name = "textBoxCorners";
             this.textBoxCorners.ReadOnly = true;
             this.textBoxCorners.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxCorners.Size = new System.Drawing.Size(295, 100);
+            this.textBoxCorners.Size = new System.Drawing.Size(413, 229);
             this.textBoxCorners.TabIndex = 5;
             // 
             // textBoxMousePosition
             // 
             this.textBoxMousePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxMousePosition.Location = new System.Drawing.Point(345, 408);
+            this.textBoxMousePosition.Location = new System.Drawing.Point(600, 408);
             this.textBoxMousePosition.Name = "textBoxMousePosition";
             this.textBoxMousePosition.ReadOnly = true;
-            this.textBoxMousePosition.Size = new System.Drawing.Size(258, 25);
+            this.textBoxMousePosition.Size = new System.Drawing.Size(261, 25);
             this.textBoxMousePosition.TabIndex = 5;
             this.textBoxMousePosition.Text = "--";
             // 
             // textBoxCameraCalibrationError
             // 
             this.textBoxCameraCalibrationError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraCalibrationError.Location = new System.Drawing.Point(55, 377);
+            this.textBoxCameraCalibrationError.Location = new System.Drawing.Point(55, 380);
             this.textBoxCameraCalibrationError.Name = "textBoxCameraCalibrationError";
             this.textBoxCameraCalibrationError.ReadOnly = true;
-            this.textBoxCameraCalibrationError.Size = new System.Drawing.Size(92, 25);
+            this.textBoxCameraCalibrationError.Size = new System.Drawing.Size(118, 25);
             this.textBoxCameraCalibrationError.TabIndex = 5;
             this.textBoxCameraCalibrationError.Text = "--";
             // 
@@ -1183,7 +1184,7 @@ namespace RASDK.Vision.TestForms
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(998, 605);
+            this.tabPage1.Size = new System.Drawing.Size(1115, 663);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Positioning";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -1249,7 +1250,7 @@ namespace RASDK.Vision.TestForms
             this.groupBox9.Controls.Add(this.label23);
             this.groupBox9.Location = new System.Drawing.Point(5, 318);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(395, 254);
+            this.groupBox9.Size = new System.Drawing.Size(349, 254);
             this.groupBox9.TabIndex = 3;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Homography World Points";
@@ -1269,7 +1270,7 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownHWTLX.Name = "numericUpDownHWTLX";
-            this.numericUpDownHWTLX.Size = new System.Drawing.Size(120, 25);
+            this.numericUpDownHWTLX.Size = new System.Drawing.Size(112, 25);
             this.numericUpDownHWTLX.TabIndex = 0;
             // 
             // numericUpDownHWTLY
@@ -1287,7 +1288,7 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownHWTLY.Name = "numericUpDownHWTLY";
-            this.numericUpDownHWTLY.Size = new System.Drawing.Size(120, 25);
+            this.numericUpDownHWTLY.Size = new System.Drawing.Size(112, 25);
             this.numericUpDownHWTLY.TabIndex = 0;
             // 
             // label18
@@ -1345,7 +1346,7 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownHWTRX.Name = "numericUpDownHWTRX";
-            this.numericUpDownHWTRX.Size = new System.Drawing.Size(120, 25);
+            this.numericUpDownHWTRX.Size = new System.Drawing.Size(112, 25);
             this.numericUpDownHWTRX.TabIndex = 0;
             // 
             // numericUpDownHWTRY
@@ -1363,7 +1364,7 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownHWTRY.Name = "numericUpDownHWTRY";
-            this.numericUpDownHWTRY.Size = new System.Drawing.Size(120, 25);
+            this.numericUpDownHWTRY.Size = new System.Drawing.Size(112, 25);
             this.numericUpDownHWTRY.TabIndex = 0;
             // 
             // label22
@@ -1391,7 +1392,7 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownHWBLX.Name = "numericUpDownHWBLX";
-            this.numericUpDownHWBLX.Size = new System.Drawing.Size(120, 25);
+            this.numericUpDownHWBLX.Size = new System.Drawing.Size(112, 25);
             this.numericUpDownHWBLX.TabIndex = 0;
             // 
             // numericUpDownHWBLY
@@ -1409,7 +1410,7 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownHWBLY.Name = "numericUpDownHWBLY";
-            this.numericUpDownHWBLY.Size = new System.Drawing.Size(120, 25);
+            this.numericUpDownHWBLY.Size = new System.Drawing.Size(112, 25);
             this.numericUpDownHWBLY.TabIndex = 0;
             // 
             // label23
@@ -1437,7 +1438,7 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownHWBRX.Name = "numericUpDownHWBRX";
-            this.numericUpDownHWBRX.Size = new System.Drawing.Size(120, 25);
+            this.numericUpDownHWBRX.Size = new System.Drawing.Size(112, 25);
             this.numericUpDownHWBRX.TabIndex = 0;
             // 
             // numericUpDownHWBRY
@@ -1455,14 +1456,14 @@ namespace RASDK.Vision.TestForms
             0,
             -2147483648});
             this.numericUpDownHWBRY.Name = "numericUpDownHWBRY";
-            this.numericUpDownHWBRY.Size = new System.Drawing.Size(120, 25);
+            this.numericUpDownHWBRY.Size = new System.Drawing.Size(112, 25);
             this.numericUpDownHWBRY.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1006, 634);
+            this.ClientSize = new System.Drawing.Size(1123, 692);
             this.Controls.Add(this.tabControl1);
             this.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.Name = "Form1";
