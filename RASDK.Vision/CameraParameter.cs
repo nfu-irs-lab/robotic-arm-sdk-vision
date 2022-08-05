@@ -12,11 +12,11 @@ namespace RASDK.Vision
 {
     public class CameraParameter
     {
-        public readonly VectorOfDouble RotationVectors;
+        public readonly VectorOfDouble RotationVector;
 
-        public readonly VectorOfDouble TranslationVectors;
+        public readonly VectorOfDouble TranslationVector;
 
-        private readonly Matrix<double> _distortionCoefficients = new Matrix<double>(4, 1);
+        private readonly Matrix<double> _distortionCoefficients = new Matrix<double>(8, 1);
 
         private readonly Matrix<double> _intrinsicMatrix = new Matrix<double>(3, 3);
 
@@ -43,8 +43,8 @@ namespace RASDK.Vision
             _intrinsicMatrix.Data[2, 2] = 1;
 
             _distortionCoefficients = distrotionCoeffs;
-            RotationVectors = rotationVectors;
-            TranslationVectors = translationVectors;
+            RotationVector = rotationVectors;
+            TranslationVector = translationVectors;
         }
 
         public CameraParameter(Matrix<double> intrinsicMatrix,
@@ -54,8 +54,8 @@ namespace RASDK.Vision
         {
             _intrinsicMatrix = intrinsicMatrix;
             _distortionCoefficients = distrotionCoeffs;
-            RotationVectors = rotationVectors;
-            TranslationVectors = translationVectors;
+            RotationVector = rotationVectors;
+            TranslationVector = translationVectors;
         }
 
         /// <summary>
@@ -92,5 +92,20 @@ namespace RASDK.Vision
         /// The upper triangular 3*3 matrix of camera intrinsic parameter, a.k.a. Camera matrix.
         /// </summary>
         public Matrix<double> IntrinsicMatrix => _intrinsicMatrix;
+
+        public Matrix<double> RotationMatrix
+        {
+            get
+            {
+                var matrix = new Matrix<double>(3, 3);
+                CvInvoke.Rodrigues(RotationVector, matrix);
+                return matrix;
+            }
+
+            set
+            {
+                CvInvoke.Rodrigues(value, RotationVector);
+            }
+        }
     }
 }

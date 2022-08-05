@@ -67,11 +67,13 @@ namespace RASDK.Vision
         /// </summary>
         private VectorOfDouble[] _translationVectors;
 
+        private CameraParameter _cameraParameter;
+
         /// <summary>
         /// 相機標定。
         /// </summary>
         /// <param name="checkBoardSize">定位板的黑白方格尺寸，如12*9。</param>
-        /// <param name="checkBoardSquareSideLength">方格邊長，以mm爲單位。</param>
+        /// <param name="checkBoardSquareSideLength">方格邊長。</param>
         public CameraCalibration(Size checkBoardSize, float checkBoardSquareSideLength)
         {
             _patternSize = new Size(checkBoardSize.Width - 1, checkBoardSize.Height - 1);
@@ -84,6 +86,11 @@ namespace RASDK.Vision
         /// 定位板內角點數量尺寸。
         /// </summary>
         public Size PatternSize => _patternSize;
+
+        /// <summary>
+        /// 定位板數量尺寸。
+        /// </summary>
+        public Size CheckboardSize => new Size(_patternSize.Width + 1, _patternSize.Height + 1);
 
         /// <summary>
         /// 相機內參數矩陣。
@@ -117,120 +124,53 @@ namespace RASDK.Vision
 
         public List<VectorOfPointF> AllCorners => _allCorners;
 
-        /// <summary>
-        /// 畫上角點標記的影像。
-        /// </summary>
-        public Image<Bgr, byte> DrawCheckBoardImage(bool undistort = false)
-        {
-            var img = _sourceImageRepresentative.Clone();
-            CvInvoke.DrawChessboardCorners(img, _patternSize, _allCorners[0], true);
+        public CameraParameter CameraParameter => _cameraParameter;
 
-            if (undistort)
+        /// <summary>
+        /// 畸變矯正。
+        /// </summary>
+        public static Image<Bgr, byte> UndistortImage(Image<Bgr, byte> image,
+                                                      Matrix<double> cameraMatrix,
+                                                      Matrix<double> distCoeffs)
+        {
+            if (image == null)
             {
-                img = UndistortImage(img);
+                throw new ArgumentNullException($"{nameof(image)}", "should not be null.");
+            }
+            if (cameraMatrix == null)
+            {
+                throw new ArgumentNullException($"{nameof(cameraMatrix)}", "Should not be null.");
+            }
+            if (distCoeffs == null)
+            {
+                throw new ArgumentNullException($"{nameof(distCoeffs)}", "Should not be null.");
             }
 
-            return img;
+            var outImg = image.Clone();
+            CvInvoke.Undistort(image, outImg, cameraMatrix, distCoeffs);
+            return outImg;
         }
 
         /// <summary>
         /// 畸變矯正。
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="cameraMatrix"></param>
-        /// <param name="distCoeffs"></param>
-        /// <returns></returns>
-        public Image<Bgr, byte> UndistortImage(Image<Bgr, byte> image,
-                                               Matrix<double> cameraMatrix = null,
-                                               Matrix<double> distCoeffs = null)
+        public static Image<Bgr, byte> UndistortImage(Image<Bgr, byte> image,
+                                                      CameraParameter cameraParameter)
         {
-            var outImg = image.Clone();
-            CvInvoke.Undistort(image,
-                               outImg,
-                               cameraMatrix ?? _cameraMatrix,
-                               distCoeffs ?? _distortionCoeffs);
-            return outImg;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="images"></param>
-        /// <param name="cameraMatrix"></param>
-        /// <param name="distortionCoeffs"></param>
-        /// <param name="rotationVectors"></param>
-        /// <param name="translationVectors"></param>
-        /// <param name="reverseImagePoints"></param>
-        /// <returns>重投影誤差。</returns>
-        public double Run(List<Image<Bgr, byte>> images,
-                          out Matrix<double> cameraMatrix,
-                          out Matrix<double> distortionCoeffs,
-                          out VectorOfDouble[] rotationVectors,
-                          out VectorOfDouble[] translationVectors,
-                          bool reverseImagePoints = false)
-        {
-            _allCorners.Clear();
-            _imageCount = images.Count;
-            for (int i = 0; i < _imageCount; i++)
+            if (cameraParameter == null)
             {
-                var sourceImage = images[i].Clone();
-                var grayImage = sourceImage.Convert<Gray, byte>();
-                var corners = FindCorners(grayImage, _patternSize);
-                _allCorners.Add(corners);
-
-                if (i == 0)
-                {
-                    _sourceImageRepresentative = sourceImage;
-                }
+                throw new ArgumentNullException($"{nameof(cameraParameter)}", "Should not be null.");
             }
-
-            var error = Calibrate(reverseImagePoints);
-            cameraMatrix = _cameraMatrix;
-            distortionCoeffs = _distortionCoeffs;
-            rotationVectors = _rotationVectors;
-            translationVectors = _translationVectors;
-
-            return error;
-        }
-
-        /// <summary>
-        /// 讀取影像並執行相機標定。
-        /// </summary>
-        /// <param name="cameraMatrix">相機內參數矩陣。</param>
-        /// <param name="distortionCoeffs">相機畸變參數。</param>
-        /// <param name="rotationVectors">所有影像的旋轉向量。</param>
-        /// <param name="translationVectors">所有影像的平移向量。</param>
-        /// <returns>重投影誤差。</returns>
-        public double Run(out Matrix<double> cameraMatrix,
-                          out Matrix<double> distortionCoeffs,
-                          out VectorOfDouble[] rotationVectors,
-                          out VectorOfDouble[] translationVectors,
-                          bool reverseImagePoints = false)
-        {
-            var selectedImagePaths = SelectImagePaths();
-
-            var images = new List<Image<Bgr, byte>>();
-            foreach (var path in selectedImagePaths)
-            {
-                images.Add(new Image<Bgr, byte>(path));
-            }
-
-            var error = Run(images,
-                            out cameraMatrix,
-                            out distortionCoeffs,
-                            out rotationVectors,
-                            out translationVectors,
-                            reverseImagePoints);
-            return error;
+            return UndistortImage(image, cameraParameter.IntrinsicMatrix, cameraParameter.DistortionCoefficients);
         }
 
         /// <summary>
         /// 找定位板內角點。
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="patternSize"></param>
-        /// <returns>角點</returns>
-        public VectorOfPointF FindCorners(Image<Gray, byte> image, Size patternSize)
+        /// <param name="image">定位板照片。</param>
+        /// <param name="patternSize">內角點數量尺寸。</param>
+        /// <returns>角點。</returns>
+        public static VectorOfPointF FindCorners(Image<Gray, byte> image, Size patternSize)
         {
             var corners = new VectorOfPointF();
 
@@ -258,10 +198,113 @@ namespace RASDK.Vision
         }
 
         /// <summary>
+        /// 畫上角點標記的影像。
+        /// </summary>
+        public Image<Bgr, byte> DrawCheckBoardImage(bool undistort = false)
+        {
+            var img = _sourceImageRepresentative.Clone();
+            CvInvoke.DrawChessboardCorners(img, _patternSize, _allCorners[0], true);
+
+            if (undistort)
+            {
+                img = UndistortImage(img);
+            }
+
+            return img;
+        }
+
+        /// <summary>
+        /// 畸變矯正。
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public Image<Bgr, byte> UndistortImage(Image<Bgr, byte> image)
+        {
+            return UndistortImage(image, _cameraMatrix, _distortionCoeffs);
+        }
+
+        /// <summary>
+        /// 計算相機參數（內、外參數，畸變係數）。
+        /// </summary>
+        /// <param name="checkboardImage">定位板照片。</param>
+        /// <returns>相機參數。</returns>
+        public CameraParameter CalCameraParameter(Image<Bgr, byte> checkboardImage)
+        {
+            var images = new List<Image<Bgr, byte>>()
+            {
+                checkboardImage
+            };
+            return CalCameraParameter(images, 0);
+        }
+
+        /// <summary>
+        /// 計算相機參數（內、外參數，畸變係數）。
+        /// </summary>
+        /// <param name="checkboardImages">定位板照片。</param>
+        /// <param name="representativeIndex">要作爲代表的照片索引。</param>
+        /// <returns>相機參數。</returns>
+        public CameraParameter CalCameraParameter(List<Image<Bgr, byte>> checkboardImages,
+                                                  uint representativeIndex = 0)
+        {
+            return CalCameraParameter(checkboardImages, out _, out _, out _, out _, out _, representativeIndex);
+        }
+
+        /// <summary>
+        /// 計算相機參數（內、外參數，畸變係數）。
+        /// </summary>
+        /// <returns>相機參數。</returns>
+        public CameraParameter CalCameraParameter(List<Image<Bgr, byte>> checkboardImages,
+                                                  out Matrix<double> cameraMatrix,
+                                                  out Matrix<double> distortionCoeffs,
+                                                  out VectorOfDouble[] rotationVectors,
+                                                  out VectorOfDouble[] translationVectors,
+                                                  out double reprojectionError,
+                                                  uint representativeIndex = 0)
+        {
+            if (checkboardImages == null)
+            {
+                throw new ArgumentNullException($"{nameof(checkboardImages)}", "should not be null.");
+            }
+
+            _allCorners.Clear();
+            _imageCount = checkboardImages.Count;
+            for (int i = 0; i < _imageCount; i++)
+            {
+                if (checkboardImages[i] == null)
+                {
+                    continue;
+                }
+
+                var sourceImage = checkboardImages[i].Clone();
+                var grayImage = sourceImage.Convert<Gray, byte>();
+                var corners = FindCorners(grayImage, _patternSize);
+                _allCorners.Add(corners);
+
+                if (i == representativeIndex)
+                {
+                    _sourceImageRepresentative = sourceImage;
+                }
+            }
+
+            reprojectionError = Calibrate();
+            cameraMatrix = _cameraMatrix;
+            distortionCoeffs = _distortionCoeffs;
+            rotationVectors = _rotationVectors;
+            translationVectors = _translationVectors;
+
+            _cameraParameter = new CameraParameter(cameraMatrix,
+                                       distortionCoeffs,
+                                       rotationVectors[representativeIndex],
+                                       translationVectors[representativeIndex]);
+
+            return _cameraParameter;
+        }
+
+        /// <summary>
         /// 進行標定。
         /// </summary>
         /// <returns>重投影誤差</returns>
-        private double Calibrate(bool reverseImagePoints = false)
+        private double Calibrate()
         {
             var cornersCount = _patternSize.Width * _patternSize.Height;
             var objPoints = MakeObjectPoints();
@@ -271,10 +314,6 @@ namespace RASDK.Vision
             {
                 imagePoints[i] = new PointF[cornersCount];
                 imagePoints[i] = _allCorners[i].ToArray();
-                if (reverseImagePoints)
-                {
-                    Array.Reverse(imagePoints[i]);
-                }
             }
 
             var error = CvInvoke.CalibrateCamera(objPoints,
@@ -331,26 +370,6 @@ namespace RASDK.Vision
             }
 
             return objPoints;
-        }
-
-        private string[] SelectImagePaths()
-        {
-            var dialog = new OpenFileDialog
-            {
-                Multiselect = true
-            };
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                return dialog.FileNames;
-            }
-
-            throw new Exception();
-        }
-
-        private Image<Bgr, byte> ReadImage(string imagePath)
-        {
-            return new Image<Bgr, byte>(imagePath);
         }
     }
 }
