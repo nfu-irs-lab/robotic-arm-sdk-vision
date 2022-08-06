@@ -55,7 +55,7 @@ namespace RASDK.Vision
         /// <summary>
         /// 相機畸變參數。
         /// </summary>
-        private Matrix<double> _distortionCoeffs = new Matrix<double>(4, 1);
+        private VectorOfDouble _distortionCoeffs = new VectorOfDouble();
 
         /// <summary>
         /// 所有影像的旋轉向量。
@@ -100,7 +100,7 @@ namespace RASDK.Vision
         /// <summary>
         /// 相機畸變參數。
         /// </summary>
-        public Matrix<double> DistortionCoeffs => _distortionCoeffs;
+        public VectorOfDouble DistortionCoeffs => _distortionCoeffs;
 
         /// <summary>
         /// 所有影像的旋轉向量。
@@ -131,7 +131,7 @@ namespace RASDK.Vision
         /// </summary>
         public static Image<Bgr, byte> UndistortImage(Image<Bgr, byte> image,
                                                       Matrix<double> cameraMatrix,
-                                                      Matrix<double> distCoeffs)
+                                                      VectorOfDouble distCoeffs)
         {
             if (image == null)
             {
@@ -255,7 +255,7 @@ namespace RASDK.Vision
         /// <returns>相機參數。</returns>
         public CameraParameter CalCameraParameter(List<Image<Bgr, byte>> checkboardImages,
                                                   out Matrix<double> cameraMatrix,
-                                                  out Matrix<double> distortionCoeffs,
+                                                  out VectorOfDouble distortionCoeffs,
                                                   out VectorOfDouble[] rotationVectors,
                                                   out VectorOfDouble[] translationVectors,
                                                   out double reprojectionError,
@@ -293,9 +293,9 @@ namespace RASDK.Vision
             translationVectors = _translationVectors;
 
             _cameraParameter = new CameraParameter(cameraMatrix,
-                                       distortionCoeffs,
-                                       rotationVectors[representativeIndex],
-                                       translationVectors[representativeIndex]);
+                                                   distortionCoeffs,
+                                                   rotationVectors[representativeIndex],
+                                                   translationVectors[representativeIndex]);
 
             return _cameraParameter;
         }

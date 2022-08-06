@@ -18,7 +18,7 @@ namespace RASDK.Vision.ExtensionMethods
         /// </summary>
         public static Image<Bgr, byte> UndistortImage(this Image<Bgr, byte> image,
                                                       Matrix<double> cameraMatrix,
-                                                      Matrix<double> distCoeffs)
+                                                      VectorOfDouble distCoeffs)
         {
             return CameraCalibration.UndistortImage(image, cameraMatrix, distCoeffs);
         }

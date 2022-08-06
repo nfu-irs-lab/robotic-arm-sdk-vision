@@ -16,7 +16,7 @@ namespace RASDK.Vision
 
         public readonly VectorOfDouble TranslationVector;
 
-        private readonly Matrix<double> _distortionCoefficients = new Matrix<double>(8, 1);
+        private readonly VectorOfDouble _distortionCoefficients;
 
         private readonly Matrix<double> _intrinsicMatrix = new Matrix<double>(3, 3);
 
@@ -25,7 +25,7 @@ namespace RASDK.Vision
                                double fX,
                                double fY,
                                double skew,
-                               Matrix<double> distrotionCoeffs,
+                               VectorOfDouble distrotionCoeffs,
                                VectorOfDouble rotationVector,
                                VectorOfDouble translationVector)
         {
@@ -48,7 +48,7 @@ namespace RASDK.Vision
         }
 
         public CameraParameter(Matrix<double> intrinsicMatrix,
-                               Matrix<double> distrotionCoeffs,
+                               VectorOfDouble distrotionCoeffs,
                                VectorOfDouble rotationVector,
                                VectorOfDouble translationVector)
         {
@@ -86,7 +86,7 @@ namespace RASDK.Vision
         /// <summary>
         /// The distortion parameter vector.
         /// </summary>
-        public Matrix<double> DistortionCoefficients => _distortionCoefficients;
+        public VectorOfDouble DistortionCoefficients => _distortionCoefficients;
 
         /// <summary>
         /// The upper triangular 3*3 matrix of camera intrinsic parameter, a.k.a. Camera matrix.
@@ -118,10 +118,10 @@ namespace RASDK.Vision
             var fy = double.Parse(csvData[3][1]);
             var skew = double.Parse(csvData[4][1]);
 
-            var dc = new Matrix<double>(8, 1);
+            var dc = new double[csvData[5].Count];
             for (int i = 0; i < csvData[5].Count; i++)
             {
-                dc.Data[i, 0] = double.Parse(csvData[5][i]);
+                dc[i] = double.Parse(csvData[5][i]);
             }
 
             var rv = new double[csvData[6].Count];
@@ -136,7 +136,7 @@ namespace RASDK.Vision
                 tv[i] = double.Parse(csvData[7][i]);
             }
 
-            return new CameraParameter(cx, cy, fx, fy, skew, dc, new VectorOfDouble(rv), new VectorOfDouble(tv));
+            return new CameraParameter(cx, cy, fx, fy, skew, new VectorOfDouble(dc), new VectorOfDouble(rv), new VectorOfDouble(tv));
         }
 
         public void SaveToCsv(string filename = "camera_parameter.csv")
@@ -147,9 +147,9 @@ namespace RASDK.Vision
             }
 
             var dc = new List<string>() { "DistCoeffs" };
-            for (int r = 0; r < _distortionCoefficients.Rows; r++)
+            foreach (var v in _distortionCoefficients.ToArray())
             {
-                dc.Add(_distortionCoefficients[r, 0].ToString() ?? "");
+                dc.Add(v.ToString() ?? "");
             }
 
             var rv = new List<string>() { "RotationVector" };

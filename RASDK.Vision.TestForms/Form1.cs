@@ -89,6 +89,8 @@ namespace RASDK.Vision.TestForms
                 vp = new Vision.Positioning.AdvancedHomographyPositioner(worldPoints,
                                                                          _cameraCalibration);
 
+                (vp as Positioning.AdvancedHomographyPositioner).HomographyPositioner.SaveToCsv();
+
                 var undistImg = _cameraCalibration.UndistortImage(_cameraCalibration.SourceImageRepresentative);
                 undistImg.Save("AdvancedHomography_undistort.jpg");
             }
@@ -200,7 +202,7 @@ namespace RASDK.Vision.TestForms
         private VectorOfDouble _tvec = new VectorOfDouble();
 
         private Matrix<double> _cameraMatrix;
-        private Matrix<double> _distCoeffs;
+        private VectorOfDouble _distCoeffs;
 
         private CameraCalibration _cameraCalibration;
 
@@ -307,6 +309,7 @@ namespace RASDK.Vision.TestForms
             }
 
             var cp = _cameraCalibration.CalCameraParameter(images, out _cameraMatrix, out _distCoeffs, out var rvs, out var tvs, out var error);
+            cp.SaveToCsv();
 
             _rvec = rvs[0];
             _tvec = tvs[0];
