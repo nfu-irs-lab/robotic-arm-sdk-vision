@@ -52,16 +52,16 @@ namespace RASDK.Vision.Positioning
         {
             _worldPoints = worldPoints.Length == 4 ? worldPoints : throw new ArgumentException($"{nameof(worldPoints)}", "長度需爲 4.");
 
-            if (cameraCalibration.CameraParameter == null)
+            if (checkboardImages == null)
             {
-                if (checkboardImages == null)
+                if (cameraCalibration.CameraParameter == null)
                 {
                     throw new Exception("未執行過 Camera Calibration。");
                 }
-                else
-                {
-                    cameraCalibration.CalCameraParameter(checkboardImages, 0);
-                }
+            }
+            else
+            {
+                cameraCalibration.CalCameraParameter(checkboardImages, 0);
             }
 
             _cameraParameter = cameraCalibration.CameraParameter;
