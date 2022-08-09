@@ -23,14 +23,9 @@ namespace RASDK.Vision
         private readonly Size _patternSize;
 
         /// <summary>
-        /// 定位板內角點數量。
+        /// 定位板方格邊長，以爲單位。
         /// </summary>
-        private readonly int _cornersCount;
-
-        /// <summary>
-        /// 定位板方格邊長，以mm爲單位。
-        /// </summary>
-        private readonly float _checkBoardSquareSideLength;
+        private readonly float _checkboardSquareSideLength;
 
         /// <summary>
         /// 影像數量。
@@ -55,7 +50,7 @@ namespace RASDK.Vision
         /// <summary>
         /// 相機畸變參數。
         /// </summary>
-        private Matrix<double> _distortionCoeffs = new Matrix<double>(4, 1);
+        private VectorOfDouble _distortionCoeffs = new VectorOfDouble();
 
         /// <summary>
         /// 所有影像的旋轉向量。
@@ -72,15 +67,20 @@ namespace RASDK.Vision
         /// <summary>
         /// 相機標定。
         /// </summary>
-        /// <param name="checkBoardSize">定位板的黑白方格尺寸，如12*9。</param>
-        /// <param name="checkBoardSquareSideLength">方格邊長。</param>
-        public CameraCalibration(Size checkBoardSize, float checkBoardSquareSideLength)
+        /// <param name="checkboardSize">定位板的黑白方格尺寸，如12*9。</param>
+        /// <param name="checkboardSquareSideLength">方格邊長。</param>
+        public CameraCalibration(Size checkboardSize, float checkboardSquareSideLength)
         {
-            _patternSize = new Size(checkBoardSize.Width - 1, checkBoardSize.Height - 1);
-            _cornersCount = _patternSize.Width * _patternSize.Height;
+            // 12*9 個方格的定位板，其內角點爲 11*8。
+            _patternSize = new Size(checkboardSize.Width - 1, checkboardSize.Height - 1);
 
-            _checkBoardSquareSideLength = checkBoardSquareSideLength;
+            _checkboardSquareSideLength = checkboardSquareSideLength;
         }
+
+        /// <summary>
+        /// 定位板內角點數量。
+        /// </summary>
+        public int CornersCount => _patternSize.Width * _patternSize.Height;
 
         /// <summary>
         /// 定位板內角點數量尺寸。
@@ -100,7 +100,7 @@ namespace RASDK.Vision
         /// <summary>
         /// 相機畸變參數。
         /// </summary>
-        public Matrix<double> DistortionCoeffs => _distortionCoeffs;
+        public VectorOfDouble DistortionCoeffs => _distortionCoeffs;
 
         /// <summary>
         /// 所有影像的旋轉向量。
@@ -131,7 +131,7 @@ namespace RASDK.Vision
         /// </summary>
         public static Image<Bgr, byte> UndistortImage(Image<Bgr, byte> image,
                                                       Matrix<double> cameraMatrix,
-                                                      Matrix<double> distCoeffs)
+                                                      VectorOfDouble distCoeffs)
         {
             if (image == null)
             {
@@ -161,6 +161,7 @@ namespace RASDK.Vision
             {
                 throw new ArgumentNullException($"{nameof(cameraParameter)}", "Should not be null.");
             }
+
             return UndistortImage(image, cameraParameter.IntrinsicMatrix, cameraParameter.DistortionCoefficients);
         }
 
@@ -230,11 +231,7 @@ namespace RASDK.Vision
         /// <returns>相機參數。</returns>
         public CameraParameter CalCameraParameter(Image<Bgr, byte> checkboardImage)
         {
-            var images = new List<Image<Bgr, byte>>()
-            {
-                checkboardImage
-            };
-            return CalCameraParameter(images, 0);
+            return CalCameraParameter(new List<Image<Bgr, byte>> { checkboardImage }, 0);
         }
 
         /// <summary>
@@ -255,7 +252,7 @@ namespace RASDK.Vision
         /// <returns>相機參數。</returns>
         public CameraParameter CalCameraParameter(List<Image<Bgr, byte>> checkboardImages,
                                                   out Matrix<double> cameraMatrix,
-                                                  out Matrix<double> distortionCoeffs,
+                                                  out VectorOfDouble distortionCoeffs,
                                                   out VectorOfDouble[] rotationVectors,
                                                   out VectorOfDouble[] translationVectors,
                                                   out double reprojectionError,
@@ -293,9 +290,9 @@ namespace RASDK.Vision
             translationVectors = _translationVectors;
 
             _cameraParameter = new CameraParameter(cameraMatrix,
-                                       distortionCoeffs,
-                                       rotationVectors[representativeIndex],
-                                       translationVectors[representativeIndex]);
+                                                   distortionCoeffs,
+                                                   rotationVectors[representativeIndex],
+                                                   translationVectors[representativeIndex]);
 
             return _cameraParameter;
         }
@@ -306,13 +303,12 @@ namespace RASDK.Vision
         /// <returns>重投影誤差</returns>
         private double Calibrate()
         {
-            var cornersCount = _patternSize.Width * _patternSize.Height;
             var objPoints = MakeObjectPoints();
 
             PointF[][] imagePoints = new PointF[_imageCount][];
             for (int i = 0; i < _imageCount; i++)
             {
-                imagePoints[i] = new PointF[cornersCount];
+                imagePoints[i] = new PointF[CornersCount];
                 imagePoints[i] = _allCorners[i].ToArray();
             }
 
@@ -323,21 +319,21 @@ namespace RASDK.Vision
                                                  _distortionCoeffs,
                                                  CalibType.RationalModel,
                                                  new MCvTermCriteria(30, 0.1),
-                                                 out var rvs,
-                                                 out var tvs);
+                                                 out var rotaVecs,
+                                                 out var tranVecs);
 
-            _rotationVectors = new VectorOfDouble[rvs.Length];
-            for (int i = 0; i < rvs.Length; i++)
+            _rotationVectors = new VectorOfDouble[rotaVecs.Length];
+            for (int i = 0; i < rotaVecs.Length; i++)
             {
                 _rotationVectors[i] = new VectorOfDouble();
-                rvs[i].ConvertTo(_rotationVectors[i], DepthType.Cv64F);
+                rotaVecs[i].CopyTo(_rotationVectors[i]);
             }
 
-            _translationVectors = new VectorOfDouble[tvs.Length];
-            for (int i = 0; i < tvs.Length; i++)
+            _translationVectors = new VectorOfDouble[tranVecs.Length];
+            for (int i = 0; i < tranVecs.Length; i++)
             {
                 _translationVectors[i] = new VectorOfDouble();
-                tvs[i].ConvertTo(_translationVectors[i], DepthType.Cv64F);
+                tranVecs[i].CopyTo(_translationVectors[i]);
             }
 
             return error;
@@ -352,7 +348,7 @@ namespace RASDK.Vision
             var objPoints = new MCvPoint3D32f[_imageCount][];
             for (int i = 0; i < _imageCount; i++)
             {
-                objPoints[i] = new MCvPoint3D32f[_cornersCount];
+                objPoints[i] = new MCvPoint3D32f[CornersCount];
             }
 
             for (int currentImage = 0; currentImage < _imageCount; currentImage++)
@@ -362,8 +358,8 @@ namespace RASDK.Vision
                     for (int currentCol = 0; currentCol < _patternSize.Width; currentCol++)
                     {
                         int nPoint = currentRow * _patternSize.Width + currentCol;
-                        objPoints[currentImage][nPoint].X = (float)currentCol * _checkBoardSquareSideLength;
-                        objPoints[currentImage][nPoint].Y = (float)currentRow * _checkBoardSquareSideLength;
+                        objPoints[currentImage][nPoint].X = (float)currentCol * _checkboardSquareSideLength;
+                        objPoints[currentImage][nPoint].Y = (float)currentRow * _checkboardSquareSideLength;
                         objPoints[currentImage][nPoint].Z = (float)0;
                     }
                 }

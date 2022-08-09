@@ -39,15 +39,15 @@ namespace RASDK.Vision.Positioning
         /// </summary>
         public HomographyPositioner(Mat homographyMatrix)
         {
-            if (_homographyMatrix == null)
-            {
-                _homographyMatrix = new Matrix<double>(3, 3);
-            }
-
             if (homographyMatrix.Rows != 3 || homographyMatrix.Cols != 3)
             {
                 throw new ArgumentException($"homographyMatrix 必須爲 3*3 矩陣，" +
                                             $"實際爲{homographyMatrix.Rows}*{homographyMatrix.Cols}。");
+            }
+
+            if (_homographyMatrix == null)
+            {
+                _homographyMatrix = new Matrix<double>(3, 3);
             }
 
             homographyMatrix.ConvertTo(_homographyMatrix, DepthType.Cv64F);
@@ -119,6 +119,11 @@ namespace RASDK.Vision.Positioning
 
         public void SaveToCsv(string filename = "homography_matrix.csv")
         {
+            if (System.IO.File.Exists(filename))
+            {
+                System.IO.File.Delete(filename);
+            }
+
             var csvData = new List<List<string>>();
             for (int r = 0; r < _homographyMatrix.Rows; r++)
             {

@@ -24,6 +24,7 @@ namespace RASDK.Vision.TestForms
         public Form1()
         {
             InitializeComponent();
+            //Application.Idle += UpdatePixelTracking;
             _messageHandler = new GeneralMessageHandler(new EmptyLogHandler());
         }
 
@@ -88,6 +89,8 @@ namespace RASDK.Vision.TestForms
                 vp = new Vision.Positioning.AdvancedHomographyPositioner(worldPoints,
                                                                          _cameraCalibration);
 
+                (vp as Positioning.AdvancedHomographyPositioner).HomographyPositioner.SaveToCsv();
+
                 var undistImg = _cameraCalibration.UndistortImage(_cameraCalibration.SourceImageRepresentative);
                 undistImg.Save("AdvancedHomography_undistort.jpg");
             }
@@ -141,7 +144,7 @@ namespace RASDK.Vision.TestForms
                 {
                     _messageHandler.Show("Disconnected.");
                     buttonIdsConnection.Text = "Connect";
-                    buttonIdsGetImage.Enabled = false;
+                    buttonIdsCapture.Enabled = false;
                     buttonIdsCameraSetting.Enabled = false;
 
                     _idsCamera = null;
@@ -154,7 +157,7 @@ namespace RASDK.Vision.TestForms
                 {
                     _messageHandler.Show("Connected.");
                     buttonIdsConnection.Text = "Disconnect";
-                    buttonIdsGetImage.Enabled = true;
+                    buttonIdsCapture.Enabled = true;
                     buttonIdsCameraSetting.Enabled = true;
                 }
             }
@@ -163,7 +166,7 @@ namespace RASDK.Vision.TestForms
         private void buttonIdsGetImage_Click(object sender, EventArgs e)
         {
             var image = _idsCamera.GetImage();
-            pictureBoxIds.Image = image;
+            pictureBoxMain.Image = image;
         }
 
         private void buttonIdsCameraSetting_Click(object sender, EventArgs e)
@@ -199,20 +202,25 @@ namespace RASDK.Vision.TestForms
         private VectorOfDouble _tvec = new VectorOfDouble();
 
         private Matrix<double> _cameraMatrix;
-        private Matrix<double> _distCoeffs;
+        private VectorOfDouble _distCoeffs;
 
         private CameraCalibration _cameraCalibration;
 
-        private void pictureBoxCameraCalibratioin_MouseMove(object sender, MouseEventArgs e)
+        private PointF _mousePosition = new PointF(0, 0);
+
+        private void pictureBoxMain_MouseMove(object sender, MouseEventArgs e)
         {
-            if (pictureBoxCameraCalibratioin.Image == null)
+            // XXX
+            return;
+
+            if (pictureBoxMain.Image == null)
             {
                 return;
             }
 
             var mousePosition = e.Location;
-            var imageSize = pictureBoxCameraCalibratioin.Image.Size;
-            var boxSize = pictureBoxCameraCalibratioin.Size;
+            var imageSize = pictureBoxMain.Image.Size;
+            var boxSize = pictureBoxMain.Size;
             var pixelPoint = new PointF(mousePosition.X, mousePosition.Y);
 
             if (imageSize.Width / imageSize.Height <= boxSize.Width / boxSize.Height)
@@ -240,37 +248,52 @@ namespace RASDK.Vision.TestForms
                 pixelPoint.Y /= scale;
             }
 
-            textBoxMousePosition.Text = $"X: {pixelPoint.X}, Y: {pixelPoint.Y}";
+            _mousePosition = pixelPoint;
+            textBoxPixelPosition.Text = $"X: {pixelPoint.X}, Y: {pixelPoint.Y}";
+        }
 
-            //var scaledImg = new Bitmap(pictureBoxCameraCalibratioin.Image);
-            //var cent = new Point(0, 0);
-            //if (pixelPoint.X - 25 <= 0)
-            //{
-            //    cent.X = (int)pixelPoint.X;
-            //}
-            //else if (pixelPoint.X + 25 >= imageSize.Width)
-            //{
-            //    cent.X = (int)pixelPoint.X - 50;
-            //}
-            //else
-            //{
-            //    cent.X = (int)pixelPoint.X - 25;
-            //}
+        private void UpdatePixelTracking(object sender, EventArgs args)
+        {
+            var srcImg = pictureBoxMain.Image;
+            if (srcImg == null) return;
 
-            //if (pixelPoint.Y - 25 <= 0)
-            //{
-            //    cent.Y = (int)pixelPoint.Y + 50;
-            //}
-            //else if (pixelPoint.Y + 25 >= imageSize.Height)
-            //{
-            //    cent.Y = (int)pixelPoint.Y + 50;
-            //}
-            //else
-            //{
-            //    cent.Y = (int)pixelPoint.Y - 25;
-            //}
-            //scaledImg = scaledImg.Clone(new Rectangle(cent, new Size(50, 50)), scaledImg.PixelFormat);
-            //pictureBoxCameraCalibratioinScale.Image = scaledImg;
+            var image = new Bitmap(srcImg);
+            var boxSize = pictureBoxMain.Size;
+
+            var cent = new Point(0, 0);
+            if (_mousePosition.X - 25 <= 0)
+            {
+                cent.X = (int)_mousePosition.X;
+            }
+            else if (_mousePosition.X + 25 >= image.Size.Width)
+            {
+                cent.X = (int)_mousePosition.X - 50;
+            }
+            else
+            {
+                cent.X = (int)_mousePosition.X - 25;
+            }
+
+            if (_mousePosition.Y - 25 <= 0)
+            {
+                cent.Y = (int)_mousePosition.Y + 50;
+            }
+            else if (_mousePosition.Y + 25 >= image.Size.Height)
+            {
+                cent.Y = (int)_mousePosition.Y + 50;
+            }
+            else
+            {
+                cent.Y = (int)_mousePosition.Y - 25;
+            }
+
+            try
+            {
+                image = image.Clone(new Rectangle(cent, new Size(50, 50)), image.PixelFormat);
+                pictureBoxSub.Image = image;
+            }
+            catch
+            { }
         }
 
         private void buttonCameraCalibrate_Click(object sender, EventArgs e)
@@ -286,6 +309,7 @@ namespace RASDK.Vision.TestForms
             }
 
             var cp = _cameraCalibration.CalCameraParameter(images, out _cameraMatrix, out _distCoeffs, out var rvs, out var tvs, out var error);
+            cp.SaveToCsv();
 
             _rvec = rvs[0];
             _tvec = tvs[0];
@@ -315,7 +339,17 @@ namespace RASDK.Vision.TestForms
             }
             textBoxCorners.Text = cornersText;
 
-            pictureBoxCameraCalibratioin.Image = _cameraCalibration.DrawCheckBoardImage(checkBoxDistort.Checked).ToBitmap();
+            UpdatePictureBox();
+        }
+
+        private void UpdatePictureBox()
+        {
+            pictureBoxMain.Image = _cameraCalibration.DrawCheckBoardImage(checkBoxDistort.Checked).ToBitmap();
+        }
+
+        private void checkBoxDistort_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdatePictureBox();
         }
 
         #endregion Camera Calibration
