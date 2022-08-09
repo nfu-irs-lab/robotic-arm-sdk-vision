@@ -118,22 +118,22 @@ namespace RASDK.Vision
             var fy = double.Parse(csvData[3][1]);
             var skew = double.Parse(csvData[4][1]);
 
-            var dc = new double[csvData[5].Count];
-            for (int i = 0; i < csvData[5].Count; i++)
+            var dc = new double[csvData[5].Count - 1];
+            for (int i = 1; i < csvData[5].Count; i++)
             {
-                dc[i] = double.Parse(csvData[5][i]);
+                dc[i - 1] = double.Parse(csvData[5][i]);
             }
 
-            var rv = new double[csvData[6].Count];
-            for (int i = 0; i < csvData[6].Count; i++)
+            var rv = new double[csvData[6].Count - 1];
+            for (int i = 1; i < csvData[6].Count; i++)
             {
-                rv[i] = double.Parse(csvData[6][i]);
+                rv[i - 1] = double.Parse(csvData[6][i]);
             }
 
-            var tv = new double[csvData[7].Count];
-            for (int i = 0; i < csvData[7].Count; i++)
+            var tv = new double[csvData[7].Count - 1];
+            for (int i = 1; i < csvData[7].Count; i++)
             {
-                tv[i] = double.Parse(csvData[7][i]);
+                tv[i - 1] = double.Parse(csvData[7][i]);
             }
 
             return new CameraParameter(cx, cy, fx, fy, skew, new VectorOfDouble(dc), new VectorOfDouble(rv), new VectorOfDouble(tv));
