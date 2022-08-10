@@ -40,7 +40,6 @@ namespace RASDK.Vision.Positioning
         private readonly Timer _interativeTimer;
 
         private double _allowablePixelError;
-
         private double _interativeTimerCount = 0;
 
         /// <summary>
@@ -85,6 +84,8 @@ namespace RASDK.Vision.Positioning
                                                                                 double vY,
                                                                                 out double armX,
                                                                                 out double armY);
+
+        public CameraParameter CameraParameter => _cameraParameter;
 
         /// <summary>
         /// 世界座標偏移。
