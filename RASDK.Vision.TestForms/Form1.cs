@@ -74,6 +74,7 @@ namespace RASDK.Vision.TestForms
                     WorldOffset = new PointF((float)numericUpDownOffsetX.Value,
                                              (float)-numericUpDownOffsetY.Value)
                 };
+                (vp as Positioning.CCIA).SaveToCsv();
             }
             else if (radioButtonAdvHomography.Checked)
             {

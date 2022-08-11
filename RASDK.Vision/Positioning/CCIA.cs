@@ -34,16 +34,12 @@ namespace RASDK.Vision.Positioning
 
         public double BreakPixelError = 0.25;
 
+        public ApproximationDelegate Approximation;
+        public TransferFunctionOfVirtualCheckBoardToWorldDelegate TransferFunctionOfVirtualCheckBoardToWorld;
         private readonly CameraParameter _cameraParameter;
-
-        private readonly Approximation _approximation;
-
-        private readonly TransferFunctionOfVirtualCheckBoardToWorld _transferFunctionOfVirtualCheckBoardToWorld;
-
         private readonly Timer _interativeTimer;
 
         private double _allowablePixelError;
-
         private double _interativeTimerCount = 0;
 
         /// <summary>
@@ -58,13 +54,13 @@ namespace RASDK.Vision.Positioning
         /// </remarks>
         public CCIA(CameraParameter cameraParameter,
                     double allowablePixelError = 5,
-                    TransferFunctionOfVirtualCheckBoardToWorld tf = null,
-                    Approximation approximation = null)
+                    TransferFunctionOfVirtualCheckBoardToWorldDelegate tf = null,
+                    ApproximationDelegate approximation = null)
         {
             _cameraParameter = cameraParameter;
             _allowablePixelError = allowablePixelError;
-            _transferFunctionOfVirtualCheckBoardToWorld = tf ?? BasicTransferFunctionOfVirtualCheckBoardToWorld;
-            _approximation = approximation ?? BasicApproximation;
+            TransferFunctionOfVirtualCheckBoardToWorld = tf ?? BasicTransferFunctionOfVirtualCheckBoardToWorld;
+            Approximation = approximation ?? BasicApproximation;
 
             _interativeTimer = new Timer(100);
             _interativeTimer.Elapsed += (s, e) => { _interativeTimerCount += 0.1; };
@@ -76,18 +72,20 @@ namespace RASDK.Vision.Positioning
         /// <summary>
         /// 誤差逼近算法。
         /// </summary>
-        public delegate void Approximation(double errorX,
-                                           double errorY,
-                                           ref double valueX,
-                                           ref double valueY);
+        public delegate void ApproximationDelegate(double errorX,
+                                                   double errorY,
+                                                   ref double valueX,
+                                                   ref double valueY);
 
         /// <summary>
         /// 座標轉換算法。
         /// </summary>
-        public delegate void TransferFunctionOfVirtualCheckBoardToWorld(double vX,
-                                                                        double vY,
-                                                                        out double armX,
-                                                                        out double armY);
+        public delegate void TransferFunctionOfVirtualCheckBoardToWorldDelegate(double vX,
+                                                                                double vY,
+                                                                                out double armX,
+                                                                                out double armY);
+
+        public CameraParameter CameraParameter => _cameraParameter;
 
         /// <summary>
         /// 世界座標偏移。
@@ -98,6 +96,96 @@ namespace RASDK.Vision.Positioning
         {
             get => _allowablePixelError;
             set => _allowablePixelError = value;
+        }
+
+        public static CCIA LoadFromCsv(string filename = "ccia_parameters.csv")
+        {
+            var csvData = Basic.Csv.Read(filename);
+
+            var cx = double.Parse(csvData[0][1]);
+            var cy = double.Parse(csvData[1][1]);
+            var fx = double.Parse(csvData[2][1]);
+            var fy = double.Parse(csvData[3][1]);
+            var skew = double.Parse(csvData[4][1]);
+
+            var dc = new double[csvData[5].Count - 1];
+            for (int i = 1; i < csvData[5].Count; i++)
+            {
+                dc[i - 1] = double.Parse(csvData[5][i]);
+            }
+
+            var rv = new double[csvData[6].Count - 1];
+            for (int i = 1; i < csvData[6].Count; i++)
+            {
+                rv[i - 1] = double.Parse(csvData[6][i]);
+            }
+
+            var tv = new double[csvData[7].Count - 1];
+            for (int i = 1; i < csvData[7].Count; i++)
+            {
+                tv[i - 1] = double.Parse(csvData[7][i]);
+            }
+
+            var offset = new PointF(0, 0)
+            {
+                X = float.Parse(csvData[8][1]),
+                Y = float.Parse(csvData[9][1])
+            };
+
+            var cp = new CameraParameter(cx, cy, fx, fy, skew, new VectorOfDouble(dc), new VectorOfDouble(rv), new VectorOfDouble(tv));
+            var ccia = new CCIA(cp)
+            {
+                WorldOffset = offset
+            };
+
+            return ccia;
+        }
+
+        public void SaveToCsv(string filename = "ccia_parameters.csv")
+        {
+            if (_cameraParameter == null)
+            {
+                throw new Exception($"cameraParameter should not be null.");
+            }
+
+            if (System.IO.File.Exists(filename))
+            {
+                System.IO.File.Delete(filename);
+            }
+
+            var dc = new List<string>() { "DistCoeffs" };
+            foreach (var v in _cameraParameter.DistortionCoefficients.ToArray())
+            {
+                dc.Add(v.ToString() ?? "");
+            }
+
+            var rv = new List<string>() { "RotationVector" };
+            foreach (var v in _cameraParameter.RotationVector.ToArray())
+            {
+                rv.Add(v.ToString() ?? "");
+            }
+
+            var tv = new List<string>() { "TranslationVector" };
+            foreach (var v in _cameraParameter.TranslationVector.ToArray())
+            {
+                tv.Add(v.ToString() ?? "");
+            }
+
+            var csvData = new List<List<string>>()
+            {
+                new List<string>(){"cx",_cameraParameter.Cx.ToString()},
+                new List<string>(){"cy",_cameraParameter.Cy.ToString()},
+                new List<string>(){"fx",_cameraParameter.Fx.ToString()},
+                new List<string>(){"fy",_cameraParameter.Fy.ToString()},
+                new List<string>(){"skew",_cameraParameter.Skew.ToString()},
+                dc,
+                rv,
+                tv,
+                new List<string>(){"offsetX", WorldOffset.X.ToString()},
+                new List<string>(){"offsety", WorldOffset.Y.ToString()}
+            };
+
+            Basic.Csv.Write(filename, csvData);
         }
 
         public PointF ImageToWorld(PointF pixel)
@@ -127,7 +215,7 @@ namespace RASDK.Vision.Positioning
                                                     virtualCheckBoardX,
                                                     virtualCheckBoardY,
                                                     allowableError,
-                                                    _approximation,
+                                                    Approximation,
                                                     out var resultX,
                                                     out var resultY,
                                                     out error);
@@ -156,7 +244,7 @@ namespace RASDK.Vision.Positioning
             }
 
             // 將虛擬定位板座標轉換成世界座標。
-            _transferFunctionOfVirtualCheckBoardToWorld(virtualCheckBoardX,
+            TransferFunctionOfVirtualCheckBoardToWorld(virtualCheckBoardX,
                                                         virtualCheckBoardY,
                                                         out worldX,
                                                         out worldY);
@@ -186,7 +274,7 @@ namespace RASDK.Vision.Positioning
                                             double initWorldX,
                                             double initWorldY,
                                             double allowableError,
-                                            Approximation approximation,
+                                            ApproximationDelegate approximation,
                                             out double resultWorldX,
                                             out double resultworldY,
                                             out PointF error)

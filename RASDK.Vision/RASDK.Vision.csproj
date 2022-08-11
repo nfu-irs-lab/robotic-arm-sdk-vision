@@ -131,6 +131,7 @@
     <Compile Include="Positioning\CCIA.cs" />
     <Compile Include="Positioning\HomographyPositioner.cs" />
     <Compile Include="Positioning\IVisionPositioning.cs" />
+    <Compile Include="Positioning\VisualServoing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IDS\SettingsForm.cs" />
     <Compile Include="IDS\SettingsForm.Designer.cs" />
