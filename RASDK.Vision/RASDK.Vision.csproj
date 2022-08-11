@@ -58,13 +58,13 @@
       <HintPath>..\packages\Emgu.CV.4.5.5.4823\lib\netstandard2.0\Emgu.CV.Platform.NetStandard.dll</HintPath>
     </Reference>
     <Reference Include="RASDK.Arm, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\NFUIRSL.RASDK.0.3.5\lib\net472\RASDK.Arm.dll</HintPath>
+      <HintPath>..\packages\NFUIRSL.RASDK.0.3.7\lib\net472\RASDK.Arm.dll</HintPath>
     </Reference>
     <Reference Include="RASDK.Basic, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\NFUIRSL.RASDK.0.3.5\lib\net472\RASDK.Basic.dll</HintPath>
+      <HintPath>..\packages\NFUIRSL.RASDK.0.3.7\lib\net472\RASDK.Basic.dll</HintPath>
     </Reference>
     <Reference Include="RASDK.Gripper, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\NFUIRSL.RASDK.0.3.5\lib\net472\RASDK.Gripper.dll</HintPath>
+      <HintPath>..\packages\NFUIRSL.RASDK.0.3.7\lib\net472\RASDK.Gripper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -131,6 +131,7 @@
     <Compile Include="Positioning\CCIA.cs" />
     <Compile Include="Positioning\HomographyPositioner.cs" />
     <Compile Include="Positioning\IVisionPositioning.cs" />
+    <Compile Include="Positioning\VisualServoing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IDS\SettingsForm.cs" />
     <Compile Include="IDS\SettingsForm.Designer.cs" />
