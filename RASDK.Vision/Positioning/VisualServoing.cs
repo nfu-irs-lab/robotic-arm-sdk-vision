@@ -86,8 +86,8 @@ namespace RASDK.Vision.Positioning
                 // Arm moving.
                 armMoveFunc(error);
 
-                if (Math.Abs(error.X) >= allowableError &&
-                    Math.Abs(error.Y) >= allowableError &&
+                if (Math.Abs(error.X) <= allowableError &&
+                    Math.Abs(error.Y) <= allowableError &&
                     timeout >= 0)
                 {
                     break;
