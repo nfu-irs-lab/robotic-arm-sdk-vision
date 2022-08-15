@@ -4,16 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Drawing;
 using RASDK.Arm;
 using Emgu.CV;
 using Emgu.CV.Util;
-using System.Drawing;
+using Emgu.CV.Aruco;
+using Emgu.CV.Structure;
 
 namespace RASDK.Vision.Positioning
 {
     public class VisualServo
     {
-        public static Action<PointF> BasicArmMoveFunc(RoboticArm arm, double kp, bool invertedX = false, bool invertedY = true)
+        public static Action<PointF> MakeBasicArmMoveFunc(RoboticArm arm,
+                                                          double kp,
+                                                          bool invertedX = false,
+                                                          bool invertedY = true)
         {
             Action<PointF> action = (errorPixel) =>
             {
@@ -51,6 +56,48 @@ namespace RASDK.Vision.Positioning
             return action;
         }
 
+        public static Func<PointF> MakeBasicArucoGetCurrentPixelFunc(IDS.IDSCamera camera,
+                                                                     int arucoId,
+                                                                     Dictionary dictionary = null,
+                                                                     DetectorParameters? detectorParameters = null,
+                                                                     int cornerIndex = 0)
+        {
+            if (cornerIndex > 3 || cornerIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException($"cornerIndex sholud be 0~3 but {cornerIndex}.", nameof(cornerIndex));
+            }
+
+            Func<PointF> func = () =>
+            {
+                var image = camera.GetImage().ToImage<Bgr, byte>();
+                var corners = new VectorOfVectorOfPointF();
+                var ids = new VectorOfInt();
+
+                // Detect Aruco markers.
+                ArucoInvoke.DetectMarkers(image,
+                                          dictionary ?? new Dictionary(Dictionary.PredefinedDictionaryName.Dict4X4_100),
+                                          corners,
+                                          ids,
+                                          detectorParameters ?? DetectorParameters.GetDefault());
+
+                // Find aruco by specific ID.
+                var idsArray = ids.ToArray();
+                for (int i = 0; i < idsArray.Length; i++)
+                {
+                    if (idsArray[i] == arucoId)
+                    {
+                        var c = corners.ToArrayOfArray();
+                        return c[i][cornerIndex];
+                    }
+                }
+
+                // Not find.
+                return new PointF(float.NaN, float.NaN);
+            };
+
+            return func;
+        }
+
         public static PointF Tracking(Size imageSize, double timeout, Func<PointF> getCurrentPixelFunc, Action<PointF> armMoveFunc, double allowableError = 5)
         {
             // Get center.
@@ -76,7 +123,22 @@ namespace RASDK.Vision.Positioning
             // Interative.
             while (timerCount < timeout || timeout < 0)
             {
-                var currentPixel = getCurrentPixelFunc();
+                PointF currentPixel = new PointF();
+                try
+                {
+                    currentPixel = getCurrentPixelFunc();
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+
+                if (currentPixel.X == float.NaN ||
+                    currentPixel.Y == float.NaN)
+                {
+                    continue;
+                }
+
                 error = new PointF
                 {
                     X = currentPixel.X - goalPixel.X,
