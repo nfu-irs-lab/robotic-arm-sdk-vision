@@ -11,6 +11,7 @@ using Emgu.CV.Util;
 using Emgu.CV.Aruco;
 using Emgu.CV.Structure;
 
+
 namespace RASDK.Vision.Positioning
 {
     public class VisualServo
@@ -70,6 +71,7 @@ namespace RASDK.Vision.Positioning
             Func<PointF> func = () =>
             {
                 var image = camera.GetImage().ToImage<Bgr, byte>();
+
                 var corners = new VectorOfVectorOfPointF();
                 var ids = new VectorOfInt();
 
