@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Drawing;
 using RASDK.Arm;
 using Emgu.CV;
 using Emgu.CV.Util;
 using Emgu.CV.Aruco;
-using System.Drawing;
+using Emgu.CV.Structure;
+
 
 namespace RASDK.Vision.Positioning
 {
@@ -68,7 +70,8 @@ namespace RASDK.Vision.Positioning
 
             Func<PointF> func = () =>
             {
-                var image = camera.GetImage().ToMat();
+                var image = camera.GetImage().ToImage<Bgr, byte>();
+
                 var corners = new VectorOfVectorOfPointF();
                 var ids = new VectorOfInt();
 
