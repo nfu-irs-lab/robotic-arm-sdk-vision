@@ -14,3 +14,9 @@
 
 - [RASDK.Vision](/RASDK.Vision)：影像及視覺相關函式庫。
 - [RASDK.Vision.TestForms](/RASDK.Vision.TestForms)：「RASDK.Vision」的測試用視窗程式。不會封裝進 NuGet。
+
+# 未處理例外狀況
+'Emgu.CV.Util.VectorOfDouble' 的類型初始設定式發生例外狀況。'
+- 到實驗室NAS->public->PackageReferences_X64
+- 找到「cvextern.dll」
+- 將此檔案複製貼到執行目錄下的RASDK.Vision.TestForms->bin->X64->Debug內
