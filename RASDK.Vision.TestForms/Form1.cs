@@ -14,6 +14,7 @@ using Emgu.CV;
 using Emgu.CV.Util;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
+using RASDK.Vision.Zed;
 
 namespace RASDK.Vision.TestForms
 {
@@ -368,6 +369,28 @@ namespace RASDK.Vision.TestForms
             }
 
             throw new Exception();
+        }
+
+        private Vision.Zed.Zed2i _Zed2i;
+        private void ConnectButton_Click(object sender, EventArgs e)
+        {
+            if (_Zed2i==null)
+            {
+                _Zed2i = new Zed2i();
+            }
+            if (_Zed2i.Connected==false)
+            {
+                _Zed2i.Connect();
+                ConnectButton.Text = "Disconnect";
+                StateTextBox.AppendText("開啟連線"+_Zed2i.Connect().ToString());
+
+            }
+            else if (_Zed2i.Connected ==true)
+            {
+                _Zed2i.Disconnect();
+                ConnectButton.Text = "Connect";
+                StateTextBox.AppendText("段開連線"+_Zed2i.Disconnect().ToString());
+            }
         }
     }
 }
