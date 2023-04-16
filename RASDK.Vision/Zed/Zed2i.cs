@@ -1,4 +1,6 @@
-﻿using Emgu.CV.CvEnum;
+﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.DepthAI;
 using Emgu.CV.ML;
 using RASDK.Basic;
 using RASDK.Vision.IDS;
@@ -19,41 +21,36 @@ namespace RASDK.Vision.Zed
     /// </summary>
     public class Zed2i : IDevice
     {
-        private Camera _camera;
-        private InitParameters _initParameters;
-        private RuntimeParameters _runtimeParameters;
-        private readonly uint _mmWidth;
-        private readonly uint _mmHeight;
-        private sl.Mat _RGBimage;
-        private sl.Mat _Depthimage;
+        private readonly Camera _camera;
+        private  InitParameters initParameters;
+        private  uint mmWidth;
+        private  uint mmHeight;
 
-        public Zed2i(InitParameters initParameters = null, RuntimeParameters runtimeParameters = null)
+        public Zed2i(InitParameters initParameters = null)
         {
             _camera = new Camera(0);
-            _initParameters = initParameters ?? new InitParameters()//lazy initialization
+            this.initParameters = initParameters ?? new InitParameters()//lazy initialization
             {
                 resolution = RESOLUTION.HD2K,
                 cameraFPS = 15,
                 coordinateUnits = UNIT.MILLIMETER,
                 depthMode = DEPTH_MODE.ULTRA,
-                depthStabilization = 100
+
             };
-            _runtimeParameters = runtimeParameters ?? new RuntimeParameters();
         }
 
 
         public int CameraId { get; private set; }
         public int DeviceId { get; private set; }
-        public InitParameters InitParameters { get { return _initParameters; } }
-        public RuntimeParameters RuntimeParameters { get { return _runtimeParameters; } }
+        public InitParameters InitParameters { get { return initParameters; } }
 
         #region aboutConnect
         public bool Connected => _camera.IsOpened();
 
         public bool Connect()
         {
-            var initParam = _initParameters;
-            ERROR_CODE err = _camera.Open(ref _initParameters);
+            var initParam = initParameters;
+            ERROR_CODE err = _camera.Open(ref initParameters);
             if (err != ERROR_CODE.SUCCESS)
             {
                 Environment.Exit(-1);
@@ -61,6 +58,8 @@ namespace RASDK.Vision.Zed
             }
             else
             {
+                mmWidth = (uint)_camera.ImageWidth;
+                mmHeight = (uint)_camera.ImageHeight;
                 return true;
             }
 
@@ -88,8 +87,7 @@ namespace RASDK.Vision.Zed
         {
             ColorLeft,
             ColorRight,
-            DepthLeft,
-            DepthRight
+            Depth,
         }
 
         /// <summary>
@@ -103,50 +101,51 @@ namespace RASDK.Vision.Zed
 
         public Emgu.CV.Mat GetImage(ImageType imageType)
         {
-            //確認相機是否可以獲取影像
-            RuntimeParameters runTimeParam = _runtimeParameters;
-            var GrabErr = _camera.Grab(ref runTimeParam);
-            if (GrabErr != ERROR_CODE.SUCCESS)
+            InitParameters init = new InitParameters();
+            sl.Camera _camera = new sl.Camera(0);
+            if (_camera.Open(ref init) != ERROR_CODE.SUCCESS)
             {
-                throw new Exception(GrabErr.ToString());
+                Environment.Exit(-1);
             }
 
-            MAT_TYPE matType = MAT_TYPE.MAT_8U_C4; ;
-            VIEW view = VIEW.LEFT;
+            VIEW view;
+            MAT_TYPE matType;
 
             switch (imageType)
             {
-                case ImageType.ColorRight:
+                case ImageType.ColorLeft:
+                    view = VIEW.LEFT;
                     matType = MAT_TYPE.MAT_8U_C4;
+                    break;
+
+                case ImageType.ColorRight:
                     view = VIEW.RIGHT;
+                    matType = MAT_TYPE.MAT_8U_C4;
                     break;
 
-                case ImageType.DepthLeft:
-                    matType = MAT_TYPE.MAT_32F_C1;
+                case ImageType.Depth:
                     view = VIEW.DEPTH;
-                    break;
-
-                case ImageType.DepthRight:
                     matType = MAT_TYPE.MAT_32F_C1;
-                    view = VIEW.DEPTH_RIGHT;
                     break;
-
                 default:
-                    throw new ArgumentException("錯誤的 Zed imageType");
+                    throw new ArgumentException("錯誤的 Zed ImageType");        
             }
+
+
 
             //確認相機是否可以回傳影像
-            sl.Mat mat = new sl.Mat();
-            var RetrieveErr = _camera.RetrieveImage(mat, view);
-            if (RetrieveErr != ERROR_CODE.SUCCESS)
-            {
-                throw new Exception(RetrieveErr.ToString());
-            }
 
-            uint mmWidth = (uint)_camera.ImageWidth;
-            uint mmHeight = (uint)_camera.ImageHeight;
+            sl.Mat mat = new sl.Mat();
 
             mat.Create(mmWidth, mmHeight, matType, MEM.CPU);
+
+            RuntimeParameters runtimeParameters = new RuntimeParameters();
+            if (_camera.Grab(ref runtimeParameters) != ERROR_CODE.SUCCESS)
+            { throw new Exception(); }
+
+            if (_camera.RetrieveImage(mat, view) != ERROR_CODE.SUCCESS)
+            { throw new Exception(); }
+
             Emgu.CV.Mat image = new Emgu.CV.Mat(
                 mat.GetHeight(),
                 mat.GetWidth(),
@@ -154,8 +153,7 @@ namespace RASDK.Vision.Zed
                 mat.GetChannels(),
                 mat.GetPtr(),
                 0);
-
-            return image;
+            return image; 
         }
 
         #endregion

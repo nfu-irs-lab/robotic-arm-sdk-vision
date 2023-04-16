@@ -15,6 +15,9 @@ using Emgu.CV.Util;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using RASDK.Vision.Zed;
+using Emgu.CV.DepthAI;
+using sl;
+using Emgu.CV.Reg;
 
 namespace RASDK.Vision.TestForms
 {
@@ -251,7 +254,7 @@ namespace RASDK.Vision.TestForms
             }
 
             _mousePosition = pixelPoint;
-            textBoxPixelPosition.Text = $"X: {pixelPoint.X}, Y: {pixelPoint.Y}";
+            //textBoxPixelPosition.Text = $"X: {pixelPoint.X}, Y: {pixelPoint.Y}";
         }
 
         private void UpdatePixelTracking(object sender, EventArgs args)
@@ -382,15 +385,24 @@ namespace RASDK.Vision.TestForms
             {
                 _Zed2i.Connect();
                 ConnectButton.Text = "Disconnect";
-                StateTextBox.AppendText("開啟連線"+_Zed2i.Connect().ToString());
+                CaptureButton.Enabled = true;
+                StateTextBox.AppendText("開啟連線"+_Zed2i.Connect().ToString()+"\r\n");
 
             }
             else if (_Zed2i.Connected ==true)
             {
                 _Zed2i.Disconnect();
                 ConnectButton.Text = "Connect";
-                StateTextBox.AppendText("段開連線"+_Zed2i.Disconnect().ToString());
+                CaptureButton.Enabled = false;
+                StateTextBox.AppendText("斷開連線"+_Zed2i.Disconnect().ToString() + "\r\n");
             }
         }
+
+        private void CaptureButton_Click(object sender, EventArgs e)
+        {
+            pictureBoxMain.Image = _Zed2i.GetImage(Zed2i.ImageType.ColorLeft).ToBitmap();
+            pictureBoxSub.Image = _Zed2i.GetImage(Zed2i.ImageType.Depth).ToBitmap();
+        }
+
     }
 }

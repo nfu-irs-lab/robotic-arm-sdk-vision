@@ -67,7 +67,7 @@ namespace RASDK.Vision.TestForms
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.numericUpDownOffsetX = new System.Windows.Forms.NumericUpDown();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.Capture = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.buttonLoadFromEEPROM = new System.Windows.Forms.Button();
@@ -121,9 +121,9 @@ namespace RASDK.Vision.TestForms
             this.radioButtonCCIA = new System.Windows.Forms.RadioButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.CaptureButton = new System.Windows.Forms.Button();
             this.StateTextBox = new System.Windows.Forms.TextBox();
             this.ConnectButton = new System.Windows.Forms.Button();
-            this.textBoxPixelPosition = new System.Windows.Forms.TextBox();
             this.pictureBoxMain = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -152,7 +152,7 @@ namespace RASDK.Vision.TestForms
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOffsetY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOffsetX)).BeginInit();
-            this.tabControl1.SuspendLayout();
+            this.Capture.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -754,20 +754,20 @@ namespace RASDK.Vision.TestForms
             this.numericUpDownOffsetX.Size = new System.Drawing.Size(80, 22);
             this.numericUpDownOffsetX.TabIndex = 0;
             // 
-            // tabControl1
+            // Capture
             // 
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(2, 2);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(626, 627);
-            this.tabControl1.TabIndex = 2;
+            this.Capture.Controls.Add(this.tabPage2);
+            this.Capture.Controls.Add(this.tabPage3);
+            this.Capture.Controls.Add(this.tabPage1);
+            this.Capture.Controls.Add(this.tabPage4);
+            this.Capture.Controls.Add(this.tabPage5);
+            this.Capture.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Capture.Location = new System.Drawing.Point(2, 2);
+            this.Capture.Margin = new System.Windows.Forms.Padding(2);
+            this.Capture.Name = "Capture";
+            this.Capture.SelectedIndex = 0;
+            this.Capture.Size = new System.Drawing.Size(626, 627);
+            this.Capture.TabIndex = 2;
             // 
             // tabPage2
             // 
@@ -1479,6 +1479,7 @@ namespace RASDK.Vision.TestForms
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.CaptureButton);
             this.tabPage5.Controls.Add(this.StateTextBox);
             this.tabPage5.Controls.Add(this.ConnectButton);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
@@ -1488,6 +1489,17 @@ namespace RASDK.Vision.TestForms
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "tabPage5";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // CaptureButton
+            // 
+            this.CaptureButton.Enabled = false;
+            this.CaptureButton.Location = new System.Drawing.Point(6, 46);
+            this.CaptureButton.Name = "CaptureButton";
+            this.CaptureButton.Size = new System.Drawing.Size(75, 23);
+            this.CaptureButton.TabIndex = 2;
+            this.CaptureButton.Text = "Capture";
+            this.CaptureButton.UseVisualStyleBackColor = true;
+            this.CaptureButton.Click += new System.EventHandler(this.CaptureButton_Click);
             // 
             // StateTextBox
             // 
@@ -1509,23 +1521,13 @@ namespace RASDK.Vision.TestForms
             this.ConnectButton.UseVisualStyleBackColor = true;
             this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
             // 
-            // textBoxPixelPosition
-            // 
-            this.textBoxPixelPosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxPixelPosition.Location = new System.Drawing.Point(316, 206);
-            this.textBoxPixelPosition.Margin = new System.Windows.Forms.Padding(2);
-            this.textBoxPixelPosition.Name = "textBoxPixelPosition";
-            this.textBoxPixelPosition.ReadOnly = true;
-            this.textBoxPixelPosition.Size = new System.Drawing.Size(189, 22);
-            this.textBoxPixelPosition.TabIndex = 5;
-            // 
             // pictureBoxMain
             // 
             this.pictureBoxMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBoxMain.Location = new System.Drawing.Point(2, 2);
             this.pictureBoxMain.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBoxMain.Name = "pictureBoxMain";
-            this.pictureBoxMain.Size = new System.Drawing.Size(509, 309);
+            this.pictureBoxMain.Size = new System.Drawing.Size(509, 289);
             this.pictureBoxMain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxMain.TabIndex = 2;
             this.pictureBoxMain.TabStop = false;
@@ -1536,7 +1538,7 @@ namespace RASDK.Vision.TestForms
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
-            this.tableLayoutPanel3.Controls.Add(this.tabControl1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.Capture, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 1, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
@@ -1558,31 +1560,32 @@ namespace RASDK.Vision.TestForms
             this.tableLayoutPanel4.Location = new System.Drawing.Point(632, 2);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowCount = 4;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(513, 627);
             this.tableLayoutPanel4.TabIndex = 9;
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.pictureBoxSub);
-            this.panel1.Controls.Add(this.textBoxPixelPosition);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(2, 315);
+            this.panel1.Location = new System.Drawing.Point(2, 295);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(509, 310);
+            this.panel1.Size = new System.Drawing.Size(509, 289);
             this.panel1.TabIndex = 3;
             // 
             // pictureBoxSub
             // 
-            this.pictureBoxSub.Location = new System.Drawing.Point(316, 0);
-            this.pictureBoxSub.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBoxSub.Location = new System.Drawing.Point(3, 0);
             this.pictureBoxSub.Name = "pictureBoxSub";
-            this.pictureBoxSub.Size = new System.Drawing.Size(188, 200);
+            this.pictureBoxSub.Size = new System.Drawing.Size(510, 332);
             this.pictureBoxSub.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxSub.TabIndex = 0;
+            this.pictureBoxSub.TabIndex = 6;
             this.pictureBoxSub.TabStop = false;
             // 
             // Form1
@@ -1620,7 +1623,7 @@ namespace RASDK.Vision.TestForms
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOffsetY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOffsetX)).EndInit();
-            this.tabControl1.ResumeLayout(false);
+            this.Capture.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
@@ -1651,7 +1654,6 @@ namespace RASDK.Vision.TestForms
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSub)).EndInit();
             this.ResumeLayout(false);
 
@@ -1696,7 +1698,7 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl Capture;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button buttonIdsConnection;
@@ -1730,7 +1732,6 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.Button buttonSaveToFile;
         private System.Windows.Forms.Button buttonSaveToEEPROM;
         private System.Windows.Forms.Button buttonLoadParameterFromFile;
-        private System.Windows.Forms.TextBox textBoxPixelPosition;
         private System.Windows.Forms.CheckBox checkBoxDistort;
         private System.Windows.Forms.TextBox textBoxCorners;
         private System.Windows.Forms.TabPage tabPage4;
@@ -1755,10 +1756,11 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox pictureBoxSub;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.TextBox StateTextBox;
+        private System.Windows.Forms.Button CaptureButton;
+        private System.Windows.Forms.PictureBox pictureBoxSub;
     }
 }
 
