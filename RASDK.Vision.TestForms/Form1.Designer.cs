@@ -766,8 +766,10 @@ namespace RASDK.Vision.TestForms
             this.Capture.Margin = new System.Windows.Forms.Padding(2);
             this.Capture.Name = "Capture";
             this.Capture.SelectedIndex = 0;
+            this.Capture.ShowToolTips = true;
             this.Capture.Size = new System.Drawing.Size(626, 627);
             this.Capture.TabIndex = 2;
+            this.Capture.Tag = "Zed";
             // 
             // tabPage2
             // 
@@ -1487,7 +1489,7 @@ namespace RASDK.Vision.TestForms
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage5.Size = new System.Drawing.Size(618, 601);
             this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "tabPage5";
+            this.tabPage5.Text = "Zed2i";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // CaptureButton
