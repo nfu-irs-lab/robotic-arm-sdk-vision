@@ -175,7 +175,7 @@ namespace RASDK.Vision.Zed
         {
             get
             {
-                var state = _camera.GetCameraSettings(VIDEO_SETTINGS.AUTO_WHITEBALANCE);
+                var state = _camera.GetCameraSettings(VIDEO_SETTINGS.WHITEBALANCE_AUTO);
                 if (state == -1)
                     return true;
                 else
@@ -185,11 +185,11 @@ namespace RASDK.Vision.Zed
             {
                 if (value == true)
                 {
-                    _camera.SetCameraSettings(VIDEO_SETTINGS.AUTO_WHITEBALANCE, -1);
+                    _camera.SetCameraSettings(VIDEO_SETTINGS.WHITEBALANCE_AUTO, -1);
                 }
                 else
                 {
-                    _camera.SetCameraSettings(VIDEO_SETTINGS.AUTO_WHITEBALANCE, 0);
+                    _camera.SetCameraSettings(VIDEO_SETTINGS.WHITEBALANCE_AUTO, 0);
                 }
             }
 
