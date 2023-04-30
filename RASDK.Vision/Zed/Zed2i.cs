@@ -88,6 +88,7 @@ namespace RASDK.Vision.Zed
             ColorLeft,
             ColorRight,
             Depth,
+            Gray
         }
 
         /// <summary>
@@ -126,6 +127,10 @@ namespace RASDK.Vision.Zed
                 case ImageType.Depth:
                     view = VIEW.DEPTH;
                     matType = MAT_TYPE.MAT_32F_C1;
+                    break;
+                case ImageType.Gray:
+                    view = VIEW.LEFT_GREY;
+                    matType = MAT_TYPE.MAT_8U_C1;
                     break;
                 default:
                     throw new ArgumentException("錯誤的 Zed ImageType");        

@@ -133,6 +133,7 @@
     </Compile>
     <Compile Include="IDS\PictureControl.Designer.cs" />
     <Compile Include="Positioning\AdvancedHomographyPositioner.cs" />
+    <Compile Include="Positioning\ArucoCalibrateCamera.cs" />
     <Compile Include="Positioning\CCIA.cs" />
     <Compile Include="Positioning\HomographyPositioner.cs" />
     <Compile Include="Positioning\IVisionPositioning.cs" />
