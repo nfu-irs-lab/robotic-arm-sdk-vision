@@ -487,32 +487,33 @@ namespace RASDK.Vision.TestForms
             #endregion
 
             #region 可偵測出印出來的Aruco的id
-            Aruco aruco = new Aruco();
-            var frame = _Zed2i.GetImage(Zed2i.ImageType.Gray);
-            VectorOfInt ids = new VectorOfInt();
-            VectorOfVectorOfPointF Corner = new VectorOfVectorOfPointF();
-            aruco.Dictionary = new Dictionary(Dictionary.PredefinedDictionaryName.Dict7X7_1000);
-            aruco.Detect(frame.ToImage<Bgr, byte>(), out Corner, out ids);
+            //Aruco aruco = new Aruco();
+            //var frame = _Zed2i.GetImage(Zed2i.ImageType.Gray);
+            //VectorOfInt ids = new VectorOfInt();
+            //VectorOfVectorOfPointF Corner = new VectorOfVectorOfPointF();
+            //aruco.Dictionary = new Dictionary(Dictionary.PredefinedDictionaryName.Dict7X7_1000);
+            //aruco.Detect(frame.ToImage<Bgr, byte>(), out Corner, out ids);
 
-            pictureBoxMain.Image = frame.ToBitmap();
-            var arucoIdArray = ids.ToArray();
-            for (int i = 0; i < arucoIdArray.Length; i++)
-            {
-                StateTextBox.AppendText(arucoIdArray[i].ToString() + "\r\n");
-            }
+            //pictureBoxMain.Image = frame.ToBitmap();
+            //var arucoIdArray = ids.ToArray();
+            //for (int i = 0; i < arucoIdArray.Length; i++)
+            //{
+            //    StateTextBox.AppendText(arucoIdArray[i].ToString() + "\r\n");
+            //}
 
-            var c = Corner.ToArrayOfArray();
-            for (int i = 0; i < c.Length; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    StateTextBox.AppendText(c[i][j] + "\r\n");
-                }
-            }
-
-            StateTextBox.AppendText(ArucoCalibrateCamera.MakeBasicArucoGetCurrentPixelFunc(_Zed2i,3).ToString());
-
+            //var c = Corner.ToArrayOfArray();
+            //for (int i = 0; i < c.Length; i++)
+            //{
+            //    for (int j = 0; j < 4; j++)
+            //    {
+            //        StateTextBox.AppendText(c[i][j] + "\r\n");
+            //    }
+            //}
             #endregion
+
+            ArucoCalibrateCamera ACC=new ArucoCalibrateCamera();
+            var frame = _Zed2i.GetImage(Zed2i.ImageType.Gray);
+            ACC.GoEveryArucoCorner(frame.ToImage<Bgr, byte>());
 
         }
         #endregion
