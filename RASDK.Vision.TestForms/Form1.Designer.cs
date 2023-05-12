@@ -121,15 +121,27 @@ namespace RASDK.Vision.TestForms
             this.radioButtonCCIA = new System.Windows.Forms.RadioButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.CaptureButton = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.ArmDisconnect = new System.Windows.Forms.Button();
+            this.ArmConnect = new System.Windows.Forms.Button();
             this.StateTextBox = new System.Windows.Forms.TextBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.ConnectButton = new System.Windows.Forms.Button();
+            this.CaptureButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.ToTakePicPos = new System.Windows.Forms.Button();
+            this.ArucoIterate = new System.Windows.Forms.Button();
+            this.Point1 = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBoxSub = new System.Windows.Forms.PictureBox();
             this.pictureBoxMain = new System.Windows.Forms.PictureBox();
+            this.DoOnceArucoIterate = new System.Windows.Forms.Button();
+            this.ToLeftPoint = new System.Windows.Forms.Button();
+            this.ToRightPoint = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTV3)).BeginInit();
@@ -174,6 +186,9 @@ namespace RASDK.Vision.TestForms
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHWTLY)).BeginInit();
             this.groupBox8.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.groupBox12.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -1159,7 +1174,7 @@ namespace RASDK.Vision.TestForms
             // textBoxCorners
             // 
             this.textBoxCorners.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCorners.Location = new System.Drawing.Point(344, 5);
+            this.textBoxCorners.Location = new System.Drawing.Point(344, 4);
             this.textBoxCorners.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxCorners.Multiline = true;
             this.textBoxCorners.Name = "textBoxCorners";
@@ -1171,7 +1186,7 @@ namespace RASDK.Vision.TestForms
             // textBoxCameraCalibrationError
             // 
             this.textBoxCameraCalibrationError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCameraCalibrationError.Location = new System.Drawing.Point(123, 350);
+            this.textBoxCameraCalibrationError.Location = new System.Drawing.Point(123, 349);
             this.textBoxCameraCalibrationError.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxCameraCalibrationError.Name = "textBoxCameraCalibrationError";
             this.textBoxCameraCalibrationError.ReadOnly = true;
@@ -1482,10 +1497,12 @@ namespace RASDK.Vision.TestForms
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.button1);
-            this.tabPage5.Controls.Add(this.CaptureButton);
+            this.tabPage5.Controls.Add(this.button2);
+            this.tabPage5.Controls.Add(this.groupBox11);
             this.tabPage5.Controls.Add(this.StateTextBox);
-            this.tabPage5.Controls.Add(this.ConnectButton);
+            this.tabPage5.Controls.Add(this.groupBox10);
+            this.tabPage5.Controls.Add(this.groupBox12);
+            this.tabPage5.Font = new System.Drawing.Font("PMingLiU", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
@@ -1494,29 +1511,57 @@ namespace RASDK.Vision.TestForms
             this.tabPage5.Text = "Zed2i";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // button2
             // 
-            this.button1.Location = new System.Drawing.Point(6, 117);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Test";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button2.Location = new System.Drawing.Point(406, 222);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(6, 6);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
             // 
-            // CaptureButton
+            // groupBox11
             // 
-            this.CaptureButton.Enabled = false;
-            this.CaptureButton.Location = new System.Drawing.Point(6, 46);
-            this.CaptureButton.Name = "CaptureButton";
-            this.CaptureButton.Size = new System.Drawing.Size(75, 23);
-            this.CaptureButton.TabIndex = 2;
-            this.CaptureButton.Text = "Capture";
-            this.CaptureButton.UseVisualStyleBackColor = true;
-            this.CaptureButton.Click += new System.EventHandler(this.CaptureButton_Click);
+            this.groupBox11.Controls.Add(this.ArmDisconnect);
+            this.groupBox11.Controls.Add(this.ArmConnect);
+            this.groupBox11.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox11.Location = new System.Drawing.Point(5, 211);
+            this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox11.Size = new System.Drawing.Size(136, 154);
+            this.groupBox11.TabIndex = 5;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Arm";
+            // 
+            // ArmDisconnect
+            // 
+            this.ArmDisconnect.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ArmDisconnect.Location = new System.Drawing.Point(7, 51);
+            this.ArmDisconnect.Margin = new System.Windows.Forms.Padding(2);
+            this.ArmDisconnect.Name = "ArmDisconnect";
+            this.ArmDisconnect.Size = new System.Drawing.Size(78, 18);
+            this.ArmDisconnect.TabIndex = 1;
+            this.ArmDisconnect.Text = "ArmDisconnect";
+            this.ArmDisconnect.UseVisualStyleBackColor = true;
+            this.ArmDisconnect.Click += new System.EventHandler(this.ArmDisconnect_Click);
+            // 
+            // ArmConnect
+            // 
+            this.ArmConnect.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ArmConnect.Location = new System.Drawing.Point(4, 24);
+            this.ArmConnect.Margin = new System.Windows.Forms.Padding(2);
+            this.ArmConnect.Name = "ArmConnect";
+            this.ArmConnect.Size = new System.Drawing.Size(81, 23);
+            this.ArmConnect.TabIndex = 0;
+            this.ArmConnect.Text = "ArmConnect";
+            this.ArmConnect.UseVisualStyleBackColor = true;
+            this.ArmConnect.Click += new System.EventHandler(this.ArmConnect_Click);
             // 
             // StateTextBox
             // 
+            this.StateTextBox.Font = new System.Drawing.Font("PMingLiU", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.StateTextBox.Location = new System.Drawing.Point(441, 0);
             this.StateTextBox.Multiline = true;
             this.StateTextBox.Name = "StateTextBox";
@@ -1524,15 +1569,105 @@ namespace RASDK.Vision.TestForms
             this.StateTextBox.Size = new System.Drawing.Size(177, 601);
             this.StateTextBox.TabIndex = 1;
             // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.ConnectButton);
+            this.groupBox10.Controls.Add(this.CaptureButton);
+            this.groupBox10.Controls.Add(this.button1);
+            this.groupBox10.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox10.Location = new System.Drawing.Point(5, 6);
+            this.groupBox10.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox10.Size = new System.Drawing.Size(142, 201);
+            this.groupBox10.TabIndex = 4;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Camera";
+            // 
             // ConnectButton
             // 
-            this.ConnectButton.Location = new System.Drawing.Point(6, 17);
+            this.ConnectButton.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ConnectButton.Location = new System.Drawing.Point(2, 20);
             this.ConnectButton.Name = "ConnectButton";
             this.ConnectButton.Size = new System.Drawing.Size(75, 23);
             this.ConnectButton.TabIndex = 0;
             this.ConnectButton.Text = "Connect";
             this.ConnectButton.UseVisualStyleBackColor = true;
             this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+            // 
+            // CaptureButton
+            // 
+            this.CaptureButton.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.CaptureButton.Location = new System.Drawing.Point(1, 49);
+            this.CaptureButton.Name = "CaptureButton";
+            this.CaptureButton.Size = new System.Drawing.Size(75, 23);
+            this.CaptureButton.TabIndex = 2;
+            this.CaptureButton.Text = "Capture";
+            this.CaptureButton.UseVisualStyleBackColor = true;
+            this.CaptureButton.Click += new System.EventHandler(this.CaptureButton_Click);
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button1.Location = new System.Drawing.Point(2, 81);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "DetectAruco";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.ToRightPoint);
+            this.groupBox12.Controls.Add(this.ToLeftPoint);
+            this.groupBox12.Controls.Add(this.DoOnceArucoIterate);
+            this.groupBox12.Controls.Add(this.ToTakePicPos);
+            this.groupBox12.Controls.Add(this.ArucoIterate);
+            this.groupBox12.Controls.Add(this.Point1);
+            this.groupBox12.Font = new System.Drawing.Font("PMingLiU", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox12.Location = new System.Drawing.Point(148, 6);
+            this.groupBox12.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox12.Size = new System.Drawing.Size(136, 359);
+            this.groupBox12.TabIndex = 8;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Test";
+            // 
+            // ToTakePicPos
+            // 
+            this.ToTakePicPos.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ToTakePicPos.Location = new System.Drawing.Point(4, 22);
+            this.ToTakePicPos.Margin = new System.Windows.Forms.Padding(2);
+            this.ToTakePicPos.Name = "ToTakePicPos";
+            this.ToTakePicPos.Size = new System.Drawing.Size(110, 18);
+            this.ToTakePicPos.TabIndex = 9;
+            this.ToTakePicPos.Text = "ToTakePicPos";
+            this.ToTakePicPos.UseVisualStyleBackColor = true;
+            this.ToTakePicPos.Click += new System.EventHandler(this.ToTakePicPos_Click);
+            // 
+            // ArucoIterate
+            // 
+            this.ArucoIterate.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ArucoIterate.Location = new System.Drawing.Point(5, 158);
+            this.ArucoIterate.Name = "ArucoIterate";
+            this.ArucoIterate.Size = new System.Drawing.Size(105, 23);
+            this.ArucoIterate.TabIndex = 8;
+            this.ArucoIterate.Text = "AutoArucoIterate";
+            this.ArucoIterate.UseVisualStyleBackColor = true;
+            this.ArucoIterate.Click += new System.EventHandler(this.ArucoIterate_Click);
+            // 
+            // Point1
+            // 
+            this.Point1.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Point1.Location = new System.Drawing.Point(5, 45);
+            this.Point1.Name = "Point1";
+            this.Point1.Size = new System.Drawing.Size(105, 18);
+            this.Point1.TabIndex = 7;
+            this.Point1.Text = "ToPoint1";
+            this.Point1.UseVisualStyleBackColor = true;
+            this.Point1.Click += new System.EventHandler(this.Point1_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -1598,6 +1733,39 @@ namespace RASDK.Vision.TestForms
             this.pictureBoxMain.TabIndex = 7;
             this.pictureBoxMain.TabStop = false;
             // 
+            // DoOnceArucoIterate
+            // 
+            this.DoOnceArucoIterate.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.DoOnceArucoIterate.Location = new System.Drawing.Point(14, 129);
+            this.DoOnceArucoIterate.Name = "DoOnceArucoIterate";
+            this.DoOnceArucoIterate.Size = new System.Drawing.Size(96, 23);
+            this.DoOnceArucoIterate.TabIndex = 10;
+            this.DoOnceArucoIterate.Text = "DoOnce";
+            this.DoOnceArucoIterate.UseVisualStyleBackColor = true;
+            this.DoOnceArucoIterate.Click += new System.EventHandler(this.DoOnceArucoIterate_Click);
+            // 
+            // ToLeftPoint
+            // 
+            this.ToLeftPoint.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ToLeftPoint.Location = new System.Drawing.Point(5, 69);
+            this.ToLeftPoint.Name = "ToLeftPoint";
+            this.ToLeftPoint.Size = new System.Drawing.Size(105, 18);
+            this.ToLeftPoint.TabIndex = 11;
+            this.ToLeftPoint.Text = "ToLeftPoint";
+            this.ToLeftPoint.UseVisualStyleBackColor = true;
+            this.ToLeftPoint.Click += new System.EventHandler(this.ToLeftPoint_Click);
+            // 
+            // ToRightPoint
+            // 
+            this.ToRightPoint.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ToRightPoint.Location = new System.Drawing.Point(4, 93);
+            this.ToRightPoint.Name = "ToRightPoint";
+            this.ToRightPoint.Size = new System.Drawing.Size(106, 23);
+            this.ToRightPoint.TabIndex = 12;
+            this.ToRightPoint.Text = "ToRightPoint";
+            this.ToRightPoint.UseVisualStyleBackColor = true;
+            this.ToRightPoint.Click += new System.EventHandler(this.ToRightPoint_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1660,6 +1828,9 @@ namespace RASDK.Vision.TestForms
             this.groupBox8.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -1772,6 +1943,18 @@ namespace RASDK.Vision.TestForms
         private System.Windows.Forms.PictureBox pictureBoxSub;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBoxMain;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Button ArmConnect;
+        private System.Windows.Forms.Button ArmDisconnect;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button Point1;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.Button ArucoIterate;
+        private System.Windows.Forms.Button ToTakePicPos;
+        private System.Windows.Forms.Button DoOnceArucoIterate;
+        private System.Windows.Forms.Button ToLeftPoint;
+        private System.Windows.Forms.Button ToRightPoint;
     }
 }
 

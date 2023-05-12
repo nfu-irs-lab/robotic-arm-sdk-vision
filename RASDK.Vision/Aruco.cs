@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Emgu.CV;
-using Emgu.CV.Util;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
+﻿using Emgu.CV;
 using Emgu.CV.Aruco;
-using Emgu.CV.XFeatures2D;
+using Emgu.CV.Structure;
+using Emgu.CV.Util;
 using System.Drawing;
-using sl;
 
 namespace RASDK.Vision
 {
@@ -28,7 +20,6 @@ namespace RASDK.Vision
             return (int)ids.Length;
         }
 
-
         // bits x bits (per marker) _ number of markers in dict
         public static Emgu.CV.Mat PrintArucoBoard(GridBoard ArucoBoard,
                                                   int markersNumOnXaxis,
@@ -42,8 +33,8 @@ namespace RASDK.Vision
             // Draw the board on a cv::Mat
             Size backGroundImage = new Size();
             Emgu.CV.Mat boardImage = new Emgu.CV.Mat();
-            backGroundImage.Width = markersNumOnXaxis * (markersLength + markersSeparation) ;
-            backGroundImage.Height = markersNumOnYaxis * (markersLength + markersSeparation) ;
+            backGroundImage.Width = markersNumOnXaxis * (markersLength + markersSeparation);
+            backGroundImage.Height = markersNumOnYaxis * (markersLength + markersSeparation);
 
             ArucoBoard.Draw(backGroundImage, boardImage, markersSeparation, borderBits);
 

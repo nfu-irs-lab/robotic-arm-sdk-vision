@@ -1,33 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Emgu.CV;
+using Emgu.CV.Aruco;
+using Emgu.CV.Structure;
+using Emgu.CV.Util;
 using RASDK.Basic;
 using RASDK.Basic.Message;
-using Emgu.CV;
-using Emgu.CV.Util;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
 using RASDK.Vision.Zed;
-using Emgu.CV.DepthAI;
-using sl;
-using Emgu.CV.Reg;
-using Emgu.CV.Aruco;
-using static RASDK.Vision.Zed.Zed2i;
-using System.Security.Policy;
-using RASDK.Vision.Positioning;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace RASDK.Vision.TestForms
 {
     public partial class Form1 : Form
     {
         #region IDCcamera
+
         private readonly MessageHandler _messageHandler;
 
         public Form1()
@@ -377,13 +365,14 @@ namespace RASDK.Vision.TestForms
             }
 
             throw new Exception();
-        } 
+        }
 
-        #endregion
-
+        #endregion IDCcamera
 
         #region Zed2i
+
         private Vision.Zed.Zed2i _Zed2i;
+
         private void ConnectButton_Click(object sender, EventArgs e)
         {
             if (_Zed2i == null)
@@ -394,15 +383,12 @@ namespace RASDK.Vision.TestForms
             {
                 _Zed2i.Connect();
                 ConnectButton.Text = "Disconnect";
-                CaptureButton.Enabled = true;
                 StateTextBox.AppendText("開啟連線" + _Zed2i.Connect().ToString() + "\r\n");
-
             }
             else if (_Zed2i.Connected == true)
             {
                 _Zed2i.Disconnect();
                 ConnectButton.Text = "Connect";
-                CaptureButton.Enabled = false;
                 StateTextBox.AppendText("斷開連線" + _Zed2i.Disconnect().ToString() + "\r\n");
             }
         }
@@ -413,12 +399,10 @@ namespace RASDK.Vision.TestForms
             pictureBoxSub.Image = _Zed2i.GetImage(Zed2i.ImageType.Depth).ToBitmap();
         }
 
-
-
-
         private void button1_Click(object sender, EventArgs e)
         {
             #region stackoverflow From:https://stackoverflow.com/questions/50351563/aruco-detectmarkers-implementation-emgu-c-sharp
+
             //Dictionary.PredefinedDictionaryName name = new Dictionary.PredefinedDictionaryName();
             //Dictionary Dict = new Dictionary(name);
             //VectorOfVectorOfPointF Corners = new VectorOfVectorOfPointF();
@@ -430,10 +414,12 @@ namespace RASDK.Vision.TestForms
             //Parameters.AdaptiveThreshWinSizeStep = 4;
 
             //VectorOfVectorOfPointF Rejected = new VectorOfVectorOfPointF();
-            //ArucoInvoke.DetectMarkers(_Zed2i.GetImage(Zed2i.ImageType.ColorLeft), Dict, Corners, Ids, Parameters, Rejected); 
-            #endregion
+            //ArucoInvoke.DetectMarkers(_Zed2i.GetImage(Zed2i.ImageType.ColorLeft), Dict, Corners, Ids, Parameters, Rejected);
+
+            #endregion stackoverflow From:https://stackoverflow.com/questions/50351563/aruco-detectmarkers-implementation-emgu-c-sharp
 
             #region 簡單畫出ArUco圖形
+
             //Dictionary dic = new Dictionary(Dictionary.PredefinedDictionaryName.Dict6X6_250);
             //Emgu.CV.Mat img = new Emgu.CV.Mat();
             //ArucoInvoke.DrawMarker(dic, 0, 9000, img);
@@ -443,10 +429,12 @@ namespace RASDK.Vision.TestForms
             //ArucoInvoke.DetectMarkers(img, dic, vovopf, voi, DetectorParameters.GetDefault());
             //MCvScalar mcs = new MCvScalar(255, 255, 0);
             //ArucoInvoke.DrawDetectedMarkers(img, vovopf, voi, mcs);
-            //pictureBoxSub.Image = img.ToBitmap(); 
-            #endregion
+            //pictureBoxSub.Image = img.ToBitmap();
+
+            #endregion 簡單畫出ArUco圖形
 
             #region 畫出Aruco圖形並標出id
+
             //int markersNumOnxAxis = 4;
             //int markersYNumOnYAxis = 4;
             //int markersLength = 80;
@@ -465,28 +453,33 @@ namespace RASDK.Vision.TestForms
             //var color = new MCvScalar(255, 0, 255);
             //ArucoInvoke.DrawDetectedMarkers(result, corners, ids, new MCvScalar(255, 0, 255));
             //pictureBoxSub.Image = result.ToBitmap();
-            #endregion
+
+            #endregion 畫出Aruco圖形並標出id
 
             #region 使用相機拍圖像，並且有一定部分的Aruco可以被辨識
-            //var frame = _Zed2i.GetImage(Zed2i.ImageType.Gray);
 
-            // bits x bits (per marker) _ number of markers in dict
-            //Dictionary dic = new Dictionary(Dictionary.PredefinedDictionaryName.Dict7X7_1000);
-            //VectorOfInt ids = new VectorOfInt();
-            //VectorOfVectorOfPointF corners = new VectorOfVectorOfPointF();
-            //VectorOfVectorOfPointF rejected = new VectorOfVectorOfPointF();
+            var frame = _Zed2i.GetImage(Zed2i.ImageType.Gray);
 
-            //DetectorParameters ArucoParameters = new DetectorParameters();
-            //ArucoParameters = DetectorParameters.GetDefault();
+            //bits x bits(per marker) _ number of markers in dict
+            Dictionary dic = new Dictionary(Dictionary.PredefinedDictionaryName.Dict7X7_1000);
+            VectorOfInt ids = new VectorOfInt();
+            VectorOfVectorOfPointF corners = new VectorOfVectorOfPointF();
+            VectorOfVectorOfPointF rejected = new VectorOfVectorOfPointF();
 
-            //ArucoInvoke.DetectMarkers(frame, dic, corners, ids, ArucoParameters, rejected);
+            DetectorParameters ArucoParameters = new DetectorParameters();
+            ArucoParameters = DetectorParameters.GetDefault();
 
-            //var color = new MCvScalar(255, 0, 255);
-            //ArucoInvoke.DrawDetectedMarkers(frame, corners, ids, color);
-            //pictureBoxSub.Image = frame.ToBitmap();
-            #endregion
+            ArucoInvoke.DetectMarkers(frame, dic, corners, ids, ArucoParameters, rejected);
+
+            var color = new MCvScalar(255, 0, 255);
+            ArucoInvoke.DrawDetectedMarkers(frame, corners, ids, color);
+            frame.Save("C:\\Users\\user\\source\\repos\\robotic-arm-sdk-vision\\RASDK.Vision.TestForms\\bin\\x64\\Debug\\1234.jpg");
+            pictureBoxSub.Image = frame.ToBitmap();
+
+            #endregion 使用相機拍圖像，並且有一定部分的Aruco可以被辨識
 
             #region 可偵測出印出來的Aruco的id
+
             //Aruco aruco = new Aruco();
             //var frame = _Zed2i.GetImage(Zed2i.ImageType.Gray);
             //VectorOfInt ids = new VectorOfInt();
@@ -509,15 +502,84 @@ namespace RASDK.Vision.TestForms
             //        StateTextBox.AppendText(c[i][j] + "\r\n");
             //    }
             //}
-            #endregion
 
-            ArucoCalibrateCamera ACC=new ArucoCalibrateCamera();
-            var frame = _Zed2i.GetImage(Zed2i.ImageType.Gray);
-            ACC.GoEveryArucoCorner(frame.ToImage<Bgr, byte>());
+            #endregion 可偵測出印出來的Aruco的id
 
+            #region 可偵測所有拍到的aruco並列出其相機座標平面的角點的X、Y座標
+
+            //Aruco aruco = new Aruco();
+            //var frame = _Zed2i.GetImage(Zed2i.ImageType.Gray);
+            //VectorOfInt ids = new VectorOfInt();
+            //VectorOfVectorOfPointF Corner = new VectorOfVectorOfPointF();
+            //aruco.Dictionary = new Dictionary(Dictionary.PredefinedDictionaryName.Dict7X7_1000);
+            //aruco.Detect(frame.ToImage<Bgr, byte>(), out Corner, out ids);
+
+
+            //pictureBoxMain.Image = frame.ToBitmap();
+            //var arucoIdArray = ids.ToArray();
+            //for (int i = 0; i < arucoIdArray.Length; i++)
+            //{
+            //    StateTextBox.AppendText(arucoIdArray[i].ToString() + "\r\n");
+            //}
+            //var c = Corner.ToArrayOfArray();
+            //for (int i = 0; i < c.Length; i++)
+            //{
+            //    for (int j = 0; j < 4; j++)
+            //    {
+            //        StateTextBox.AppendText(c[i][j] + "\r\n");
+            //    }
+            //}
+            //StateTextBox.AppendText(arucoIdArray.Length.ToString());
+
+            #endregion 可偵測所有拍到的aruco並列出其相機座標平面的角點的X、Y座標
         }
-        #endregion
+
+        #endregion Zed2i
+
+        private Tester testArm ;
+
+        private void ArmConnect_Click(object sender, EventArgs e)
+        {
+            testArm = new Tester(_Zed2i);
+            testArm.ArmConnect();
+            _messageHandler.Log("1230", LoggingLevel.Info);
+        }
+
+        private void ArmDisconnect_Click(object sender, EventArgs e)
+        {
+            testArm.ArmDisconnect();
+        }
+
+        private void ToTakePicPos_Click(object sender, EventArgs e)
+        {
+            testArm.MoveToCapturePosition();
+        }
+        private void Point1_Click(object sender, EventArgs e)
+        {
+            testArm.MoveToPoint1();
+            _messageHandler.Log("1230", LoggingLevel.Info);
+        }
+
+        private void ArucoIterate_Click(object sender, EventArgs e)
+        {
+            testArm.AutoFullInterare();
+            pictureBoxMain.Image = testArm.TakePicture().ToBitmap();
+        }
+
+        private void DoOnceArucoIterate_Click(object sender, EventArgs e)
+        {
+            pictureBoxMain.Image = _Zed2i.GetImage(Zed2i.ImageType.Gray).ToBitmap();
+            testArm.OneTimeInterare(3);
+        }
+
+        private void ToLeftPoint_Click(object sender, EventArgs e)
+        {
+            testArm.MoveToPoint2();
+        }
+
+        private void ToRightPoint_Click(object sender, EventArgs e)
+        {
+            testArm.MoveToPoint3();
+        }
     }
-
-
 }

@@ -1,16 +1,7 @@
-﻿using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.DepthAI;
-using Emgu.CV.ML;
-using RASDK.Basic;
+﻿using RASDK.Basic;
 using RASDK.Vision.IDS;
 using sl;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Camera = sl.Camera;
 
@@ -22,9 +13,9 @@ namespace RASDK.Vision.Zed
     public class Zed2i : IDevice
     {
         private readonly Camera _camera;
-        private  InitParameters initParameters;
-        private  uint mmWidth;
-        private  uint mmHeight;
+        private InitParameters initParameters;
+        private uint mmWidth;
+        private uint mmHeight;
 
         public Zed2i(InitParameters initParameters = null)
         {
@@ -35,16 +26,16 @@ namespace RASDK.Vision.Zed
                 cameraFPS = 15,
                 coordinateUnits = UNIT.MILLIMETER,
                 depthMode = DEPTH_MODE.ULTRA,
-
             };
         }
 
-
         public int CameraId { get; private set; }
         public int DeviceId { get; private set; }
-        public InitParameters InitParameters { get { return initParameters; } }
+        public InitParameters InitParameters
+        { get { return initParameters; } }
 
         #region aboutConnect
+
         public bool Connected => _camera.IsOpened();
 
         public bool Connect()
@@ -62,7 +53,6 @@ namespace RASDK.Vision.Zed
                 mmHeight = (uint)_camera.ImageHeight;
                 return true;
             }
-
         }
 
         public bool Disconnect()
@@ -77,9 +67,11 @@ namespace RASDK.Vision.Zed
                 throw new Exception(e.ToString());
             }
         }
-        #endregion
+
+        #endregion aboutConnect
 
         #region General Feature
+
         /// <summary>
         /// MAT_TYPE
         /// </summary>
@@ -128,15 +120,15 @@ namespace RASDK.Vision.Zed
                     view = VIEW.DEPTH;
                     matType = MAT_TYPE.MAT_32F_C1;
                     break;
+
                 case ImageType.Gray:
                     view = VIEW.LEFT_GREY;
                     matType = MAT_TYPE.MAT_8U_C1;
                     break;
+
                 default:
-                    throw new ArgumentException("錯誤的 Zed ImageType");        
+                    throw new ArgumentException("錯誤的 Zed ImageType");
             }
-
-
 
             //確認相機是否可以回傳影像
 
@@ -158,12 +150,13 @@ namespace RASDK.Vision.Zed
                 mat.GetChannels(),
                 mat.GetPtr(),
                 0);
-            return image; 
+            return image;
         }
 
-        #endregion
+        #endregion General Feature
 
         #region Auto Features/Set VideoFeature
+
         /// <summary>
         /// 如果對Gain與Exposure指定值，會將AEC_AGC設為0
         /// </summary>
@@ -197,7 +190,6 @@ namespace RASDK.Vision.Zed
                     _camera.SetCameraSettings(VIDEO_SETTINGS.WHITEBALANCE_AUTO, 0);
                 }
             }
-
         }
 
         /// <summary>
@@ -209,9 +201,10 @@ namespace RASDK.Vision.Zed
             set => _camera.SetCameraSettings(VIDEO_SETTINGS.HUE, value);
         }
 
-        #endregion
+        #endregion Auto Features/Set VideoFeature
 
         #region Form
+
         /// <summary>
         /// 顯示選擇相機視窗。
         /// </summary>
@@ -225,13 +218,6 @@ namespace RASDK.Vision.Zed
             }
         }
 
-
-        #endregion
-
-        #region Event
-
-
-
-        #endregion
+        #endregion Form
     }
 }
