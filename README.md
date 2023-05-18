@@ -5,6 +5,7 @@
 
 機械手臂 SDK 的影像功能。目前主要支援：
 - IDS 工業攝影機
+- Zed2i 3D攝影機
 
 支援的環境為 .NET Framework 4.7.2 (64-bit)
 
@@ -20,3 +21,4 @@
 - 到實驗室NAS->public->PackageReferences_X64
 - 找到「cvextern.dll」
 - 將此檔案複製貼到執行目錄下的RASDK.Vision.TestForms->bin->X64->Debug內
+- 使用Zed2i時需要下載官方Nuget，及該執行電腦需有官方SDK，兩者版本須相互匹配否則無法開啟相機。
