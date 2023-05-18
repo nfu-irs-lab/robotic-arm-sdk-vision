@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Drawing;
-using RASDK.Arm;
-using Emgu.CV;
-using Emgu.CV.Util;
+﻿using Emgu.CV;
 using Emgu.CV.Aruco;
 using Emgu.CV.Structure;
-
+using Emgu.CV.Util;
+using RASDK.Arm;
+using System;
+using System.Drawing;
+using System.Timers;
 
 namespace RASDK.Vision.Positioning
 {
@@ -19,7 +14,8 @@ namespace RASDK.Vision.Positioning
         public static Action<PointF> MakeBasicArmMoveFunc(RoboticArm arm,
                                                           double kp,
                                                           bool invertedX = false,
-                                                          bool invertedY = true)
+                                                          bool invertedY = true
+                                                          )
         {
             Action<PointF> action = (errorPixel) =>
             {
@@ -135,8 +131,7 @@ namespace RASDK.Vision.Positioning
                     continue;
                 }
 
-                if (currentPixel.X == float.NaN ||
-                    currentPixel.Y == float.NaN)
+                if (currentPixel.X == float.NaN || currentPixel.Y == float.NaN)
                 {
                     continue;
                 }

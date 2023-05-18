@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Emgu.CV;
+using Emgu.CV.Aruco;
+using Emgu.CV.Structure;
+using Emgu.CV.Util;
 using RASDK.Basic;
 using RASDK.Basic.Message;
-using Emgu.CV;
-using Emgu.CV.Util;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
+using RASDK.Vision.Zed;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
+using RASDK.Vision.Positioning;
 
 namespace RASDK.Vision.TestForms
 {
     public partial class Form1 : Form
     {
+        #region IDCcamera
+
         private readonly MessageHandler _messageHandler;
 
         public Form1()
@@ -250,7 +248,7 @@ namespace RASDK.Vision.TestForms
             }
 
             _mousePosition = pixelPoint;
-            textBoxPixelPosition.Text = $"X: {pixelPoint.X}, Y: {pixelPoint.Y}";
+            //textBoxPixelPosition.Text = $"X: {pixelPoint.X}, Y: {pixelPoint.Y}";
         }
 
         private void UpdatePixelTracking(object sender, EventArgs args)
@@ -369,5 +367,170 @@ namespace RASDK.Vision.TestForms
 
             throw new Exception();
         }
+
+        #endregion IDCcamera
+
+        #region Zed2i
+
+        private Vision.Zed.Zed2i _Zed2i;
+        private Tester testArm;
+
+
+
+        private void Init_Click(object sender, EventArgs e)
+        {
+            _Zed2i = new Zed2i();
+            //testArm = new Tester(_Zed2i);
+            List<Button> ButtonEnable = new List<Button>()
+            {
+                ConnectButton,
+                CaptureButton,
+                GetDepthInfo,
+                DetectAruco,
+                ArmConnect,
+                ArmDisconnect,
+                ToTakePicPos,
+                DoOnceArucoIterate,
+                ArucoIterate,
+                TestPosition,
+                Test
+            };
+            foreach(var button in ButtonEnable)
+            {
+                button.Enabled = true;
+            }
+
+        }
+        
+
+
+        private void ConnectButton_Click(object sender, EventArgs e)
+        {
+            if (_Zed2i == null)
+            {
+                _Zed2i = new Zed2i();
+            }
+            if (_Zed2i.Connected == false)
+            {
+                _Zed2i.Connect();
+                ConnectButton.Text = "Disconnect";
+                StateTextBox.AppendText("開啟連線" + _Zed2i.Connect().ToString() + "\r\n");
+            }
+            else if (_Zed2i.Connected == true)
+            {
+                _Zed2i.Disconnect();
+                ConnectButton.Text = "Connect";
+                StateTextBox.AppendText("斷開連線" + _Zed2i.Disconnect().ToString() + "\r\n");
+            }
+        }
+
+        private void CaptureButton_Click(object sender, EventArgs e)
+        {
+            pictureBoxMain.Image = _Zed2i.GetImage(Zed2i.ImageType.ColorLeft).ToBitmap();    
+            pictureBoxSub.Image = _Zed2i.GetImage(Zed2i.ImageType.Depth).ToBitmap();
+        }
+
+        private void DetectAruco_Click(object sender, EventArgs e)
+        {
+            var frame = _Zed2i.GetImage(Zed2i.ImageType.Gray);
+
+
+            Dictionary dic = new Dictionary(Dictionary.PredefinedDictionaryName.Dict7X7_1000);//bits x bits(per marker) _ number of markers in dict
+            VectorOfInt ids = new VectorOfInt();
+            VectorOfVectorOfPointF corners = new VectorOfVectorOfPointF();
+            VectorOfVectorOfPointF rejected = new VectorOfVectorOfPointF();
+            DetectorParameters ArucoParameters = DetectorParameters.GetDefault();
+
+            ArucoInvoke.DetectMarkers(frame, dic, corners, ids, ArucoParameters, rejected);
+
+            Image<Bgr, byte> colorFrame = frame.ToImage<Bgr, byte>().Clone();
+            var color = new MCvScalar(0, 255, 0);
+
+            ArucoInvoke.DrawDetectedMarkers(colorFrame, corners, ids, color);
+
+            colorFrame.Save(@"..\..\..\Tool\DetectedArucoId.jpg");
+
+            pictureBoxSub.Image = colorFrame.ToBitmap();
+        }
+        private void GetDepthInfo_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 2208; i++)
+            {
+                var depth = _Zed2i.GetDepthInfo(i, 1200);
+                StateTextBox.AppendText(i + "=" + depth.ToString()+"\r\n");
+            }
+        }
+
+        #endregion Zed2i
+
+
+
+        private void ArmConnect_Click(object sender, EventArgs e)
+        {
+            testArm.ArmConnect();
+        }
+
+        private void ArmDisconnect_Click(object sender, EventArgs e)
+        {
+            testArm.ArmDisconnect();
+        }
+
+        private void ToTakePicPos_Click(object sender, EventArgs e)
+        {
+            testArm.MoveToCapturePosition();
+        }
+
+
+        private void ArucoIterate_Click(object sender, EventArgs e)
+        {
+            testArm.AutoFullInterate();
+            pictureBoxMain.Image = _Zed2i.GetImage(Zed2i.ImageType.Gray).ToBitmap();
+        }
+
+        private void DoOnceArucoIterate_Click(object sender, EventArgs e)
+        {
+            pictureBoxMain.Image = _Zed2i.GetImage(Zed2i.ImageType.Gray).ToBitmap();
+            testArm.OneTimeInterare(36);
+        }
+
+        private void ToLeftPoint_Click(object sender, EventArgs e)
+        {
+            testArm.MoveToPoint2();
+        }
+
+        private void ToRightPoint_Click(object sender, EventArgs e)
+        {
+            testArm.MoveToPoint3();
+        }
+
+        private void TestPosition_Click(object sender, EventArgs e)
+        {
+            testArm.TestMove();
+        }
+
+        private void Test_Click(object sender, EventArgs e)
+        {
+            //csvData[row][col]，row[0]的header都要算一排
+            var csvData =Csv.Read(@"../../../Tool/temp/acc_parametersFull.csv");
+
+
+            PointF[] InitCameraPixel = new PointF[csvData.Count];
+            for (int row = 1; row < csvData.Count; row++)
+            {
+                InitCameraPixel[row - 1].X = float.Parse(csvData[row][2]);
+                InitCameraPixel[row - 1].Y = float.Parse(csvData[row][3]);
+            }
+
+            PointF[] armDescartesPlane = new PointF[csvData.Count];
+            for (int row = 1; row < csvData.Count; row++)
+            {
+                armDescartesPlane[row - 1].X = float.Parse(csvData[row][4]);
+                armDescartesPlane[row - 1].Y = float.Parse(csvData[row][5]);
+            }
+
+            ArUcoPositioner AUP = new ArUcoPositioner(InitCameraPixel, armDescartesPlane);
+            AUP.SaveToCsv();
+        }
+
     }
 }
