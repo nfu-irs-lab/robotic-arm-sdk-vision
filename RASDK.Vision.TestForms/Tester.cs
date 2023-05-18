@@ -1,4 +1,5 @@
-﻿using Emgu.CV.Aruco;
+﻿using Emgu.CV;
+using Emgu.CV.Aruco;
 using Emgu.CV.Structure;
 using Emgu.CV.Util;
 using RASDK.Arm.Hiwin;
@@ -50,7 +51,7 @@ namespace RASDK.Vision
         public void MoveToCapturePosition()
         {
             _arm.Speed = 95;
-            _arm.MoveAbsolute(0, 413.407, 517.803, -90, -90, 0);
+            _arm.MoveAbsolute(-24.806, 413.409, 517.716, -94.362, -89.136, 4.766);
         }
 
         public void MoveToPoint1()
@@ -75,7 +76,7 @@ namespace RASDK.Vision
         }
 
 
-        public void MoveFixOffset(int offsetX,int offsetY=0) 
+        public void MoveFixOffset(int offsetX=0,int offsetY=0) 
         {
             MotionParam add = new MotionParam() { CoordinateType = CoordinateType.Descartes };
             _arm.MoveAbsolute(164.072+offsetX, 294.649+ offsetY, 290.807, -90, -90, 0, add);
@@ -85,6 +86,8 @@ namespace RASDK.Vision
 
         public void OneTimeInterare(int id)
         {
+            MoveToCapturePosition();
+            Thread.Sleep(500);
 
             Aruco aruco = new Aruco();
             var frame = _zed2i.GetImage(Zed2i.ImageType.Gray);
@@ -93,32 +96,49 @@ namespace RASDK.Vision
             aruco.Dictionary = new Dictionary(Dictionary.PredefinedDictionaryName.Dict7X7_1000);
             aruco.Detect(frame.ToImage<Bgr, byte>(), out Corner, out ids);
             var InitArucoPixel = Corner.ToArrayOfArray();
-            _arm.Speed = 20;
             
-            MoveToPoint1();
 
-            for (int i = 0; i < 4; i++)
+            if (id % 36 < 18)
             {
-                var makeArmMoveFunc = ArucoCalibrateCamera.MakeBasicArmMoveFunc(_arm, 0.05, true, false);
-                var arucoIterate = ArucoCalibrateCamera.MakeBasicArucoGetCurrentPixelFunc(_zed2i, id, aruco.Dictionary, DetectorParameters.GetDefault(),i);
-                double timeout = 8000;//毫秒
-                ArucoCalibrateCamera.Tracking(frame.Size, timeout, arucoIterate, makeArmMoveFunc, 3);
-                var armDescartesAxis = _arm.GetNowPosition(CoordinateType.Descartes);
-
-                ArucoCalibrateCamera.RecordResult(id, i, InitArucoPixel, armDescartesAxis);
+                MoveToPoint2();
             }
-            MoveToPoint1();
+            else
+            {
+                MoveToPoint3();
+            }
+            try
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    var makeArmMoveFunc = ArUcoPositioner.MakeBasicArmMoveFunc(_arm, 0.05, true, false);
+                    var arucoIterate = ArUcoPositioner.MakeBasicArucoGetCurrentPixelFunc(_zed2i, id, null, null, i);
+                    double timeout = 8000;//毫秒
+                    ArUcoPositioner.Tracking(frame.Size, timeout, arucoIterate, makeArmMoveFunc, 3);
+                    var armDescartesAxis = _arm.GetNowPosition(CoordinateType.Descartes);
+
+                    //ids只是為了在RecordResult內當成index找尋目標而已，並不會被記錄在csv檔內
+                    ArUcoPositioner.RecordResult(id, i, InitArucoPixel, armDescartesAxis, ids);
+                }
+            }
+            catch 
+            {
+                throw new Exception();
+            }
+            MoveToCapturePosition();
 
         }
 
-        public void AutoFullInterare()
+        public void AutoFullInterate()
         {
-            if (System.IO.File.Exists("acc_parameters.csv"))
+            MoveToCapturePosition();
+
+            Thread.Sleep(500);
+
+            if (System.IO.File.Exists(@"..\..\..\Tool\acc_parameters.csv"))
             {
-                System.IO.File.Delete("acc_parameters.csv");
+                System.IO.File.Delete(@"..\..\..\Tool\acc_parameters.csv");
             }
 
-            _arm.Speed = 20;
 
             //先拍照檢驗有多少aruco
 
@@ -130,56 +150,60 @@ namespace RASDK.Vision
             aruco.Detect(frame.ToImage<Bgr, byte>(), out Corner, out ids);
             var InitArucoPixel=Corner.ToArrayOfArray();
 
+            //存原始被偵測過ID的相片
+            Image<Bgr, byte> colorFrame = frame.ToImage<Bgr, byte>().Clone();
+            var color = new MCvScalar(0, 255, 0);
+            ArucoInvoke.DrawDetectedMarkers(colorFrame, Corner, ids, color);
+            colorFrame.Save(@"..\..\..\Tool\AutoArUcoInitFImage.jpg");
 
             int[] ArucoIdList = ids.ToArray();
 
             MoveToPoint2();
 
-            for (int i = 0; i < ArucoIdList.Length; i++)
+            double[] LastPosition = { 0, 0, 0, 0, 0, 0 };
+            for (int id = 0; id < ArucoIdList.Length; id++)
             {
-                for (int j = 0; j < 4; j++)
+                //最左邊是0、36、72...
+                if (id % 36 == 0)
+                {
+                    var Offsety = id / 36 * 18;
+                    MoveFixOffset(0, Offsety);
+                }
+
+
+                for (int corners = 0; corners < 4; corners++)
                 {
                     try
                     {
-                        _arm.Speed = 20;
-
-                        var makeArmMoveFunc = ArucoCalibrateCamera.MakeBasicArmMoveFunc(_arm, 0.05, true, false);
-                        var arucoIterate = ArucoCalibrateCamera.MakeBasicArucoGetCurrentPixelFunc(_zed2i, i, aruco.Dictionary, DetectorParameters.GetDefault(), j);
+                        var makeArmMoveFunc = ArUcoPositioner.MakeBasicArmMoveFunc(_arm, 0.05, true, false);
+                        var arucoIterate = ArUcoPositioner.MakeBasicArucoGetCurrentPixelFunc(_zed2i, id, aruco.Dictionary, DetectorParameters.GetDefault(), corners);
                         double timeout = 8000;//毫秒
-                        ArucoCalibrateCamera.Tracking(frame.Size, timeout, arucoIterate, makeArmMoveFunc, 3);
+                        ArUcoPositioner.Tracking(frame.Size, timeout, arucoIterate, makeArmMoveFunc, 3);
                         var armDescartesAxis = _arm.GetNowPosition(CoordinateType.Descartes);
 
-                        ArucoCalibrateCamera.RecordResult(i, j, InitArucoPixel, armDescartesAxis);
+                        ArUcoPositioner.RecordResult(id, corners, InitArucoPixel, armDescartesAxis, ids, @"..\..\..\Tool\acc_parameters.csv");
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        throw new Exception(); 
+                        if(ex.Message == "Can't find ArUco ID.")
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            throw new Exception(ex.Message); 
+                        }
+
                     }
                 }
-                //每35回到左邊
-                if (i%35<18)
-                {
-                    MoveToPoint2();
-                }
-                else if( i>=18 && i%35<35)
-                {
-                    MoveToPoint3();
-                }
-                else if(i%36==0)
-                {
-                    MoveFixOffset(0,18);
-
-                }
-
-
             }
         }
 
-
-
-        public Emgu.CV.Mat TakePicture()
+        public void TestMove()
         {
-            return _zed2i.GetImage(Zed2i.ImageType.Gray);
+            _arm.Speed = 100;
+            MotionParam add = new MotionParam() { CoordinateType = CoordinateType.Descartes };
+            _arm.MoveAbsolute( 293.272, 215.499, 290.807, -90, -90, 0, add);
         }
     }
 }

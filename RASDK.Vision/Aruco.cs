@@ -8,7 +8,9 @@ namespace RASDK.Vision
 {
     public class Aruco
     {
-        public Dictionary Dictionary = new Dictionary(Dictionary.PredefinedDictionaryName.Dict4X4_50);
+
+        // bits x bits (per marker) _ number of markers in dict
+        public Dictionary Dictionary = new Dictionary(Dictionary.PredefinedDictionaryName.Dict7X7_1000);
 
         public int Detect(Image<Bgr, byte> image,
                           out VectorOfVectorOfPointF corners,
@@ -20,7 +22,6 @@ namespace RASDK.Vision
             return (int)ids.Length;
         }
 
-        // bits x bits (per marker) _ number of markers in dict
         public static Emgu.CV.Mat PrintArucoBoard(GridBoard ArucoBoard,
                                                   int markersNumOnXaxis,
                                                   int markersNumOnYaxis,

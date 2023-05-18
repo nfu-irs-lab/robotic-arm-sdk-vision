@@ -1,8 +1,6 @@
 ﻿using RASDK.Basic;
-using RASDK.Vision.IDS;
 using sl;
 using System;
-using System.Windows.Forms;
 using Camera = sl.Camera;
 
 namespace RASDK.Vision.Zed
@@ -14,10 +12,11 @@ namespace RASDK.Vision.Zed
     {
         private readonly Camera _camera;
         private InitParameters initParameters;
+        private RuntimeParameters runtimeParameters;
         private uint mmWidth;
         private uint mmHeight;
 
-        public Zed2i(InitParameters initParameters = null)
+        public Zed2i(InitParameters initParameters = null,RuntimeParameters runtimeParameters=null)
         {
             _camera = new Camera(0);
             this.initParameters = initParameters ?? new InitParameters()//lazy initialization
@@ -27,6 +26,9 @@ namespace RASDK.Vision.Zed
                 coordinateUnits = UNIT.MILLIMETER,
                 depthMode = DEPTH_MODE.ULTRA,
             };
+            this.runtimeParameters = runtimeParameters ?? new RuntimeParameters();
+            mmWidth =(uint) _camera.ImageWidth;
+            mmHeight =(uint) _camera.ImageHeight;
         }
 
         public int CameraId { get; private set; }
@@ -80,7 +82,8 @@ namespace RASDK.Vision.Zed
             ColorLeft,
             ColorRight,
             Depth,
-            Gray
+            Gray,
+            SideBySide
         }
 
         /// <summary>
@@ -94,9 +97,8 @@ namespace RASDK.Vision.Zed
 
         public Emgu.CV.Mat GetImage(ImageType imageType)
         {
-            InitParameters init = new InitParameters();
             sl.Camera _camera = new sl.Camera(0);
-            if (_camera.Open(ref init) != ERROR_CODE.SUCCESS)
+            if (_camera.Open(ref initParameters) != ERROR_CODE.SUCCESS)
             {
                 Environment.Exit(-1);
             }
@@ -126,17 +128,22 @@ namespace RASDK.Vision.Zed
                     matType = MAT_TYPE.MAT_8U_C1;
                     break;
 
+                case ImageType.SideBySide:
+                    view = VIEW.SIDE_BY_SIDE;
+                    matType=MAT_TYPE.MAT_8U_C4;
+                    break;
+
                 default:
                     throw new ArgumentException("錯誤的 Zed ImageType");
             }
+
 
             //確認相機是否可以回傳影像
 
             sl.Mat mat = new sl.Mat();
 
-            mat.Create(mmWidth, mmHeight, matType, MEM.CPU);
+            mat.Create(mmWidth, mmHeight, matType, MEM.GPU);
 
-            RuntimeParameters runtimeParameters = new RuntimeParameters();
             if (_camera.Grab(ref runtimeParameters) != ERROR_CODE.SUCCESS)
             { throw new Exception(); }
 
@@ -151,6 +158,65 @@ namespace RASDK.Vision.Zed
                 mat.GetPtr(),
                 0);
             return image;
+        }
+
+        /// <summary>
+        /// 獲取影像的深度資訊，xPixel、yPixel大小由拍照畫質決定
+        /// 2K=2208*1242
+        /// </summary>
+        /// <param name="xPixelLength"></param>
+        /// <param name="yPixelLength"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public float GetDepthInfo(int xPixelLength = 2208, int yPixelLength = 1242)
+        {
+
+            if (_camera == null)
+            {
+                throw new Exception("Camera should not be null");
+            }
+
+            if (xPixelLength > mmWidth)
+            {
+                throw new Exception("xPiexl Maximum=" + mmWidth);
+            }
+
+            if (yPixelLength > mmHeight)
+            {
+                throw new Exception("yPiexl Maximum=" + mmHeight);
+            }
+
+
+            if (_camera.Open(ref initParameters) != ERROR_CODE.SUCCESS)
+            {
+                Environment.Exit(-1);
+            }
+            Mat depthImage = new Mat();
+            depthImage.Create(mmWidth, mmHeight, MAT_TYPE.MAT_32F_C1, MEM.CPU);
+
+
+            if (_camera.Grab(ref runtimeParameters) == ERROR_CODE.SUCCESS)
+            {
+                _camera.RetrieveMeasure(depthImage, MEASURE.DEPTH);
+            }
+
+            var err = depthImage.GetValue(xPixelLength, yPixelLength, out float depthValue);
+            if (err == ERROR_CODE.SUCCESS)
+            {
+                if (float.IsNaN(depthValue))
+                {
+                    return 0;
+                }
+                //尚未解決出現無限符號
+                return depthValue;
+
+            }
+            else
+            {
+                throw new Exception("GetValueErrorCode=" + err.ToString());
+            }
+            return -1;
+
         }
 
         #endregion General Feature
@@ -203,21 +269,5 @@ namespace RASDK.Vision.Zed
 
         #endregion Auto Features/Set VideoFeature
 
-        #region Form
-
-        /// <summary>
-        /// 顯示選擇相機視窗。
-        /// </summary>
-        public void ChooseCamera()
-        {
-            var chooseForm = new CameraChoose();
-            if (chooseForm.ShowDialog() == DialogResult.OK)
-            {
-                DeviceId = chooseForm.DeviceID;
-                CameraId = chooseForm.CameraID;
-            }
-        }
-
-        #endregion Form
     }
 }
